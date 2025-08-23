@@ -1,0 +1,83 @@
+# Python configuration file for building, dependencies, and tooling.
+#
+# For more information, visit
+# https://snarky.ca/what-the-heck-is-pyproject-toml/.
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling~=1.0"]
+
+[dependency-groups]
+dev = [
+  "mypy~=1.17",
+  "pytest~=8.4",
+  "pytest-cookies~=0.7.0",
+  "pytest-mock~=3.14",
+  "ruff~=0.12.0",
+]
+
+[project]
+authors = [
+  { email = "macklan.weinstein@gmail.com", name = "Macklan Weinstein" },
+]
+description = "Python project template."
+keywords = []
+license = "MIT"
+name = "template-python"
+readme = "README.md"
+requires-python = ">=3.9.0,<4.0.0"
+version = "0.2.1"
+
+[tool.mypy]
+cache_dir = ".cache/mypy"
+check_untyped_defs = true
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+exclude = [
+  '\.benchmarks/',
+  '\.cache/',
+  '\.hypothesis/',
+  '\.pytest_cache/',
+  '\.ruff_cache/',
+  '\.venv/',
+  'tmp/',
+  '\{\{cookiecutter.project_name\}\}/',
+]
+ignore_missing_imports = true
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+addopts = "-sv"
+cache_dir = ".cache/pytest"
+filterwarnings = ["ignore::DeprecationWarning"]
+python_files = ["*_test.py"]
+testpaths = ["src", "test"]
+
+[tool.ruff]
+cache-dir = ".cache/ruff"
+extend-exclude = ["[{][{]cookiecutter.project_name[}][}]"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+pydocstyle = { convention = "google" }
+ignore = [
+  "COM",    # Rule conflicts with formatter.
+  "FBT",    # Boolean function arguments are acceptable.
+  "FIX",    # Todo comments are acceptable.
+  "ICN",    # Import abbreviations reduce readability.
+  "INP001", # Project hooks directory is not a package.
+  "S101",   # Assert statements are standard for test functions.
+  "S603",   # Rule warns about using subprocess commands without a solution.
+  "T201",   # Print statements are acceptable for CLI applications.
+  "TD",     # Todo formatting is excessive for personal projects.
+]
+select = ["ALL"]
+
+[tool.uv]
+package = false

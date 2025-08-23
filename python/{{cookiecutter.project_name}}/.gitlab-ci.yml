@@ -1,0 +1,225 @@
+# GitLab continuous integration file to build and deploy repository.
+#
+# For a reference of the CI file syntax, visit
+# https://docs.gitlab.com/ee/ci/yaml.
+
+# Define user configurable workflow inputs. For more information, visit
+# https://docs.gitlab.com/ci/inputs.
+spec:
+  inputs:
+    debug:
+      default: false
+      description: Use Tmate session for debugging
+      type: boolean
+    job:
+      default: build-linux
+      description: CI job to run
+      options:
+        - build-linux
+        - build-macos
+        - build-windows
+        - pages
+        - release
+        - test
+      type: string
+
+---
+# Workflow rules define when the CI pipeline is created. Rule order matters
+# since they are evaluated until first match.
+workflow:
+  # Makes pipeline run on Git tags, merge requests, manual web run, and on
+  # branch commits when no merge request is open. For more information, visit
+  # https://docs.gitlab.com/ee/ci/pipelines/merge_request_pipelines.html and
+  # https://docs.gitlab.com/ee/ci/yaml/workflow.html#switch-between-branch-pipelines-and-merge-request-pipelines.
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE =~ /(merge_request_event|web)/
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+# Jobs of the same stage run in parallel. Jobs of the next stage only run after
+# all current jobs have completed successfully.
+stages:
+  - build
+  - deploy
+
+# Environment variables that apply to all jobs.
+variables:
+  {% if cookiecutter.prettier_support == "yes" -%}
+  DENO_DIR: "${CI_PROJECT_DIR}/.vendor/cache/deno"
+  {% endif -%}
+  PACKAGE_REGISTRY_URL: >-
+    ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/{{ cookiecutter.project_name }}
+  UV_CACHE_DIR: "${CI_PROJECT_DIR}/.vendor/cache/uv"
+
+# Contains settings that apply to all jobs unless overridden.
+default:
+  # Allows for debugging via Tmate session for manual pipelines.
+  after_script:
+    - |
+      if [ "$[[ inputs.debug ]]" = 'true' ]; then
+        curl --fail --location --show-error \
+          https://scruffaluff.github.io/picoware/action/tmate-session.sh | sh
+      fi
+  before_script:
+    - apt-get update
+    - apt-get install --yes curl zip
+    - curl --fail --location --show-error
+      https://scruffaluff.github.io/picoware/install/just.sh | sh -s -- --global
+  # Creates a dependencies cache for each unique container image and lock file
+  # hash pair to speed up dependency installations. Since caches are shared
+  # between jobs and branches, cache keys must not apply to multiple version
+  # targets to avoid installation errors. For more information, visit
+  # https://docs.gitlab.com/ee/ci/caching.
+  cache:
+    key:
+      files:
+        - uv.lock
+      prefix: "${CI_JOB_IMAGE}"
+    paths:
+      - .vendor
+      - .venv
+  image: debian:12
+
+build-linux:
+  # Makes job run on every Git event except for tags.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'build-linux'
+    - if: $CI_PIPELINE_SOURCE == 'web'
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+  script:
+    - just ci
+  stage: build
+
+# Job is commented out, since MacOS shared runners are a beta GitLab feature
+# that is only availabe upon special request. Uncomment if you have access.
+# build-macos:
+#   before_script:
+#     - curl --fail --location --show-error
+#       https://scruffaluff.github.io/picoware/install/just.sh | sh -s -- --global
+#   image: macos-15-xcode-16
+#   # Makes job skip Git tags and run only on commits or merge requests to the
+#   # default repository branch.
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'build-macos'
+#     - if: $CI_PIPELINE_SOURCE == 'web'
+#       when: never
+#     - if: $CI_COMMIT_TAG
+#       when: never
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+#   script:
+#     - just ci
+#   stage: build
+#   tags:
+#     - saas-macos-medium-m1
+
+build-windows:
+  # Allows for debugging via Tmate session for manual pipelines.
+  after_script:
+    - |
+      if ("$[[ inputs.debug ]]" -eq 'true') {
+        Invoke-WebRequest -UseBasicParsing -Uri `
+          https://scruffaluff.github.io/picoware/action/tmate-session.ps1 `
+          | Invoke-Expression
+      }
+  before_script:
+    - choco install --yes unzip zip
+    - |
+      $JustScript = Invoke-WebRequest -UseBasicParsing -Uri `
+        https://scruffaluff.github.io/picoware/install/just.ps1
+      Invoke-Expression "& { $JustScript } --global"
+  # Ensures unique prefix for cache key.
+  image: windows
+  # Makes job skip Git tags and run only on commits or merge requests to the
+  # default repository branch.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'build-windows'
+    - if: $CI_PIPELINE_SOURCE == 'web'
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+  script:
+    - just ci
+  stage: build
+  tags:
+    - saas-windows-medium-amd64
+
+pages:
+  # GitLab Pages uploads files inside the "public" folder after job completes.
+  artifacts:
+    paths:
+      - public
+  # Makes job only run on the default repository branch.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'pages'
+    - if: $CI_PIPELINE_SOURCE == 'web'
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - just setup doc
+    - mv build/site public
+  stage: deploy
+
+release:
+  release:
+    assets:
+      links:
+        - link_type: package
+          name: >-
+            {{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py-none-any.whl
+          url: >-
+            ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py3-none-any.whl
+        - link_type: package
+          name: >-
+            {{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz
+          url: >-
+            ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz
+    description: >-
+      See the
+      [changelog]({{ cookiecutter.project_repository }}/-/tree/{% raw -%}
+      ${CI_COMMIT_TAG} {%- endraw %}/CHANGELOG.md)
+      for more information.
+    tag_name: "${CI_COMMIT_TAG}"
+    name: "{{ cookiecutter.project_name }} ${CI_COMMIT_TAG}"
+  # Makes job only run on Git tags.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'release'
+    - if: $CI_PIPELINE_SOURCE == 'web'
+      when: never
+    - if: $CI_COMMIT_TAG
+  script:
+    - curl --location --output /usr/local/bin/release-cli
+      https://gitlab.com/api/v4/projects/gitlab-org%2Frelease-cli/packages/generic/release-cli/latest/release-cli-linux-amd64
+    - chmod 755 /usr/local/bin/release-cli
+    - just setup build
+    - >-
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file
+      "build/dist/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py3-none-any.whl"
+      "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py3-none-any.whl"
+    - >-
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file
+      "build/dist/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz"
+      "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz"
+  stage: deploy
+
+test:
+  # Makes job skip Git tags and run only on commits or merge requests to the
+  # default repository branch.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'test'
+    - if: $CI_PIPELINE_SOURCE == 'web'
+      when: never
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+  script:
+    - just setup test-ver
+  stage: build
