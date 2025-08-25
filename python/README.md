@@ -12,8 +12,8 @@ cookiecutter --directory python https://github.com/scruffaluff/templates
 ## Setup
 
 To develop with the generated project, install [Just](https://just.systems) and
-step into the project folder. Then execute `JUST_INIT=true just setup` and you
-are ready to code.
+step into the project folder. Then execute `JUST_INIT=true just setup format`
+and you are ready to code.
 
 ## Tooling
 

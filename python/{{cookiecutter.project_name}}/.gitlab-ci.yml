@@ -80,7 +80,7 @@ default:
     paths:
       - .vendor
       - .venv
-  image: debian:12
+  image: debian:13
 
 build-linux:
   # Makes job run on every Git event except for tags.
