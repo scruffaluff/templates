@@ -29,16 +29,14 @@ requires-python = ">=3.9.0,<4.0.0"
 version = "0.2.1"
 
 [tool.mypy]
-cache_dir = ".cache/mypy"
+cache_dir = ".vendor/cache/mypy"
 check_untyped_defs = true
 disallow_untyped_calls = false
 disallow_untyped_defs = true
 exclude = [
   '\.benchmarks/',
-  '\.cache/',
   '\.hypothesis/',
-  '\.pytest_cache/',
-  '\.ruff_cache/',
+  '\.vendor/',
   '\.venv/',
   'tmp/',
   '\{\{cookiecutter.project_name\}\}/',
@@ -52,13 +50,13 @@ warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 addopts = "-sv"
-cache_dir = ".cache/pytest"
+cache_dir = ".vendor/cache/pytest"
 filterwarnings = ["ignore::DeprecationWarning"]
 python_files = ["*_test.py"]
 testpaths = ["src", "test"]
 
 [tool.ruff]
-cache-dir = ".cache/ruff"
+cache-dir = ".vendor/cache/ruff"
 extend-exclude = ["[{][{]cookiecutter.project_name[}][}]"]
 
 [tool.ruff.format]
@@ -74,6 +72,7 @@ ignore = [
   "INP001", # Project hooks directory is not a package.
   "S101",   # Assert statements are standard for test functions.
   "S603",   # Rule warns about using subprocess commands without a solution.
+  "S607",   # Partial paths for process executables is more cross platform.
   "T201",   # Print statements are acceptable for CLI applications.
   "TD",     # Todo formatting is excessive for personal projects.
 ]
