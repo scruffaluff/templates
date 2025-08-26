@@ -1,0 +1,10 @@
+{
+  "author_email": "macklan.weinstein@gmail.com",
+  "author_name": "Macklan Weinstein",
+  "githost_username": "scruffaluff",
+  "githost": ["none", "github", "gitlab"],
+  "project_name": "template-vue",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_description": "Template for Vue projects.",
+  "project_version": "0.1.0"
+}

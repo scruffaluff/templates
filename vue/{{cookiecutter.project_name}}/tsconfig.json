@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "noUncheckedIndexedAccess": false,
+    "noUnusedLocals": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "esnext",
+    "tsBuildInfoFile": "build/tsconfig.app.tsbuildinfo",
+    "types": ["node", "vite/client"],
+    "useDefineForClassFields": true
+  },
+  "exclude": [
+    ".cache/",
+    ".unlighthouse/",
+    ".vendor/",
+    "build/",
+    "coverage/",
+    "node_modules/",
+    "tmp/"
+  ],
+  "extends": "@vue/tsconfig/tsconfig.json"
+}
