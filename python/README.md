@@ -6,7 +6,7 @@ Python project with the template install
 following command, and follow its interactive prompts.
 
 ```console
-cookiecutter --directory python https://github.com/scruffaluff/templates
+cookiecutter --directory python gh:scruffaluff/templates
 ```
 
 ## Setup
@@ -33,8 +33,7 @@ The following tools are configured if you select optional features:
 
 - `prettier_support`:
   - [Prettier](https://prettier.io/): Opinionated code formatter for JSON,
-    Markdown, and YAML files. Requires [NodeJS](https://nodejs.org/en/) to be
-    externally installed on your system.
+    Markdown, and YAML files.
 
 ## Layout
 
@@ -58,12 +57,11 @@ contents are only generated for that chosen context.
 │   |   └── index.md
 │   └── usage
 │       └── index.md
-├── LICENSE.md
 ├── mkdocs.yml
 ├── pyproject.toml
 ├── README.md
 ├── src
-│   └── {{project_slug}}
+│   └── {{__project_slug}}
 │       ├── __init__.py
 │       ├── __main__.py  {cli_support: yes}
 │       └── py.typed

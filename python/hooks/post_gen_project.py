@@ -14,7 +14,7 @@ PATHS: dict[str, Paths | dict[str, Paths]] = {
         "gitlab": [Path(".gitlab-ci.yml")],
     },
     "cli_support": [
-        Path("src/{{ cookiecutter.project_slug }}/__main__.py"),
+        Path("src/{{ cookiecutter.__project_slug }}/__main__.py"),
     ],
     "prettier_support": [
         Path(".prettierignore"),
@@ -70,7 +70,6 @@ def main() -> None:
         "githost": "{{ cookiecutter.githost }}",
         "cli_support": "{{ cookiecutter.cli_support }}",
         "prettier_support": "{{ cookiecutter.prettier_support }}",
-        "pypi_support": "{{ cookiecutter.pypi_support }}",
     }
     clean_paths(context)
 

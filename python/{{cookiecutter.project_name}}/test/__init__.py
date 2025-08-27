@@ -4,7 +4,7 @@ from pathlib import Path
 
 import toml
 
-import {{ cookiecutter.project_slug }}
+import {{ cookiecutter.__project_slug }}
 
 REPO_PATH = Path(__file__).parents[1]
 
@@ -14,5 +14,5 @@ def test_version() -> None:
     toml_path = REPO_PATH / "pyproject.toml"
     expected = toml.load(toml_path)["project"]["version"]
 
-    actual = {{ cookiecutter.project_slug }}.__version__
+    actual = {{ cookiecutter.__project_slug }}.__version__
     assert actual == expected

@@ -3,16 +3,9 @@
 # For more information, visit https://www.mkdocs.org/user-guide/configuration/.
 
 ---
-copyright: Copyright &copy; {% now 'utc', '%Y' %}-Present {{ cookiecutter.author_name }}
 docs_dir: doc
-extra:
-  social:
-    - icon: fontawesome/brands/{{ cookiecutter.githost }}
-      link: https://{{ cookiecutter.githost }}.com/{{ cookiecutter.githost_username }}
-    - icon: fontawesome/solid/envelope
-      link: mailto://{{ cookiecutter.author_email }}
 extra_javascript:
-  - https://unpkg.com/mermaid@9.1.6/dist/mermaid.min.js
+  - https://unpkg.com/mermaid@11.10.1/dist/mermaid.min.js
 markdown_extensions:
   - admonition
   - codehilite:
@@ -40,20 +33,18 @@ nav:
   - Home:
       - README: index.md
       - Contributing: CONTRIBUTING.md
-      - License: LICENSE.md
   - Usage: usage/index.md
   - API Reference: api/index.md
 plugins:
   - mkdocstrings
   - search
 repo_name: {{ cookiecutter.project_name }}
-repo_url: {{ cookiecutter.project_repository }}
-site_author: {{ cookiecutter.author_name }}
+repo_url: {{ cookiecutter._project_repository }}
 site_description: |
   {{ cookiecutter.project_description }}
 site_dir: build/site
 site_name: {{ cookiecutter.project_name }}
-site_url: {{ cookiecutter.project_homepage }}
+site_url: {{ cookiecutter._project_homepage }}
 theme:
   featues:
     - navigation.tabs

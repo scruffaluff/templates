@@ -153,11 +153,11 @@ jobs:
         with:
           body: >-
             See the
-            [changelog]({{ cookiecutter.project_repository }}/blob/{% raw -%} ${{
+            [changelog]({{ cookiecutter._project_repository }}/blob/{% raw -%} ${{
             github.ref_name }} {%- endraw %}/CHANGELOG.md) for more information.
           files: |
-            build/dist/{{ cookiecutter.project_slug }} {%- raw -%} -${{ github.ref_name }}-py3-none-any.whl {%- endraw %}
-            build/dist/{{ cookiecutter.project_slug }} {%- raw -%} -${{ github.ref_name }}.tar.gz {%- endraw %}
+            build/dist/{{ cookiecutter.__project_slug }} {%- raw -%} -${{ github.ref_name }}-py3-none-any.whl {%- endraw %}
+            build/dist/{{ cookiecutter.__project_slug }} {%- raw -%} -${{ github.ref_name }}.tar.gz {%- endraw %}
           name: {{ cookiecutter.project_name }} {% raw -%} ${{ github.ref_name }} {%- endraw %}
           tag_name: {% raw -%} ${{ github.ref }} {%- endraw %}
       - if: {% raw -%} ${{ always() && inputs.debug }} {%- endraw %}

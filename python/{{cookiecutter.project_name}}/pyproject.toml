@@ -24,9 +24,6 @@ dev = [
 ]
 
 [project]
-authors = [
-  { email = "{{ cookiecutter.author_email }}", name = "{{ cookiecutter.author_name }}" }
-]
 {%- if cookiecutter.cli_support == "yes" %}
 dependencies = [
     "typer~=0.16.0",
@@ -35,19 +32,16 @@ dependencies = [
 dependencies = []
 {%- endif %}
 description = "{{ cookiecutter.project_description }}"
-documentation = "{{ cookiecutter.project_homepage }}"
+documentation = "{{ cookiecutter._project_homepage }}"
 keywords = []
-{%- if cookiecutter.license == "MIT" %}
-license = "MIT"
-{%- endif %}
 name = "{{ cookiecutter.project_name }}"
 readme = "README.md"
 requires-python = ">=3.9.0,<4.0.0"
-version = "{{ cookiecutter.project_version }}"
+version = "0.1.0"
 
 {% if cookiecutter.cli_support == "yes" -%}
 [project.scripts]
-{{ cookiecutter.project_name }} = "{{ cookiecutter.project_slug }}.__main__:cli"
+{{ cookiecutter.project_name }} = "{{ cookiecutter.__project_slug }}.__main__:cli"
 {% endif -%}
 
 [tool.coverage.report]
@@ -63,10 +57,10 @@ show_missing = true
 branch = true
 command_line = "-m pytest"
 omit = []
-source = ["{{ cookiecutter.project_slug }}"]
+source = ["{{ cookiecutter.__project_slug }}"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/{{ cookiecutter.project_slug }}"]
+packages = ["src/{{ cookiecutter.__project_slug }}"]
 
 [tool.mypy]
 cache_dir = ".vendor/cache/mypy"

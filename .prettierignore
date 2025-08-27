@@ -13,6 +13,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .tox/
+.vendor/
 .venv/
 {{cookiecutter.project_name}}/
 *.egg-info/

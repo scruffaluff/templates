@@ -19,8 +19,6 @@ if TYPE_CHECKING:
     [
         {"githost": "github"},
         {"githost": "gitlab"},
-        {"pypi_support": "yes"},
-        {"pypi_support": "no"},
     ],
 )
 def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> None:
@@ -40,11 +38,10 @@ def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> Non
         ({"githost": "github"}, [".github"]),
         ({"githost": "gitlab"}, [".gitlab-ci.yml"]),
         (
-            {"project_slug": "mock", "cli_support": "yes"},
+            {"__project_slug": "mock", "cli_support": "yes"},
             ["src/mock/__main__.py"],
         ),
         ({"prettier_support": "yes"}, [".prettierignore", ".prettierrc.yaml"]),
-        ({"pypi_support": "yes"}, [".github/workflows/main.yaml"]),
     ],
 )
 def test_existing_paths(
@@ -56,45 +53,6 @@ def test_existing_paths(
     for path in paths:
         file_path = result.project_path / path
         assert file_path.exists()
-
-
-@pytest.mark.parametrize(
-    ("context", "expected"),
-    [
-        (
-            {
-                "githost": "gitlab",
-                "project_repository": "https://gitlab.com/user/repository",
-            },
-            "https://user.gitlab.io/repository",
-        ),
-        (
-            {
-                "githost": "gitlab",
-                "project_repository": "https://gitlab.com/group/subgroup/repository",
-            },
-            "https://group.gitlab.io/subgroup/repository",
-        ),
-    ],
-)
-def test_homepage_context(
-    context: dict[str, Any], expected: str, cookies: Cookies
-) -> None:
-    """Default homepage is generated from repository URL."""
-    result = cookies.bake(extra_context=context)
-    assert result.exit_code == 0, str(result.exception)
-    actual = result.context["project_homepage"]
-    assert actual == expected
-
-
-@pytest.mark.parametrize(
-    "context",
-    [{"project_name": "$Mock?"}],
-)
-def test_invalid_context(context: dict[str, Any], cookies: Cookies) -> None:
-    """Check that cookiecutter rejects invalid context arguments."""
-    result = cookies.bake(extra_context=context)
-    assert result.exit_code == -1
 
 
 def test_mkdocs_build(cookies: Cookies) -> None:
@@ -189,7 +147,7 @@ def test_pytest_test(cookies: Cookies) -> None:
         ({"githost": "github"}, [".gitlab-ci.yml"]),
         ({"githost": "gitlab"}, [".github"]),
         (
-            {"project_slug": "mock", "cli_support": "no"},
+            {"__project_slug": "mock", "cli_support": "no"},
             ["src/mock/__main__.py"],
         ),
         ({"prettier_support": "no"}, [".prettierignore", ".prettierrc.yaml"]),
@@ -231,8 +189,6 @@ def test_ruff_lint(baked_project: Result) -> None:
         {"cli_support": "no"},
         {"prettier_support": "yes"},
         {"prettier_support": "no"},
-        {"pypi_support": "yes"},
-        {"pypi_support": "no"},
     ],
 )
 def test_template(context: dict[str, Any], cookies: Cookies) -> None:
@@ -254,12 +210,6 @@ def test_template(context: dict[str, Any], cookies: Cookies) -> None:
             {"prettier_support": "no"},
             ["justfile"],
             "prettier",
-            False,
-        ),
-        (
-            {"githost": "github", "pypi_support": "no"},
-            ["README.md"],
-            "pypi",
             False,
         ),
     ],

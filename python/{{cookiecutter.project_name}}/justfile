@@ -28,7 +28,7 @@ build:
 doc:
   mkdir build/site
   cp README.md doc/index.md
-  cp CONTRIBUTING.md LICENSE.md doc/
+  cp CONTRIBUTING.md doc/
   uv run mkdocs build --strict
 
 # Fix code formatting.
