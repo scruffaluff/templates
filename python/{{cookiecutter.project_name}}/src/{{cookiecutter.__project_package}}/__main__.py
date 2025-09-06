@@ -9,7 +9,7 @@ from typing import Annotated
 
 from typer import Option, Typer
 
-import {{ cookiecutter.__project_slug }}
+import {{ cookiecutter.__project_package }}
 
 cli = Typer(
     add_completion=False,
@@ -21,7 +21,7 @@ cli = Typer(
 def print_version(value: bool) -> None:
     """Print {{ cookiecutter.project_name }} version string."""
     if value:
-        print(f"{{ cookiecutter.project_name }} {{ '{' }}{{ cookiecutter.__project_slug }}.__version__{{ '}' }}")
+        print(f"{{ cookiecutter.project_name }} {{ '{' }}{{ cookiecutter.__project_package }}.__version__{{ '}' }}")
         sys.exit()
 
 
@@ -43,4 +43,4 @@ def main(
 
 
 if __name__ == "__main__":
-    cli(prog_name="{{ cookiecutter.__project_slug }}")
+    cli(prog_name="{{ cookiecutter.__project_package }}")

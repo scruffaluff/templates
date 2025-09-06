@@ -1,13 +1,16 @@
 {
   "__prompts__": {
-    "project_name": "Select your package name"
+    "project_name": "Enter project name",
+    "project_description": "Enter project description",
+    "project_repository": "Enter project repository",
+    "project_cli": "Add command line interface?",
+    "project_prettier": "Add Prettier formatting alongside Ruff formatting?"
   },
   "project_name": "template-python",
+  "__project_package": "{{ cookiecutter.project_name | slugify(separator='_') }}",
   "project_description": "Template for Python projects.",
-  "githost": ["none", "github", "gitlab"],
-  "cli_support": ["yes", "no"],
-  "prettier_support": ["yes", "no"],
-  "_project_homepage": "https://scruffaluff.github.io/templates",
-  "_project_repository": "https://github.com/scruffaluff/templates",
-  "__project_slug": "{{ cookiecutter.project_name | slugify(separator='_') }}"
+  "project_repository": "https://github.com/scruffaluff/templates",
+  "__project_githost": "{{ 'github' if 'github.com' in cookiecutter.project_repository else 'none' }}",
+  "project_cli": ["yes", "no"],
+  "project_prettier": ["yes", "no"]
 }

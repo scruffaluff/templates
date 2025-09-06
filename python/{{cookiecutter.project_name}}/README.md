@@ -9,7 +9,7 @@
 {{ cookiecutter.project_name }} can be installed for Python 3.9+ with
 
 ```bash
-pip install --user {{ cookiecutter.__project_slug }}
+pip install --user {{ cookiecutter.__project_package }}
 ```
 
 ## Contributing

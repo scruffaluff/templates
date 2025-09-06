@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 @pytest.mark.parametrize(
     "context",
     [
-        {"githost": "github"},
-        {"githost": "gitlab"},
+        {"__project_githost": "github"},
+        {"__project_githost": "gitlab"},
     ],
 )
 def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> None:
@@ -35,13 +35,13 @@ def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> Non
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        ({"githost": "github"}, [".github"]),
-        ({"githost": "gitlab"}, [".gitlab-ci.yml"]),
+        ({"__project_githost": "github"}, [".github"]),
+        ({"__project_githost": "gitlab"}, [".gitlab-ci.yml"]),
         (
-            {"__project_slug": "mock", "cli_support": "yes"},
+            {"__project_package": "mock", "project_cli": "yes"},
             ["src/mock/__main__.py"],
         ),
-        ({"prettier_support": "yes"}, [".prettierignore", ".prettierrc.yaml"]),
+        ({"project_prettier": "yes"}, [".prettierignore", ".prettierrc.yaml"]),
     ],
 )
 def test_existing_paths(
@@ -118,7 +118,7 @@ def test_no_trailing_blank_line(baked_project: Result) -> None:
 )
 def test_prettier_format(baked_project: Result) -> None:
     """Generated files must pass Prettier format checker."""
-    if baked_project.context["prettier_support"] == "no":
+    if baked_project.context["project_prettier"] == "no":
         pytest.skip("Prettier support is required for format testing.")
     util.run_command(
         [
@@ -144,13 +144,13 @@ def test_pytest_test(cookies: Cookies) -> None:
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        ({"githost": "github"}, [".gitlab-ci.yml"]),
-        ({"githost": "gitlab"}, [".github"]),
+        ({"__project_githost": "github"}, [".gitlab-ci.yml"]),
+        ({"__project_githost": "gitlab"}, [".github"]),
         (
-            {"__project_slug": "mock", "cli_support": "no"},
+            {"__project_package": "mock", "project_cli": "no"},
             ["src/mock/__main__.py"],
         ),
-        ({"prettier_support": "no"}, [".prettierignore", ".prettierrc.yaml"]),
+        ({"project_prettier": "no"}, [".prettierignore", ".prettierrc.yaml"]),
     ],
 )
 def test_removed_paths(
@@ -183,12 +183,12 @@ def test_ruff_lint(baked_project: Result) -> None:
 @pytest.mark.parametrize(
     "context",
     [
-        {"githost": "github"},
-        {"githost": "gitlab"},
-        {"cli_support": "yes"},
-        {"cli_support": "no"},
-        {"prettier_support": "yes"},
-        {"prettier_support": "no"},
+        {"__project_githost": "github"},
+        {"__project_githost": "gitlab"},
+        {"project_cli": "yes"},
+        {"project_cli": "no"},
+        {"project_prettier": "yes"},
+        {"project_prettier": "no"},
     ],
 )
 def test_template(context: dict[str, Any], cookies: Cookies) -> None:
@@ -201,13 +201,13 @@ def test_template(context: dict[str, Any], cookies: Cookies) -> None:
     ("context", "paths", "text", "exist"),
     [
         (
-            {"prettier_support": "yes"},
+            {"project_prettier": "yes"},
             ["justfile"],
             "prettier",
             True,
         ),
         (
-            {"prettier_support": "no"},
+            {"project_prettier": "no"},
             ["justfile"],
             "prettier",
             False,

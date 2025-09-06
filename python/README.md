@@ -31,7 +31,7 @@ usage:
 
 The following tools are configured if you select optional features:
 
-- `prettier_support`:
+- `project_prettier`:
   - [Prettier](https://prettier.io/): Opinionated code formatter for JSON,
     Markdown, and YAML files.
 
@@ -43,14 +43,14 @@ contents are only generated for that chosen context.
 
 ```
 {{project_name}}
-├── .github  {githost: github}
+├── .github  {__project_githost: github}
 │   └── workflows
 │       └── main.yaml
 ├── .dockerignore
 ├── .gitignore
-├── .gitlab-ci.yaml  {githost: gitlab}
-├── .prettierignore  {prettier_support: yes}
-├── .prettierrc.yaml  {prettier_support: yes}
+├── .gitlab-ci.yaml  {__project_githost: gitlab}
+├── .prettierignore  {project_prettier: yes}
+├── .prettierrc.yaml  {project_prettier: yes}
 ├── CONTRIBUTING.md
 ├── doc
 │   ├── api
@@ -61,9 +61,9 @@ contents are only generated for that chosen context.
 ├── pyproject.toml
 ├── README.md
 ├── src
-│   └── {{__project_slug}}
+│   └── {{__project_package}}
 │       ├── __init__.py
-│       ├── __main__.py  {cli_support: yes}
+│       ├── __main__.py  {project_cli: yes}
 │       └── py.typed
 ├── test
 │   ├── conftest.py

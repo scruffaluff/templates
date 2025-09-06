@@ -9,14 +9,14 @@ Paths = list[Path]
 
 
 PATHS: dict[str, Paths | dict[str, Paths]] = {
-    "githost": {
+    "__project_githost": {
         "github": [Path(".github")],
         "gitlab": [Path(".gitlab-ci.yml")],
     },
-    "cli_support": [
-        Path("src/{{ cookiecutter.__project_slug }}/__main__.py"),
+    "project_cli": [
+        Path("src/{{ cookiecutter.__project_package }}/__main__.py"),
     ],
-    "prettier_support": [
+    "project_prettier": [
         Path(".prettierignore"),
         Path(".prettierrc.yaml"),
     ],
@@ -67,9 +67,9 @@ def clean_paths(context: dict[str, str]) -> None:
 def main() -> None:
     """Entrypoint for project post generation hooks."""
     context = {
-        "githost": "{{ cookiecutter.githost }}",
-        "cli_support": "{{ cookiecutter.cli_support }}",
-        "prettier_support": "{{ cookiecutter.prettier_support }}",
+        "__project_githost": "{{ cookiecutter.__project_githost }}",
+        "project_cli": "{{ cookiecutter.project_cli }}",
+        "project_prettier": "{{ cookiecutter.project_prettier }}",
     }
     clean_paths(context)
 

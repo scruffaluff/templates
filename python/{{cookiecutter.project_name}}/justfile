@@ -33,7 +33,7 @@ doc:
 
 # Fix code formatting.
 format:
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier == "yes" -%}
   deno run --allow-all npm:prettier --write .
   {% endif -%}
   uv run ruff format .
@@ -45,7 +45,7 @@ install: build
 
 # Run code analyses.
 lint:
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier == "yes" -%}
   deno run --allow-all npm:prettier --check .
   {% endif -%}
   uv run ruff format --check .
@@ -55,7 +55,7 @@ lint:
 # Install development dependencies.
 [script]
 setup: _setup
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier == "yes" -%}
   if (which deno | is-empty) {
     http get https://scruffaluff.github.io/picoware/install/deno.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"

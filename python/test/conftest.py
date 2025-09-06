@@ -7,13 +7,13 @@ from pytest_cookies.plugin import Cookies, Result
 
 @pytest.fixture(
     params=[
-        {"cli_support": "no"},
-        {"cli_support": "yes"},
-        {"githost": "github"},
-        {"githost": "gitlab", "prettier_support": "no"},
-        {"githost": "gitlab"},
-        {"prettier_support": "no"},
-        {"prettier_support": "yes"},
+        {"project_cli": "no"},
+        {"project_cli": "yes"},
+        {"__project_githost": "github"},
+        {"__project_githost": "gitlab", "project_prettier": "no"},
+        {"__project_githost": "gitlab"},
+        {"project_prettier": "no"},
+        {"project_prettier": "yes"},
     ],
 )
 def baked_project(cookies: Cookies, request: SubRequest) -> Result:

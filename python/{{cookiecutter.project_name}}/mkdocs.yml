@@ -39,12 +39,11 @@ plugins:
   - mkdocstrings
   - search
 repo_name: {{ cookiecutter.project_name }}
-repo_url: {{ cookiecutter._project_repository }}
+repo_url: {{ cookiecutter.project_repository }}
 site_description: |
   {{ cookiecutter.project_description }}
 site_dir: build/site
 site_name: {{ cookiecutter.project_name }}
-site_url: {{ cookiecutter._project_homepage }}
 theme:
   featues:
     - navigation.tabs
