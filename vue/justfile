@@ -21,10 +21,16 @@ ci: lint test
 
 # Run code analyses.
 lint:
+  uv run ruff format --check .
   uv run ruff check .
   uv run mypy .
 
 # Run test suites.
 test *args:
   uv run pytest {{args}}
+
+# Wrapper to Uv.
+[no-exit-message]
+@uv *args:
+  uv {{args}}
 

@@ -6,7 +6,7 @@ project with the template install
 following command, and follow its interactive prompts.
 
 ```console
-cookiecutter --directory vue https://github.com/scruffaluff/templates
+cookiecutter --directory vue gh:scruffaluff/templates
 ```
 
 ## Setup

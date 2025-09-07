@@ -3,6 +3,7 @@
 # For more information, visit https://just.systems.
 
 mod python
+mod vue
 
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
@@ -21,22 +22,29 @@ list:
 # Execute CI workflow commands.
 ci: setup lint doc test
 
+# Wrapper to Deno
+[no-exit-message]
+@deno *args:
+  deno {{args}}
+
 # Build documentation.
 doc:
   cp python/README.md doc/python.md
   uv tool run --with mkdocs-material,pymdown-extensions mkdocs build --strict
 
 # Fix code formatting.
-format: && python::format
+format:
   deno run --allow-all npm:prettier --write .
+  uv run ruff format .
 
 # Run code analyses.
-lint: && python::lint
+lint: && python::lint vue::lint
   deno run --allow-all npm:prettier --check .
+  uv run ruff format --check .
 
 # Install development dependencies.
 [script]
-setup: _setup && python::setup
+setup: _setup
   if (which deno | is-empty) {
     http get https://scruffaluff.github.io/picoware/install/deno.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
@@ -73,5 +81,9 @@ _setup:
   Write-Output "Nushell $(nu --version)"
 
 # Run test suites.
-test: && python::test
+test: && python::test vue::test
 
+# Wrapper to Uv.
+[no-exit-message]
+@uv *args:
+  uv {{args}}
