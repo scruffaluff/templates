@@ -7,7 +7,7 @@
     "project_prettier": "Add Prettier formatting alongside Ruff formatting?"
   },
   "project_name": "template-python",
-  "__project_package": "{{ cookiecutter.project_name | slugify(separator='_') }}",
+  "__project_package": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
   "project_description": "Template for Python projects.",
   "project_repository": "https://github.com/scruffaluff/templates",
   "__project_githost": "{{ cookiecutter.project_repository.split('//')[1].split('/')[0].split('.')[-2] }}",

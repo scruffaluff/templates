@@ -29,12 +29,6 @@ markdown_extensions:
   - pymdownx.tilde
   - toc:
       permalink: true
-nav:
-  - Home:
-      - README: index.md
-      - Contributing: CONTRIBUTING.md
-  - Usage: usage/index.md
-  - API Reference: api/index.md
 plugins:
   - mkdocstrings
   - search

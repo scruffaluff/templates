@@ -43,25 +43,22 @@ contents are only generated for that chosen context.
 
 ```
 {{project_name}}
-├── .github  {__project_githost: github}
+├── .github  {roject_repository: uses github.com}
 │   └── workflows
 │       └── main.yaml
 ├── .dockerignore
 ├── .gitignore
-├── .gitlab-ci.yaml  {__project_githost: gitlab}
+├── .gitlab-ci.yaml  {project_repository: uses gitlab.com}
 ├── .prettierignore  {project_prettier: yes}
 ├── .prettierrc.yaml  {project_prettier: yes}
 ├── CONTRIBUTING.md
 ├── doc
-│   ├── api
-│   |   └── index.md
-│   └── usage
-│       └── index.md
+│   └── index.md
 ├── mkdocs.yml
 ├── pyproject.toml
 ├── README.md
 ├── src
-│   └── {{__project_package}}
+│   └── {{project_package}}
 │       ├── __init__.py
 │       ├── __main__.py  {project_cli: yes}
 │       └── py.typed

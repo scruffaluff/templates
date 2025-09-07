@@ -9,7 +9,7 @@ Paths = list[Path]
 
 
 PATHS: dict[str, Paths | dict[str, Paths]] = {
-    "__project_githost": {
+    "project_githost": {
         "github": [Path(".github")],
         "gitlab": [Path(".gitlab-ci.yml")],
     },
@@ -67,7 +67,7 @@ def clean_paths(context: dict[str, str]) -> None:
 def main() -> None:
     """Entrypoint for project post generation hooks."""
     context = {
-        "__project_githost": "{{ cookiecutter.__project_githost }}",
+        "project_githost": "{{ cookiecutter.__project_githost }}",
         "project_cli": "{{ cookiecutter.project_cli }}",
         "project_prettier": "{{ cookiecutter.project_prettier }}",
     }
