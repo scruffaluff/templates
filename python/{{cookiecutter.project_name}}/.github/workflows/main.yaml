@@ -39,7 +39,7 @@ on:
         type: choice
 
 env:
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier == "yes" -%}
   DENO_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/deno" {%- endraw %}
   {% endif -%}
   UV_CACHE_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/uv" {%- endraw %}
@@ -156,8 +156,8 @@ jobs:
             [changelog]({{ cookiecutter.project_repository }}/blob/{% raw -%} ${{
             github.ref_name }} {%- endraw %}/CHANGELOG.md) for more information.
           files: |
-            build/dist/{{ cookiecutter.project_slug }} {%- raw -%} -${{ github.ref_name }}-py3-none-any.whl {%- endraw %}
-            build/dist/{{ cookiecutter.project_slug }} {%- raw -%} -${{ github.ref_name }}.tar.gz {%- endraw %}
+            build/dist/{{ cookiecutter.__project_package }} {%- raw -%} -${{ github.ref_name }}-py3-none-any.whl {%- endraw %}
+            build/dist/{{ cookiecutter.__project_package }} {%- raw -%} -${{ github.ref_name }}.tar.gz {%- endraw %}
           name: {{ cookiecutter.project_name }} {% raw -%} ${{ github.ref_name }} {%- endraw %}
           tag_name: {% raw -%} ${{ github.ref }} {%- endraw %}
       - if: {% raw -%} ${{ always() && inputs.debug }} {%- endraw %}

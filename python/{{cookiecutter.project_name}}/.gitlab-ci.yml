@@ -46,7 +46,7 @@ stages:
 
 # Environment variables that apply to all jobs.
 variables:
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier == "yes" -%}
   DENO_DIR: "${CI_PROJECT_DIR}/.vendor/cache/deno"
   {% endif -%}
   PACKAGE_REGISTRY_URL: >-
@@ -173,14 +173,14 @@ release:
       links:
         - link_type: package
           name: >-
-            {{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py-none-any.whl
+            {{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py-none-any.whl
           url: >-
-            ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py3-none-any.whl
+            ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py3-none-any.whl
         - link_type: package
           name: >-
-            {{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz
+            {{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}.tar.gz
           url: >-
-            ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz
+            ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}.tar.gz
     description: >-
       See the
       [changelog]({{ cookiecutter.project_repository }}/-/tree/{% raw -%}
@@ -201,12 +201,12 @@ release:
     - just setup build
     - >-
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file
-      "build/dist/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py3-none-any.whl"
-      "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}-py3-none-any.whl"
+      "build/dist/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py3-none-any.whl"
+      "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py3-none-any.whl"
     - >-
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file
-      "build/dist/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz"
-      "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.project_slug }}-${CI_COMMIT_TAG}.tar.gz"
+      "build/dist/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}.tar.gz"
+      "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}.tar.gz"
   stage: deploy
 
 test:

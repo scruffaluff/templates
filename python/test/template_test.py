@@ -17,10 +17,8 @@ if TYPE_CHECKING:
 @pytest.mark.parametrize(
     "context",
     [
-        {"githost": "github"},
-        {"githost": "gitlab"},
-        {"pypi_support": "yes"},
-        {"pypi_support": "no"},
+        {"project_repository": "https://github.com/scruffaluff/templates"},
+        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
     ],
 )
 def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> None:
@@ -37,14 +35,19 @@ def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> Non
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        ({"githost": "github"}, [".github"]),
-        ({"githost": "gitlab"}, [".gitlab-ci.yml"]),
         (
-            {"project_slug": "mock", "cli_support": "yes"},
+            {"project_repository": "https://github.com/scruffaluff/templates"},
+            [".github"],
+        ),
+        (
+            {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+            [".gitlab-ci.yml"],
+        ),
+        (
+            {"__project_package": "mock", "project_cli": "yes"},
             ["src/mock/__main__.py"],
         ),
-        ({"prettier_support": "yes"}, [".prettierignore", ".prettierrc.yaml"]),
-        ({"pypi_support": "yes"}, [".github/workflows/main.yaml"]),
+        ({"project_prettier": "yes"}, [".prettierignore", ".prettierrc.yaml"]),
     ],
 )
 def test_existing_paths(
@@ -56,45 +59,6 @@ def test_existing_paths(
     for path in paths:
         file_path = result.project_path / path
         assert file_path.exists()
-
-
-@pytest.mark.parametrize(
-    ("context", "expected"),
-    [
-        (
-            {
-                "githost": "gitlab",
-                "project_repository": "https://gitlab.com/user/repository",
-            },
-            "https://user.gitlab.io/repository",
-        ),
-        (
-            {
-                "githost": "gitlab",
-                "project_repository": "https://gitlab.com/group/subgroup/repository",
-            },
-            "https://group.gitlab.io/subgroup/repository",
-        ),
-    ],
-)
-def test_homepage_context(
-    context: dict[str, Any], expected: str, cookies: Cookies
-) -> None:
-    """Default homepage is generated from repository URL."""
-    result = cookies.bake(extra_context=context)
-    assert result.exit_code == 0, str(result.exception)
-    actual = result.context["project_homepage"]
-    assert actual == expected
-
-
-@pytest.mark.parametrize(
-    "context",
-    [{"project_name": "$Mock?"}],
-)
-def test_invalid_context(context: dict[str, Any], cookies: Cookies) -> None:
-    """Check that cookiecutter rejects invalid context arguments."""
-    result = cookies.bake(extra_context=context)
-    assert result.exit_code == -1
 
 
 def test_mkdocs_build(cookies: Cookies) -> None:
@@ -160,7 +124,7 @@ def test_no_trailing_blank_line(baked_project: Result) -> None:
 )
 def test_prettier_format(baked_project: Result) -> None:
     """Generated files must pass Prettier format checker."""
-    if baked_project.context["prettier_support"] == "no":
+    if baked_project.context["project_prettier"] == "no":
         pytest.skip("Prettier support is required for format testing.")
     util.run_command(
         [
@@ -186,13 +150,19 @@ def test_pytest_test(cookies: Cookies) -> None:
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        ({"githost": "github"}, [".gitlab-ci.yml"]),
-        ({"githost": "gitlab"}, [".github"]),
         (
-            {"project_slug": "mock", "cli_support": "no"},
+            {"project_repository": "https://github.com/scruffaluff/templates"},
+            [".gitlab-ci.yml"],
+        ),
+        (
+            {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+            [".github"],
+        ),
+        (
+            {"__project_package": "mock", "project_cli": "no"},
             ["src/mock/__main__.py"],
         ),
-        ({"prettier_support": "no"}, [".prettierignore", ".prettierrc.yaml"]),
+        ({"project_prettier": "no"}, [".prettierignore", ".prettierrc.yaml"]),
     ],
 )
 def test_removed_paths(
@@ -216,7 +186,7 @@ def test_ruff_format(baked_project: Result) -> None:
 def test_ruff_lint(baked_project: Result) -> None:
     """Generated files must pass Ruff lints."""
     util.run_command(
-        ["uv", "run", "--active", "ruff", "check", "."],
+        ["uv", "run", "ruff", "check", "."],
         cwd=baked_project.project_path,
         stream="stdout",
     )
@@ -225,14 +195,12 @@ def test_ruff_lint(baked_project: Result) -> None:
 @pytest.mark.parametrize(
     "context",
     [
-        {"githost": "github"},
-        {"githost": "gitlab"},
-        {"cli_support": "yes"},
-        {"cli_support": "no"},
-        {"prettier_support": "yes"},
-        {"prettier_support": "no"},
-        {"pypi_support": "yes"},
-        {"pypi_support": "no"},
+        {"project_repository": "https://github.com/scruffaluff/templates"},
+        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+        {"project_cli": "yes"},
+        {"project_cli": "no"},
+        {"project_prettier": "yes"},
+        {"project_prettier": "no"},
     ],
 )
 def test_template(context: dict[str, Any], cookies: Cookies) -> None:
@@ -245,21 +213,15 @@ def test_template(context: dict[str, Any], cookies: Cookies) -> None:
     ("context", "paths", "text", "exist"),
     [
         (
-            {"prettier_support": "yes"},
+            {"project_prettier": "yes"},
             ["justfile"],
             "prettier",
             True,
         ),
         (
-            {"prettier_support": "no"},
+            {"project_prettier": "no"},
             ["justfile"],
             "prettier",
-            False,
-        ),
-        (
-            {"githost": "github", "pypi_support": "no"},
-            ["README.md"],
-            "pypi",
             False,
         ),
     ],
