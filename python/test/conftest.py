@@ -9,9 +9,12 @@ from pytest_cookies.plugin import Cookies, Result
     params=[
         {"project_cli": "no"},
         {"project_cli": "yes"},
-        {"__project_githost": "github"},
-        {"__project_githost": "gitlab", "project_prettier": "no"},
-        {"__project_githost": "gitlab"},
+        {"project_repository": "https://github.com/scruffaluff/templates"},
+        {
+            "project_repository": "https://gitlab.com/scruffaluff/templates",
+            "project_prettier": "no",
+        },
+        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
         {"project_prettier": "no"},
         {"project_prettier": "yes"},
     ],

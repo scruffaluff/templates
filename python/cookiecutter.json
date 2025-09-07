@@ -10,7 +10,7 @@
   "__project_package": "{{ cookiecutter.project_name | slugify(separator='_') }}",
   "project_description": "Template for Python projects.",
   "project_repository": "https://github.com/scruffaluff/templates",
-  "__project_githost": "{{ 'github' if 'github.com' in cookiecutter.project_repository else 'none' }}",
+  "__project_githost": "{{ cookiecutter.project_repository.split('//')[1].split('/')[0].split('.')[-2] }}",
   "project_cli": ["yes", "no"],
   "project_prettier": ["yes", "no"]
 }

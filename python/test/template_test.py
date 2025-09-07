@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 @pytest.mark.parametrize(
     "context",
     [
-        {"__project_githost": "github"},
-        {"__project_githost": "gitlab"},
+        {"project_repository": "https://github.com/scruffaluff/templates"},
+        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
     ],
 )
 def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> None:
@@ -35,8 +35,14 @@ def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> Non
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        ({"__project_githost": "github"}, [".github"]),
-        ({"__project_githost": "gitlab"}, [".gitlab-ci.yml"]),
+        (
+            {"project_repository": "https://github.com/scruffaluff/templates"},
+            [".github"],
+        ),
+        (
+            {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+            [".gitlab-ci.yml"],
+        ),
         (
             {"__project_package": "mock", "project_cli": "yes"},
             ["src/mock/__main__.py"],
@@ -144,8 +150,14 @@ def test_pytest_test(cookies: Cookies) -> None:
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        ({"__project_githost": "github"}, [".gitlab-ci.yml"]),
-        ({"__project_githost": "gitlab"}, [".github"]),
+        (
+            {"project_repository": "https://github.com/scruffaluff/templates"},
+            [".gitlab-ci.yml"],
+        ),
+        (
+            {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+            [".github"],
+        ),
         (
             {"__project_package": "mock", "project_cli": "no"},
             ["src/mock/__main__.py"],
@@ -174,7 +186,7 @@ def test_ruff_format(baked_project: Result) -> None:
 def test_ruff_lint(baked_project: Result) -> None:
     """Generated files must pass Ruff lints."""
     util.run_command(
-        ["uv", "run", "--active", "ruff", "check", "."],
+        ["uv", "run", "ruff", "check", "."],
         cwd=baked_project.project_path,
         stream="stdout",
     )
@@ -183,8 +195,8 @@ def test_ruff_lint(baked_project: Result) -> None:
 @pytest.mark.parametrize(
     "context",
     [
-        {"__project_githost": "github"},
-        {"__project_githost": "gitlab"},
+        {"project_repository": "https://github.com/scruffaluff/templates"},
+        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
         {"project_cli": "yes"},
         {"project_cli": "no"},
         {"project_prettier": "yes"},
