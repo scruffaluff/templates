@@ -39,7 +39,7 @@ on:
         type: choice
 
 env:
-  {% if cookiecutter.project_prettier == "yes" -%}
+  {% if cookiecutter.project_prettier -%}
   DENO_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/deno" {%- endraw %}
   {% endif -%}
   UV_CACHE_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/uv" {%- endraw %}

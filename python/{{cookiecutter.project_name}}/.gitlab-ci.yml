@@ -46,7 +46,7 @@ stages:
 
 # Environment variables that apply to all jobs.
 variables:
-  {% if cookiecutter.project_prettier == "yes" -%}
+  {% if cookiecutter.project_prettier -%}
   DENO_DIR: "${CI_PROJECT_DIR}/.vendor/cache/deno"
   {% endif -%}
   PACKAGE_REGISTRY_URL: >-

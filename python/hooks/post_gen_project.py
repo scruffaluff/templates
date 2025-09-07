@@ -23,14 +23,14 @@ PATHS: dict[str, Paths | dict[str, Paths]] = {
 }
 
 
-def clean_bool(chosen: str, paths: Paths) -> None:
+def clean_bool(chosen: bool, paths: Paths) -> None:
     """Remove option paths if it was not chosen.
 
     Args:
         chosen: Whether option was chosen during scaffolding.
         paths: Paths to remove if option was not chosen.
     """
-    if chosen != "yes":
+    if not chosen:
         for path in paths:
             remove_path(path)
 
@@ -58,7 +58,7 @@ def clean_paths(context: dict[str, str]) -> None:
         if isinstance(val, dict):
             clean_choice(context[key], val)
         elif isinstance(val, list):
-            clean_bool(context[key], val)
+            clean_bool(context[key] == "True", val)
         else:
             message = f"Unsupported type '{type(val)}' in PATHS data."
             raise TypeError(message)

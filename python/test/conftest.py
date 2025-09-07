@@ -7,16 +7,16 @@ from pytest_cookies.plugin import Cookies, Result
 
 @pytest.fixture(
     params=[
-        {"project_cli": "no"},
-        {"project_cli": "yes"},
+        {"project_cli": True},
+        {"project_cli": False},
         {"project_repository": "https://github.com/scruffaluff/templates"},
         {
             "project_repository": "https://gitlab.com/scruffaluff/templates",
-            "project_prettier": "no",
+            "project_prettier": True,
         },
-        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-        {"project_prettier": "no"},
-        {"project_prettier": "yes"},
+        {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
+        {"project_prettier": True},
+        {"project_prettier": False},
     ],
 )
 def baked_project(cookies: Cookies, request: SubRequest) -> Result:

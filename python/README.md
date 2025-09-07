@@ -43,14 +43,14 @@ contents are only generated for that chosen context.
 
 ```
 {{project_name}}
-├── .github  {roject_repository: uses github.com}
+├── .github  {project_repository: contains 'github.com'}
 │   └── workflows
 │       └── main.yaml
 ├── .dockerignore
 ├── .gitignore
-├── .gitlab-ci.yaml  {project_repository: uses gitlab.com}
-├── .prettierignore  {project_prettier: yes}
-├── .prettierrc.yaml  {project_prettier: yes}
+├── .gitlab-ci.yaml  {project_repository: contains 'gitlab.com'}
+├── .prettierignore  {project_prettier: true}
+├── .prettierrc.yaml  {project_prettier: true}
 ├── CONTRIBUTING.md
 ├── doc
 │   └── index.md
@@ -60,7 +60,7 @@ contents are only generated for that chosen context.
 ├── src
 │   └── {{project_package}}
 │       ├── __init__.py
-│       ├── __main__.py  {project_cli: yes}
+│       ├── __main__.py  {project_cli: true}
 │       └── py.typed
 ├── test
 │   ├── conftest.py

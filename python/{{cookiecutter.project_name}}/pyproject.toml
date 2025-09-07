@@ -24,7 +24,7 @@ dev = [
 ]
 
 [project]
-{%- if cookiecutter.project_cli == "yes" %}
+{%- if cookiecutter.project_cli %}
 dependencies = [
     "typer~=0.16.0",
 ]
@@ -38,7 +38,7 @@ readme = "README.md"
 requires-python = ">=3.9.0,<4.0.0"
 version = "0.1.0"
 
-{% if cookiecutter.project_cli == "yes" -%}
+{% if cookiecutter.project_cli -%}
 [project.scripts]
 {{ cookiecutter.project_name }} = "{{ cookiecutter.__project_package }}.__main__:cli"
 {% endif -%}
