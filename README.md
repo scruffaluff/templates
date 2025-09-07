@@ -18,5 +18,5 @@ The following command generates the Python project template. To execute the
 other templates, replace `python` with the installer name.
 
 ```console
-cookiecutter --directory python https://github.com/scruffaluff/templates
+cookiecutter --directory python gh:scruffaluff/templates
 ```

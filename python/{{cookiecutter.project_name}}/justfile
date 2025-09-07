@@ -28,12 +28,12 @@ build:
 doc:
   mkdir build/site
   cp README.md doc/index.md
-  cp CONTRIBUTING.md LICENSE.md doc/
+  cp CONTRIBUTING.md doc/
   uv run mkdocs build --strict
 
 # Fix code formatting.
 format:
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier -%}
   deno run --allow-all npm:prettier --write .
   {% endif -%}
   uv run ruff format .
@@ -45,7 +45,7 @@ install: build
 
 # Run code analyses.
 lint:
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier -%}
   deno run --allow-all npm:prettier --check .
   {% endif -%}
   uv run ruff format --check .
@@ -55,7 +55,7 @@ lint:
 # Install development dependencies.
 [script]
 setup: _setup
-  {% if cookiecutter.prettier_support == "yes" -%}
+  {% if cookiecutter.project_prettier -%}
   if (which deno | is-empty) {
     http get https://scruffaluff.github.io/picoware/install/deno.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
@@ -100,12 +100,6 @@ _setup:
 # Run test suites.
 test *args:
   uv run pytest --cov {{ "{{" }}args{{ "}}" }}
-
-# Run test suite for multiple Python versions.
-[script]
-test-ver versions="3.9,3.10,3.11,3.12,3.13":
-  let versions = "{{ "{{" }}versions{{ "}}" }}" | split row ","
-  for version in $versions { uv run --python $version pytest }
 
 # Wrapper to Uv.
 [no-exit-message]

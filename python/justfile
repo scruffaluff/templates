@@ -71,12 +71,6 @@ _setup:
 test *args:
   uv run pytest {{args}}
 
-# Run test suite for multiple Python versions.
-[script]
-test-ver versions="3.9,3.10,3.11,3.12,3.13":
-  let versions = "{{versions}}" | split row ","
-  for version in $versions { uv run --python $version pytest }
-
 # Wrapper to Uv.
 [no-exit-message]
 @uv *args:

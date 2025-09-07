@@ -21,8 +21,8 @@ def name_check(package: str) -> None:
 
 def main() -> None:
     """Entrypoint for project post generation hooks."""
-    project_slug = "{{ cookiecutter.project_slug }}"
-    name_check(project_slug)
+    project_package = "{{ cookiecutter.__project_package }}"
+    name_check(project_package)
 
 
 if __name__ == "__main__":

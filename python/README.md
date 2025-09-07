@@ -6,7 +6,7 @@ Python project with the template install
 following command, and follow its interactive prompts.
 
 ```console
-cookiecutter --directory python https://github.com/scruffaluff/templates
+cookiecutter --directory python gh:scruffaluff/templates
 ```
 
 ## Setup
@@ -31,10 +31,9 @@ usage:
 
 The following tools are configured if you select optional features:
 
-- `prettier_support`:
+- `project_prettier`:
   - [Prettier](https://prettier.io/): Opinionated code formatter for JSON,
-    Markdown, and YAML files. Requires [NodeJS](https://nodejs.org/en/) to be
-    externally installed on your system.
+    Markdown, and YAML files.
 
 ## Layout
 
@@ -44,28 +43,24 @@ contents are only generated for that chosen context.
 
 ```
 {{project_name}}
-├── .github  {githost: github}
+├── .github  {project_repository: contains 'github.com'}
 │   └── workflows
 │       └── main.yaml
 ├── .dockerignore
 ├── .gitignore
-├── .gitlab-ci.yaml  {githost: gitlab}
-├── .prettierignore  {prettier_support: yes}
-├── .prettierrc.yaml  {prettier_support: yes}
+├── .gitlab-ci.yaml  {project_repository: contains 'gitlab.com'}
+├── .prettierignore  {project_prettier: true}
+├── .prettierrc.yaml  {project_prettier: true}
 ├── CONTRIBUTING.md
 ├── doc
-│   ├── api
-│   |   └── index.md
-│   └── usage
-│       └── index.md
-├── LICENSE.md
+│   └── index.md
 ├── mkdocs.yml
 ├── pyproject.toml
 ├── README.md
 ├── src
-│   └── {{project_slug}}
+│   └── {{project_package}}
 │       ├── __init__.py
-│       ├── __main__.py  {cli_support: yes}
+│       ├── __main__.py  {project_cli: true}
 │       └── py.typed
 ├── test
 │   ├── conftest.py
