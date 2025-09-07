@@ -2,9 +2,6 @@
 #
 # For more information, visit https://just.systems.
 
-mod python
-mod vue
-
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
 set unstable := true
@@ -30,7 +27,8 @@ ci: setup lint doc test
 # Build documentation.
 doc:
   cp python/README.md doc/python.md
-  uv tool run --with mkdocs-material,pymdown-extensions mkdocs build --strict
+  cp vue/README.md doc/vue.md
+  uv run mkdocs build --strict
 
 # Fix code formatting.
 format:
@@ -38,9 +36,12 @@ format:
   uv run ruff format .
 
 # Run code analyses.
-lint: && python::lint vue::lint
+lint:
   deno run --allow-all npm:prettier --check .
   uv run ruff format --check .
+  uv run ruff format --check .
+  uv run ruff check .
+  uv run mypy .
 
 # Install development dependencies.
 [script]
@@ -81,7 +82,8 @@ _setup:
   Write-Output "Nushell $(nu --version)"
 
 # Run test suites.
-test: && python::test vue::test
+test *args:
+  uv run pytest {{args}}
 
 # Wrapper to Uv.
 [no-exit-message]

@@ -43,6 +43,6 @@
     "vitest": "^3.2.4",
     "vue-tsc": "^3.0.6"
   },
-  "name": "{{ cookiecutter.project_slug }}",
+  "name": "{{ cookiecutter.__project_package }}",
   "type": "module"
 }

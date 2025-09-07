@@ -1,5 +1,7 @@
 """Reusable testing fixtures."""
 
+from pathlib import Path
+
 import pytest
 from _pytest.fixtures import SubRequest
 from pytest_cookies.plugin import Cookies, Result
@@ -21,4 +23,6 @@ from pytest_cookies.plugin import Cookies, Result
 )
 def baked_project(cookies: Cookies, request: SubRequest) -> Result:
     """Cookiecutter projects baked from various parameters."""
-    return cookies.bake(extra_context=request.param)
+    return cookies.bake(
+        extra_context=request.param, template=str(Path(__file__).parents[1] / "python")
+    )

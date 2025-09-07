@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import sys
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 import pytest
@@ -12,6 +13,9 @@ from test import util
 
 if TYPE_CHECKING:
     from pytest_cookies.plugin import Cookies, Result
+
+
+TEMPLATE = str(Path(__file__).parents[1] / "python")
 
 
 @pytest.mark.parametrize(
@@ -23,7 +27,7 @@ if TYPE_CHECKING:
 )
 def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> None:
     """Readme files must have all badge links on separate lines."""
-    result = cookies.bake(extra_context=context)
+    result = cookies.bake(extra_context=context, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
     readme = result.project_path / "README.md"
 
@@ -54,7 +58,7 @@ def test_existing_paths(
     context: dict[str, Any], paths: list[str], cookies: Cookies
 ) -> None:
     """Check that specific paths exist after scaffolding."""
-    result = cookies.bake(extra_context=context)
+    result = cookies.bake(extra_context=context, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
     for path in paths:
         file_path = result.project_path / path
@@ -63,7 +67,7 @@ def test_existing_paths(
 
 def test_mkdocs_build(cookies: Cookies) -> None:
     """Mkdocs must be able to build documentation for baked project."""
-    result = cookies.bake(extra_context={})
+    result = cookies.bake(extra_context={}, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
     util.run_command(["uv", "sync"], cwd=result.project_path)
     util.run_command(["just", "doc"], cwd=result.project_path)
@@ -141,7 +145,7 @@ def test_prettier_format(baked_project: Result) -> None:
 
 def test_pytest_test(cookies: Cookies) -> None:
     """Generated files must pass Pytest unit tests."""
-    result = cookies.bake(extra_context={})
+    result = cookies.bake(extra_context={}, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
     util.run_command(["uv", "sync"], cwd=result.project_path)
     util.run_command(["uv", "run", "pytest"], cwd=result.project_path, stream="stdout")
@@ -169,7 +173,7 @@ def test_removed_paths(
     context: dict[str, Any], paths: list[str], cookies: Cookies
 ) -> None:
     """Check that specific paths are removed after scaffolding."""
-    result = cookies.bake(extra_context=context)
+    result = cookies.bake(extra_context=context, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
     for path in paths:
         remove_path = result.project_path / path
@@ -205,7 +209,7 @@ def test_ruff_lint(baked_project: Result) -> None:
 )
 def test_template(context: dict[str, Any], cookies: Cookies) -> None:
     """Check that various configurations generate successfully."""
-    result = cookies.bake(extra_context=context)
+    result = cookies.bake(extra_context=context, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
 
 
@@ -234,7 +238,7 @@ def test_text_existence(
     cookies: Cookies,
 ) -> None:
     """Check for existence of text in files."""
-    result = cookies.bake(extra_context=context)
+    result = cookies.bake(extra_context=context, template=TEMPLATE)
     assert result.exit_code == 0, str(result.exception)
     for path in paths:
         text_exists = text in (result.project_path / path).read_text()
