@@ -47,9 +47,9 @@ setup: _setup
   }
   deno --version
   if ($env.JUST_INIT? | is-empty) {
-    deno install --frozen
+    deno install --allow-scripts --frozen
   } else {
-    deno install
+    deno install --allow-scripts
   }
 
 [unix]

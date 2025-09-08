@@ -51,15 +51,20 @@ def file_matches(project: Result, regex_str: str) -> Iterator[Path]:
             yield path
 
 
-def run_command(
-    command: Sequence[str], stream: str = "stderr", **kwargs: Any
-) -> CompletedProcess:
-    """Test command with helpful error messages.
+def format_output(process: CompletedProcess) -> str:
+    """Format process output for error messages."""
+    stdout = f"\n--- STDOUT ---\n{process.stdout.rstrip()}"
+    stderr = f"\n--- STDERR ---\n{process.stderr.rstrip()}"
+    return f"{stdout}{stderr}\n"
+
+
+def process(command: Sequence[str], **kwargs: Any) -> CompletedProcess:
+    """Wrapper to `subprocess.Popen` with helpful error messages.
 
     Args:
         command: Command to execute.
         stream: Error message output stream.
-        kwargs: Aruments forwarded to subprocess.Popen.
+        kwargs: Aruments forwarded to `subprocess.Popen`.
 
     Returns:
         Completed shell process information.
@@ -67,9 +72,10 @@ def run_command(
     process = subprocess.run(  # noqa: PLW1510
         command,
         capture_output=True,
+        text=True,
         **kwargs,
     )
-    assert process.returncode == 0, getattr(process, stream).decode("utf-8")
+    assert process.returncode == 0, format_output(process)
     return process
 
 

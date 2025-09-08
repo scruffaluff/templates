@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -17,17 +18,25 @@ if TYPE_CHECKING:
 TEMPLATE = str(Path(__file__).parents[1] / "python")
 
 
+@pytest.mark.skipif(
+    sys.platform in ["darwin", "win32"],
+    reason="""
+    Cookiecutter does not generate files with Windows line endings and Prettier
+    returns nonzero exit codes on success for MacOS.
+    """,
+)
+def test_ci(project_python: Result) -> None:
+    """Generated project passed ci Just recipe."""
+    util.process(
+        ["just", "ci"],
+        cwd=project_python.project_path,
+        env={"JUST_INIT": "true", **os.environ},
+    )
+
+
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        (
-            {"project_repository": "https://github.com/scruffaluff/templates"},
-            [".github"],
-        ),
-        (
-            {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-            [".gitlab-ci.yml"],
-        ),
         (
             {"__project_package": "mock", "project_cli": True},
             ["src/mock/__main__.py"],
@@ -46,64 +55,9 @@ def test_existing_paths(
         assert file_path.exists()
 
 
-def test_mkdocs_build(cookies: Cookies) -> None:
-    """Mkdocs must be able to build documentation for baked project."""
-    result = cookies.bake(extra_context={}, template=TEMPLATE)
-    assert result.exit_code == 0, str(result.exception)
-    util.run_command(["uv", "sync"], cwd=result.project_path)
-    util.run_command(["just", "doc"], cwd=result.project_path)
-
-
-def test_mypy_type_checks(project_python: Result) -> None:
-    """Generated files must pass Mypy type checks."""
-    util.run_command(
-        ["uv", "run", "mypy", "."], cwd=project_python.project_path, stream="stdout"
-    )
-
-
-@pytest.mark.skipif(
-    sys.platform in ["darwin", "win32"],
-    reason="""
-    Cookiecutter does not generate files with Windows line endings and Prettier
-    returns nonzero exit codes on success for MacOS.
-    """,
-)
-def test_prettier_format(project_python: Result) -> None:
-    """Generated files must pass Prettier format checker."""
-    if not project_python.context["project_prettier"]:
-        pytest.skip("Prettier support is required for format testing.")
-    util.run_command(
-        [
-            "deno",
-            "run",
-            "--allow-all",
-            "npm:prettier",
-            "--check",
-            ".",
-        ],
-        cwd=project_python.project_path,
-    )
-
-
-def test_pytest_test(cookies: Cookies) -> None:
-    """Generated files must pass Pytest unit tests."""
-    result = cookies.bake(extra_context={}, template=TEMPLATE)
-    assert result.exit_code == 0, str(result.exception)
-    util.run_command(["uv", "sync"], cwd=result.project_path)
-    util.run_command(["uv", "run", "pytest"], cwd=result.project_path, stream="stdout")
-
-
 @pytest.mark.parametrize(
     ("context", "paths"),
     [
-        (
-            {"project_repository": "https://github.com/scruffaluff/templates"},
-            [".gitlab-ci.yml"],
-        ),
-        (
-            {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-            [".github"],
-        ),
         (
             {"__project_package": "mock", "project_cli": False},
             ["src/mock/__main__.py"],
@@ -120,22 +74,6 @@ def test_removed_paths(
     for path in paths:
         remove_path = result.project_path / path
         assert not remove_path.exists()
-
-
-def test_ruff_format(project_python: Result) -> None:
-    """Generated files must pass Ruff format checker."""
-    util.run_command(
-        ["uv", "run", "ruff", "format", "--check", "."], cwd=project_python.project_path
-    )
-
-
-def test_ruff_lint(project_python: Result) -> None:
-    """Generated files must pass Ruff lints."""
-    util.run_command(
-        ["uv", "run", "ruff", "check", "."],
-        cwd=project_python.project_path,
-        stream="stdout",
-    )
 
 
 @pytest.mark.parametrize(
