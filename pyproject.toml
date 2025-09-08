@@ -56,7 +56,7 @@ warn_unused_ignores = true
 addopts = "-sv"
 cache_dir = ".vendor/cache/pytest"
 filterwarnings = ["ignore::DeprecationWarning"]
-python_files = ["*_test.py"]
+python_files = ["__init__.py", "*_test.py"]
 testpaths = ["test"]
 
 [tool.ruff]
@@ -67,6 +67,7 @@ extend-exclude = ["[{][{]cookiecutter.project_name[}][}]"]
 docstring-code-format = true
 
 [tool.ruff.lint]
+flake8-annotations = { allow-star-arg-any = true }
 pydocstyle = { convention = "google" }
 ignore = [
   "COM",    # Rule conflicts with formatter.

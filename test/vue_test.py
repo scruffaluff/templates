@@ -2,32 +2,33 @@
 
 from __future__ import annotations
 
-import re
-from pathlib import Path
-from typing import TYPE_CHECKING, Any
+import os
+import sys
+from typing import TYPE_CHECKING
 
 import pytest
 
+from test import util
+
 if TYPE_CHECKING:
-    from pytest_cookies.plugin import Cookies
+    from pytest_cookies.plugin import Result
 
 
-TEMPLATE = str(Path(__file__).parents[1] / "vue")
-
-
-@pytest.mark.parametrize(
-    "context",
-    [
-        {"project_repository": "https://github.com/scruffaluff/templates"},
-        {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-    ],
+@pytest.mark.skipif(
+    sys.platform in ["darwin", "win32"],
+    reason="""
+    Cookiecutter does not generate files with Windows line endings and Prettier
+    returns nonzero exit codes on success for MacOS.
+    """,
 )
-def test_badges_separate_lines(context: dict[str, Any], cookies: Cookies) -> None:
-    """Readme files must have all badge links on separate lines."""
-    result = cookies.bake(extra_context=context, template=TEMPLATE)
-    assert result.exit_code == 0, str(result.exception)
-    readme = result.project_path / "README.md"
-
-    regex = re.compile(r"img\.shields\.io")
-    for line in readme.read_text().split("\n"):
-        assert len(regex.findall(line)) < 2  # noqa: PLR2004
+def test_lint(project_vue: Result) -> None:
+    """Generated files must pass Prettier format checker."""
+    util.run_command(
+        [
+            "just",
+            "setup",
+            "lint",
+        ],
+        cwd=project_vue.project_path,
+        env={"JUST_INIT": "true", **os.environ},
+    )

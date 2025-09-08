@@ -21,7 +21,7 @@ ci: setup lint build test
 
 # Build application.
 [script]
-build: compile
+build:
   deno run --allow-all npm:vite build
 
 # Launch application in developer mode.
