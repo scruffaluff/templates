@@ -19,18 +19,15 @@ TEMPLATE = str(Path(__file__).parents[1] / "vue")
 
 
 @pytest.mark.skipif(
-    sys.platform in ["darwin", "win32"],
-    reason="""
-    Cookiecutter does not generate files with Windows line endings and Prettier
-    returns nonzero exit codes on success for MacOS.
-    """,
+    sys.platform in ["win32"],
+    reason="Cookiecutter does not generate files with Windows line endings.",
 )
 def test_ci(project_vue: Result) -> None:
     """Generated project passed ci Just recipe."""
     util.process(
         ["just", "ci"],
         cwd=project_vue.project_path,
-        env={"JUST_INIT": "true", **os.environ},
+        env={"CI": "true", "JUST_INIT": "true", **os.environ},
     )
 
 

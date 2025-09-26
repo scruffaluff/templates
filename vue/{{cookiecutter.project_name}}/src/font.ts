@@ -2,7 +2,7 @@
  * Application fonts.
  */
 
-import "@fontsource-variable/fira-code";
+import "@fontsource-variable/fira-code/wght.css";
 import "@fontsource/fira-sans/latin-100-italic.css";
 import "@fontsource/fira-sans/latin-100.css";
 import "@fontsource/fira-sans/latin-200-italic.css";

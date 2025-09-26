@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "baseUrl": ".",
+    "erasableSyntaxOnly": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -9,8 +10,11 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "preserve",
+    "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": false,
+    "noUncheckedSideEffectImports": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -32,5 +36,6 @@
     "node_modules/",
     "tmp/"
   ],
-  "extends": "@vue/tsconfig/tsconfig.json"
+  "extends": "@vue/tsconfig/tsconfig.json",
+  "include": ["vite.config.ts", "src/**/*.ts", "src/**/*.vue"]
 }

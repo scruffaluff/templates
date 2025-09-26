@@ -7,10 +7,13 @@ set shell := ["nu", "--commands"]
 set unstable := true
 set windows-shell := ["nu", "--commands"]
 export PATH := if os() == "windows" {
-  justfile_dir() / ".vendor/bin;" + env("Path")
+  justfile_dir() / ".vendor/bin;" + justfile_dir() / ".vendor/lib/pnpm;" + 
+  env("Path")
 } else {
-  justfile_dir() / ".vendor/bin:" + env("PATH")
+  justfile_dir() / ".vendor/bin:" + justfile_dir() / ".vendor/lib/pnpm:" + 
+  env("PATH")
 }
+export PNPM_HOME := justfile_dir() / ".vendor/lib/pnpm"
 
 # List all commands available in justfile.
 list:
@@ -22,34 +25,48 @@ ci: setup lint build test
 # Build application.
 [script]
 build:
-  deno run --allow-all npm:vite build
+  pnpm exec vite build
 
 # Launch application in developer mode.
 dev host='127.0.0.1':
-  deno run --allow-all npm:vite dev --host {{ "{{" }}host{{ "}}" }}
+  pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
 
 # Fix code formatting.
 format:
-  deno run --allow-all npm:prettier --write .
+  pnpm exec prettier --write .
 
 # Run code analyses.
 lint:
-  deno run --allow-all npm:prettier --check .
-  deno run --allow-all npm:eslint .
-  deno run --allow-all npm:vue-tsc --build
+  pnpm exec prettier --check .
+  pnpm exec eslint .
+  pnpm exec vue-tsc --build
 
 # Install development dependencies.
 [script]
 setup: _setup
-  if (which deno | is-empty) {
-    http get https://scruffaluff.github.io/picoware/install/deno.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+  let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
+  if not ($"($env.PNPM_HOME)/pnpm($ext)" | path exists) {
+    let version = http get https://formulae.brew.sh/api/formula/pnpm.json
+    | get versions.stable
+    let arch = match $nu.os-info.arch { aarch64 => "arm64", x86_64 => "x64" }
+    let os = match $nu.os-info.name {
+      "linux" => "linuxstatic"
+      "windows" => "win"
+      _ => $nu.os-info.name
+    }
+    mkdir $env.PNPM_HOME
+    http get $"https://github.com/pnpm/pnpm/releases/download/v($version)/pnpm-($os)-($arch)($ext)"
+    | save --force $"($env.PNPM_HOME)/pnpm($ext)"
+    if $os != "win" {
+      chmod 755 $"($env.PNPM_HOME)/pnpm"
+    }
   }
-  deno --version
+  print $"pnpm version (pnpm --version)"
+  pnpm env use --global lts
   if ($env.JUST_INIT? | is-empty) {
-    deno install --allow-scripts --frozen
+    pnpm install --frozen-lockfile
   } else {
-    deno install --allow-scripts
+    pnpm install
   }
 
 [unix]
@@ -78,5 +95,5 @@ _setup:
 
 # Run test suites.
 test *args:
-  deno run allow-all npm:vitest {{ "{{" }}args{{ "}}" }}
+  pnpm exec vitest --run {{ "{{" }}args{{ "}}" }}
 
