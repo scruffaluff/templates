@@ -61,11 +61,10 @@ jobs:
       - name: Cache packages
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-${{ hashFiles('python/uv.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('uv.lock') }}
           path: |
             .vendor
-            python/.vendor
-            python/.venv
+            .venv
       - if: ${{ runner.os == 'Windows' }}
         name: Install Just for Windows
         run: >-
@@ -101,9 +100,10 @@ jobs:
       - name: Cache packages
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}
+          key: ${{ runner.os }}-${{ hashFiles('uv.lock') }}
           path: |
             .vendor
+            .venv
       - name: Install Just
         run: >-
           curl -LSfs https://scruffaluff.github.io/picoware/install/just.sh | sh

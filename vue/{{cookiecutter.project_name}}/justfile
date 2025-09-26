@@ -1,0 +1,99 @@
+# Just configuration file for running commands.
+#
+# For more information, visit https://just.systems.
+
+set script-interpreter := ["nu"]
+set shell := ["nu", "--commands"]
+set unstable := true
+set windows-shell := ["nu", "--commands"]
+export PATH := if os() == "windows" {
+  justfile_dir() / ".vendor/bin;" + justfile_dir() / ".vendor/lib/pnpm;" + 
+  env("Path")
+} else {
+  justfile_dir() / ".vendor/bin:" + justfile_dir() / ".vendor/lib/pnpm:" + 
+  env("PATH")
+}
+export PNPM_HOME := justfile_dir() / ".vendor/lib/pnpm"
+
+# List all commands available in justfile.
+list:
+  just --list
+
+# Execute CI workflow commands.
+ci: setup lint build test
+
+# Build application.
+[script]
+build:
+  pnpm exec vite build
+
+# Launch application in developer mode.
+dev host='127.0.0.1':
+  pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
+
+# Fix code formatting.
+format:
+  pnpm exec prettier --write .
+
+# Run code analyses.
+lint:
+  pnpm exec prettier --check .
+  pnpm exec eslint .
+  pnpm exec vue-tsc --build
+
+# Install development dependencies.
+[script]
+setup: _setup
+  let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
+  if not ($"($env.PNPM_HOME)/pnpm($ext)" | path exists) {
+    let version = http get https://formulae.brew.sh/api/formula/pnpm.json
+    | get versions.stable
+    let arch = match $nu.os-info.arch { aarch64 => "arm64", x86_64 => "x64" }
+    let os = match $nu.os-info.name {
+      "linux" => "linuxstatic"
+      "windows" => "win"
+      _ => $nu.os-info.name
+    }
+    mkdir $env.PNPM_HOME
+    http get $"https://github.com/pnpm/pnpm/releases/download/v($version)/pnpm-($os)-($arch)($ext)"
+    | save --force $"($env.PNPM_HOME)/pnpm($ext)"
+    if $os != "win" {
+      chmod 755 $"($env.PNPM_HOME)/pnpm"
+    }
+  }
+  print $"pnpm version (pnpm --version)"
+  pnpm env use --global lts
+  if ($env.JUST_INIT? | is-empty) {
+    pnpm install --frozen-lockfile
+  } else {
+    pnpm install
+  }
+
+[unix]
+_setup:
+  #!/usr/bin/env sh
+  set -eu
+  if [ ! -x "$(command -v nu)" ]; then
+    curl --fail --location --show-error \
+      https://scruffaluff.github.io/picoware/install/nushell.sh | sh -s -- \
+      --preserve-env --dest .vendor/bin
+  fi
+  echo "Nushell $(nu --version)"
+
+[windows]
+_setup:
+  #!powershell.exe
+  $ErrorActionPreference = 'Stop'
+  $ProgressPreference = 'SilentlyContinue'
+  $PSNativeCommandUseErrorActionPreference = $True
+  if (-not (Get-Command -ErrorAction SilentlyContinue nu)) {
+    $NushellScript = Invoke-WebRequest -UseBasicParsing -Uri `
+      https://scruffaluff.github.io/picoware/install/nushell.ps1
+    Invoke-Expression "& { $NushellScript } --preserve-env --dest .vendor/bin"
+  }
+  Write-Output "Nushell $(nu --version)"
+
+# Run test suites.
+test *args:
+  pnpm exec vitest --run {{ "{{" }}args{{ "}}" }}
+

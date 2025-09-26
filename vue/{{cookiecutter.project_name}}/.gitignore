@@ -1,0 +1,35 @@
+# Git configuration file for ignoring untracked paths.
+#
+# For more information, visit https://git-scm.com/docs/gitignore.
+
+.benchmarks/
+.cache/
+.coverage*
+.DS_Store
+.env
+.unlighthouse/
+.vendor/
+.vscode/settings.json
+*.db
+*.log
+*.swp
+*.tar.gz
+*.tgz
+*.tsbuildinfo
+*report.html
+/blob-report/
+/playwright-report/
+/playwright/.cache/
+build/
+coverage/
+dist/
+environment.yml
+f1
+index.yaml
+node_modules/
+nohup.out
+stats.html
+target/
+tmp/
+vite.config.ts.timestamp-*
+web/
