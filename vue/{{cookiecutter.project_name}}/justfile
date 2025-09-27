@@ -41,6 +41,11 @@ lint:
   pnpm exec eslint .
   pnpm exec vue-tsc --build
 
+# Wrapper to Pnpm.
+[no-exit-message]
+@pnpm *args:
+  pnpm {{ "{{" }}args{{ "}}" }}
+
 # Install development dependencies.
 [script]
 setup: _setup
@@ -68,6 +73,11 @@ setup: _setup
   } else {
     pnpm install
   }
+  try {
+    pnpm exec playwright install --with-deps chromium
+  } catch {
+    pnpm exec playwright install chromium
+  }
 
 [unix]
 _setup:
@@ -94,6 +104,12 @@ _setup:
   Write-Output "Nushell $(nu --version)"
 
 # Run test suites.
-test *args:
-  pnpm exec vitest --run {{ "{{" }}args{{ "}}" }}
+test: test-unit test-e2e
 
+# Run end to end test suite.
+test-e2e *args:
+  pnpm exec playwright test {{ "{{" }}args{{ "}}" }}
+
+# Run unit test suite.
+test-unit +args='run':
+  pnpm exec vitest {{ "{{" }}args{{ "}}" }}

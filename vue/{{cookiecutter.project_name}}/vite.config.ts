@@ -15,7 +15,7 @@ export default vitest.defineConfig({
   build: {
     cssMinify: "lightningcss",
     emptyOutDir: true,
-    outDir: "../build/dist/public",
+    outDir: "../build/dist",
   },
   plugins: [
     vue(),

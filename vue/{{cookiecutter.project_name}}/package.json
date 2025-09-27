@@ -13,6 +13,7 @@
     "@iconify-json/ph": "^1.2.2",
     "@iconify/tailwind4": "^1.0.6",
     "@pinia/testing": "^1.0.2",
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/cli": "^4.1.12",
     "@tailwindcss/vite": "^4.1.12",
     "@types/eslint": "^9.6.1",
