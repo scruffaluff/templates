@@ -46,9 +46,11 @@ stages:
 
 # Environment variables that apply to all jobs.
 variables:
-  DENO_DIR: "${CI_PROJECT_DIR}/.vendor/cache/deno"
+  NPM_CONFIG_CACHE: "${CI_PROJECT_DIR}/.vendor/cache/npm"
+  NPM_CONFIG_STORE_DIR: "${CI_PROJECT_DIR}/.vendor/cache/pnpm"
   PACKAGE_REGISTRY_URL: >-
     ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/{{ cookiecutter.project_name }}
+  PLAYWRIGHT_BROWSERS_PATH: "${CI_PROJECT_DIR}/.vendor/cache/playwright"
 
 # Contains settings that apply to all jobs unless overridden.
 default:
@@ -72,7 +74,7 @@ default:
   cache:
     key:
       files:
-        - deno.lock
+        - pnpm-lock.yaml
       prefix: "${CI_JOB_IMAGE}"
     paths:
       - .vendor

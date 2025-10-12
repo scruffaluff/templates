@@ -39,7 +39,9 @@ on:
         type: choice
 
 env:
-  DENO_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/deno" {%- endraw %}
+  NPM_CONFIG_CACHE: {% raw -%} "${{ github.workspace }}/.vendor/cache/npm" {%- endraw %}
+  NPM_CONFIG_STORE_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/pnpm" {%- endraw %}
+  PLAYWRIGHT_BROWSERS_PATH: {% raw -%} "${{ github.workspace }}/.vendor/cache/playwright" {%- endraw %}
 
 jobs:
   build:
@@ -60,7 +62,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
-          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('deno.lock') }} {%- endraw %}
+          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }} {%- endraw %}
           path: |
             .vendor
             node_modules
@@ -99,7 +101,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
-          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('deno.lock') }} {%- endraw %}
+          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }} {%- endraw %}
           path: |
             .vendor
             node_modules
