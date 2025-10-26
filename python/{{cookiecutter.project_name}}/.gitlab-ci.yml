@@ -208,18 +208,3 @@ release:
       "build/dist/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}.tar.gz"
       "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}.tar.gz"
   stage: deploy
-
-test:
-  # Makes job skip Git tags and run only on commits or merge requests to the
-  # default repository branch.
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'web' && "$[[ inputs.job ]]" == 'test'
-    - if: $CI_PIPELINE_SOURCE == 'web'
-      when: never
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-  script:
-    - just setup test-ver
-  stage: build

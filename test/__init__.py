@@ -23,7 +23,7 @@ def test_badges_separate_lines(project: Result) -> None:
     readme = project.project_path / "README.md"
     regex = re.compile(r"img\.shields\.io")
     for line in readme.read_text().split("\n"):
-        assert len(regex.findall(line)) < 2  # noqa: PLR2004
+        assert len(regex.findall(line)) < 2
 
 
 @pytest.mark.parametrize(

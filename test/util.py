@@ -76,7 +76,8 @@ def process(command: Sequence[str], **kwargs: Any) -> CompletedProcess:
         **kwargs,
     )
     # Change directory to process execution location for easier debugging.
-    with chdir(kwargs.get("cwd", ".")):
+    cwd = kwargs.get("cwd", ".")
+    with chdir(cwd):
         assert process.returncode == 0, format_output(process)
     return process
 
