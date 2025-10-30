@@ -1,0 +1,6 @@
+# Rustfmt configuration file for formatting Rust code.
+#
+# For more information, visit https://rust-lang.github.io/rustfmt.
+
+use_field_init_shorthand = true
+use_try_shorthand = true
