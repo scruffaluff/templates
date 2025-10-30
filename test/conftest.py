@@ -18,6 +18,18 @@ contexts_python = [
     {"project_prettier": True},
     {"project_prettier": False},
 ]
+contexts_rust = [
+    {"project_cli": True},
+    {"project_cli": False},
+    {"project_repository": "https://github.com/scruffaluff/templates"},
+    {
+        "project_repository": "https://gitlab.com/scruffaluff/templates",
+        "project_prettier": True,
+    },
+    {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
+    {"project_prettier": True},
+    {"project_prettier": False},
+]
 contexts_vue = [
     {"project_repository": "https://github.com/scruffaluff/templates"},
     {"project_repository": "https://gitlab.com/scruffaluff/templates"},
@@ -31,6 +43,10 @@ repo_path = Path(__file__).parents[1]
         *(
             {"context": context, "template": repo_path / "python"}
             for context in contexts_python
+        ),
+        *(
+            {"context": context, "template": repo_path / "rust"}
+            for context in contexts_rust
         ),
         *(
             {"context": context, "template": repo_path / "vue"}
@@ -50,6 +66,12 @@ def project(cookies: Cookies, request: FixtureRequest) -> Result:
 def project_python(cookies: Cookies, request: FixtureRequest) -> Result:
     """Cookiecutter projects baked from the python template."""
     return cookies.bake(extra_context=request.param, template=str(repo_path / "python"))
+
+
+@pytest.fixture(params=contexts_rust)
+def project_rust(cookies: Cookies, request: FixtureRequest) -> Result:
+    """Cookiecutter projects baked from the rust template."""
+    return cookies.bake(extra_context=request.param, template=str(repo_path / "rust"))
 
 
 @pytest.fixture(params=contexts_vue)

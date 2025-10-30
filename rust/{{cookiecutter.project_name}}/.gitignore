@@ -1,0 +1,24 @@
+# Git configuration file for ignoring untracked paths.
+#
+# For more information, visit https://git-scm.com/docs/gitignore.
+
+.benchmarks/
+.cache/
+.coverage*
+.DS_Store
+.env*
+*.bak
+*.log
+*.swp
+*.tar.gz
+/.vendor/
+/build/
+dist/
+environment.yml
+f1
+node_modules/
+nohup.out
+package-lock.json
+site/
+target/
+tmp/

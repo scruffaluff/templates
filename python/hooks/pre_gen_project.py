@@ -5,11 +5,7 @@ import sys
 
 
 def name_check(package: str) -> None:
-    """Check that the package name abides by .
-
-    Args:
-        package: Importable package name.
-    """
+    """Check that the package name is valid."""
     regex = re.compile(r"^[_a-zA-Z][_a-zA-Z0-9]+$")
     if not regex.match(package):
         print(

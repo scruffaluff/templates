@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from pytest_cookies.plugin import Cookies, Result
 
 
-templates = ["python", "vue"]
+templates = ["python", "rust", "vue"]
 
 
 def test_badges_separate_lines(project: Result) -> None:

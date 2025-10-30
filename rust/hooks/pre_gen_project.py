@@ -9,7 +9,7 @@ def name_check(package: str) -> None:
     regex = re.compile(r"^[_a-zA-Z][_a-zA-Z0-9]+$")
     if not regex.match(package):
         print(
-            f"ERROR: {package} is not a valid Deno package name.",
+            f"ERROR: {package} is not a valid Rust crate name.",
             file=sys.stderr,
         )
         sys.exit(1)
