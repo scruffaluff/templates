@@ -1,14 +1,9 @@
 //! Application entrypoint and command line parsers.
 
-use clap::{AppSettings, Parser};
+use clap::Parser;
 
-#[derive(Parser)]
-#[clap(
-    about = env!("CARGO_PKG_DESCRIPTION"),
-    global_setting = AppSettings::ColorAuto,
-    global_setting = AppSettings::ColoredHelp,
-    version = env!("CARGO_PKG_VERSION"),
-)]
+#[derive(Debug, Parser)]
+#[command(about, version)]
 struct Cli {}
 
 fn main() -> eyre::Result<()> {
