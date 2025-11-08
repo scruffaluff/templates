@@ -9,7 +9,8 @@
 .env
 .unlighthouse/
 .vendor/
-.vscode/settings.json
+.vscode/
+.zed/
 *.db
 *.log
 *.swp
