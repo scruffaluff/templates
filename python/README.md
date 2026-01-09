@@ -20,19 +20,19 @@ and you are ready to code.
 Every generated Python project configures the following tools for development
 usage:
 
-- [Coverage](https://coverage.readthedocs.io/en/coverage-5.0.3/): Test coverage
+- [Coverage](https://coverage.readthedocs.io/en/coverage-5.0.3): Test coverage
   measurer.
-- [MkDocs](https://www.mkdocs.org/): Documentation static site generator.
+- [MkDocs](https://mkdocs.org): Documentation static site generator.
 - [Mypy](http://mypy-lang.org/): Static type checker.
-- [Ruff](https://docs.astral.sh/ruff/): Code linter.
-- [Pytest](https://docs.pytest.org/en/latest/): Testing framework.
-- [Tox](https://tox.readthedocs.io/en/latest/): Test automator.
-- [Uv](https://docs.astral.sh/uv/): Dependency manager and packager.
+- [Ruff](https://docs.astral.sh/ruff): Code linter.
+- [Pytest](https://docs.pytest.org): Testing framework.
+- [Tox](https://tox.readthedocs.io): Test automator.
+- [Uv](https://docs.astral.sh/uv): Dependency manager and packager.
 
 The following tools are configured if you select optional features:
 
 - `project_prettier`:
-  - [Prettier](https://prettier.io/): Opinionated code formatter for JSON,
+  - [Prettier](https://prettier.io): Opinionated code formatter for JSON,
     Markdown, and YAML files.
 
 ## Layout

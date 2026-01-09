@@ -41,6 +41,7 @@ on:
 env:
   NPM_CONFIG_CACHE: {% raw -%} "${{ github.workspace }}/.vendor/cache/npm" {%- endraw %}
   NPM_CONFIG_STORE_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/pnpm" {%- endraw %}
+  PNPM_STORE_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/pnpm" {%- endraw %}
   PLAYWRIGHT_BROWSERS_PATH: {% raw -%} "${{ github.workspace }}/.vendor/cache/playwright" {%- endraw %}
 
 jobs:

@@ -7,9 +7,9 @@ set shell := ["nu", "--commands"]
 set unstable := true
 set windows-shell := ["nu", "--commands"]
 export PATH := if os() == "windows" {
-  justfile_dir() / ".vendor/bin;" + env("PATH")
+  justfile_directory() / ".vendor/bin;" + env("PATH")
 } else {
-  justfile_dir() / ".vendor/bin:" + env("PATH")
+  justfile_directory() / ".vendor/bin:" + env("PATH")
 }
 
 # List all commands available in justfile.
@@ -19,7 +19,7 @@ list:
 # Execute CI workflow commands.
 ci: setup lint doc test
 
-# Wrapper to Deno
+# Wrapper to Deno.
 [no-exit-message]
 @deno *args:
   deno {{args}}
@@ -42,6 +42,11 @@ lint:
   uv run ruff format --check .
   uv run ruff check .
   uv run mypy .
+
+# Wrapper to Nushell.
+[no-exit-message]
+@nu *args:
+  nu {{args}}
 
 # Install development dependencies.
 [script]

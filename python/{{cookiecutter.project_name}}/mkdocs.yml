@@ -1,6 +1,6 @@
 # MkDocs static site generator configuration file.
 #
-# For more information, visit https://www.mkdocs.org/user-guide/configuration/.
+# For more information, visit https://mkdocs.org/user-guide/configuration.
 
 ---
 docs_dir: doc

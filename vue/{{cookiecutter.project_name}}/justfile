@@ -7,13 +7,13 @@ set shell := ["nu", "--commands"]
 set unstable := true
 set windows-shell := ["nu", "--commands"]
 export PATH := if os() == "windows" {
-  justfile_dir() / ".vendor/bin;" + justfile_dir() / ".vendor/lib/pnpm;" + 
-  env("Path")
+  justfile_directory() / ".vendor/bin;" + justfile_directory() /
+  ".vendor/lib/pnpm;" + env("Path")
 } else {
-  justfile_dir() / ".vendor/bin:" + justfile_dir() / ".vendor/lib/pnpm:" + 
-  env("PATH")
+  justfile_directory() / ".vendor/bin:" + justfile_directory() /
+  ".vendor/lib/pnpm:" + env("PATH")
 }
-export PNPM_HOME := justfile_dir() / ".vendor/lib/pnpm"
+export PNPM_HOME := justfile_directory() / ".vendor/lib/pnpm"
 
 # List all commands available in justfile.
 list:
@@ -40,6 +40,11 @@ lint:
   pnpm exec prettier --check .
   pnpm exec eslint .
   pnpm exec vue-tsc --build
+
+# Wrapper to Nushell.
+[no-exit-message]
+@nu *args:
+  nu {{ "{{" }}args{{ "}}" }}
 
 # Wrapper to Pnpm.
 [no-exit-message]

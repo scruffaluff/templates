@@ -39,8 +39,8 @@ on:
         type: choice
 
 env:
-  DENO_DIR: "${{ github.workspace }}/.vendor/deno"
-  UV_CACHE_DIR: "${{ github.workspace }}/.vendor/uv"
+  DENO_DIR: "${{ github.workspace }}/.vendor/cache/deno"
+  UV_CACHE_DIR: "${{ github.workspace }}/.vendor/cache/uv"
 
 jobs:
   build:
