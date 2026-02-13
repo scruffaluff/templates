@@ -11,12 +11,12 @@ requires = ["hatchling~=1.0"]
 dev = [
   "mkdocs~=1.6",
   "mkdocs-material~=9.7",
-  "mypy~=1.19",
   "pymdown-extensions~=10.20",
   "pytest~=9.0",
   "pytest-cookies~=0.7.0",
   "pytest-mock~=3.15",
-  "ruff~=0.14.0",
+  "ruff~=0.15.1",
+  "ty~=0.0.16",
 ]
 
 [project]
@@ -31,29 +31,8 @@ readme = "README.md"
 requires-python = ">=3.10.0,<4.0.0"
 version = "0.2.1"
 
-[tool.mypy]
-cache_dir = ".vendor/cache/mypy"
-check_untyped_defs = true
-disallow_untyped_calls = false
-disallow_untyped_defs = true
-exclude = [
-  '\.benchmarks/',
-  '\.hypothesis/',
-  '\.vendor/',
-  '\.venv/',
-  'tmp/',
-  '\{\{cookiecutter.project_name\}\}/',
-]
-explicit_package_bases = true
-ignore_missing_imports = true
-no_implicit_optional = true
-strict_optional = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unused_ignores = true
-
-[tool.pytest.ini_options]
-addopts = "-sv"
+[tool.pytest]
+addopts = ["-sv"]
 cache_dir = ".vendor/cache/pytest"
 filterwarnings = ["ignore::DeprecationWarning"]
 python_files = ["__init__.py", "*_test.py"]
@@ -84,6 +63,10 @@ ignore = [
   "TD",      # Todo formatting is excessive for personal projects.
 ]
 select = ["ALL"]
+
+[tool.ty]
+src = { exclude = ["**/\\{\\{cookiecutter.project_name\\}\\}/"] }
+terminal = { error-on-warning = true }
 
 [tool.uv]
 package = false

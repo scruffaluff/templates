@@ -17,6 +17,7 @@
 .pytest_cache/
 .ruff_cache/
 .tox/
+.ty_cache/
 .vendor/
 .venv/
 .vscode/settings.json

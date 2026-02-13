@@ -19,7 +19,7 @@ TEMPLATE = str(Path(__file__).parents[1] / "vue")
 
 
 @pytest.mark.skipif(
-    sys.platform in ["win32"],
+    sys.platform == "win32",
     reason="Cookiecutter does not generate files with Windows line endings.",
 )
 def test_ci(project_vue: Result) -> None:

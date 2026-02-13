@@ -23,10 +23,10 @@ usage:
 - [Coverage](https://coverage.readthedocs.io/en/coverage-5.0.3): Test coverage
   measurer.
 - [MkDocs](https://mkdocs.org): Documentation static site generator.
-- [Mypy](http://mypy-lang.org/): Static type checker.
 - [Ruff](https://docs.astral.sh/ruff): Code linter.
 - [Pytest](https://docs.pytest.org): Testing framework.
 - [Tox](https://tox.readthedocs.io): Test automator.
+- [Ty](https://docs.astral.sh/ty): Static type checker.
 - [Uv](https://docs.astral.sh/uv): Dependency manager and packager.
 
 The following tools are configured if you select optional features:

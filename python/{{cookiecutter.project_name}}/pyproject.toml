@@ -12,15 +12,15 @@ dev = [
   "coverage[toml]~=7.13",
   "mkdocs~=1.6",
   "mkdocs-material~=9.7",
-  "mkdocstrings~=0.30.0",
-  "mypy~=1.19",
+  "mkdocstrings~=1.0",
   "pymdown-extensions~=10.20",
   "pytest~=9.0",
   "pytest-cov~=7.0",
   "pytest-mock~=3.15",
-  "ruff~=0.14.0",
+  "ruff~=0.15.1",
   "toml~=0.10.0",
-  "types-toml~=0.10.0",
+  "ty~=0.0.16",
+  "types-toml~=0.10.8",
 ]
 
 [project]
@@ -61,27 +61,8 @@ source = ["{{ cookiecutter.__project_package }}"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{ cookiecutter.__project_package }}"]
 
-[tool.mypy]
-cache_dir = ".vendor/cache/mypy"
-check_untyped_defs = true
-disallow_untyped_calls = false
-disallow_untyped_defs = true
-exclude = [
-  '\.benchmarks/',
-  '\.hypothesis/',
-  '\.vendor/',
-  '\.venv/',
-  'tmp/',
-]
-ignore_missing_imports = true
-no_implicit_optional = true
-strict_optional = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unused_ignores = true
-
-[tool.pytest.ini_options]
-addopts = "-sv"
+[tool.pytest]
+addopts = ["-sv"]
 cache_dir = ".vendor/cache/pytest"
 markers = ["e2e: mark as end to end test.", "unit: mark as unit test."]
 python_files = ["__init__.py", "*_test.py"]
@@ -111,3 +92,6 @@ ignore = [
   "TD",      # Todo formatting is excessive for personal projects.
 ]
 select = ["ALL"]
+
+[tool.ty]
+terminal = { error-on-warning = true }

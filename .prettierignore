@@ -13,6 +13,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .tox/
+.ty_cache/
 .vendor/
 .venv/
 {{cookiecutter.project_name}}/

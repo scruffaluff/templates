@@ -39,9 +39,8 @@ format:
 lint:
   deno run --allow-all npm:prettier --check .
   uv run ruff format --check .
-  uv run ruff format --check .
   uv run ruff check .
-  uv run mypy .
+  uv run ty check .
 
 # Wrapper to Nushell.
 [no-exit-message]
@@ -61,6 +60,12 @@ setup: _setup
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   uv --version
+  if ($env.JUST_INIT? | is-empty) {
+    uv sync --locked
+  } else {
+    uv sync
+  }
+
 
 [unix]
 _setup:
