@@ -22,7 +22,7 @@ def print_version(value: bool) -> None:
     """Print {{ cookiecutter.project_name }} version string."""
     if value:
         print(f"{{ cookiecutter.project_name }} {{ '{' }}{{ cookiecutter.__project_package }}.__version__{{ '}' }}")
-        sys.exit()
+        sys.exit(0)
 
 
 @cli.command()

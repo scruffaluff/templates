@@ -5,12 +5,12 @@ import sys
 
 
 def name_check(package: str) -> None:
-    """Check that the package name abides by .
+    """Check that the package satisfies JavaScript naming requirements.
 
     Args:
         package: Importable package name.
     """
-    regex = re.compile(r"^[_a-zA-Z][_a-zA-Z0-9]+$")
+    regex = re.compile(r"^[_a-zA-Z][_a-zA-Z0-9-]+$")
     if not regex.match(package):
         print(
             f"ERROR: {package} is not a valid Python importable package name.",
@@ -20,7 +20,7 @@ def name_check(package: str) -> None:
 
 
 def main() -> None:
-    """Entrypoint for project post generation hooks."""
+    """Entrypoint for project pre-generation hooks."""
     project_package = "{{ cookiecutter.__project_package }}"
     name_check(project_package)
 

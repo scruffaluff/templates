@@ -2,9 +2,7 @@
   "__prompts__": {
     "project_name": "Enter project name",
     "project_description": "Enter project description",
-    "project_repository": "Enter project repository",
-    "project_cli": "Add command line interface",
-    "project_prettier": "Add Prettier formatting"
+    "project_repository": "Enter project repository"
   },
   "project_name": "template-vue",
   "__project_package": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
