@@ -31,9 +31,9 @@ doc:
   uv run mkdocs build --strict
 
 # Fix code formatting.
-format:
-  deno run --allow-all npm:prettier --write .
-  uv run ruff format .
+format +paths=".":
+  deno run --allow-all npm:prettier --write {{paths}}
+  uv run ruff format {{paths}}
 
 # Run code analyses.
 lint:

@@ -32,11 +32,11 @@ doc:
   uv run mkdocs build --strict
 
 # Fix code formatting.
-format:
+format +paths=".":
   {% if cookiecutter.project_prettier -%}
-  deno run --allow-all npm:prettier --write .
+  deno run --allow-all npm:prettier --write {{ "{{" }}paths{{ "}}" }}
   {% endif -%}
-  uv run ruff format .
+  uv run ruff format {{ "{{" }}paths{{ "}}" }}
 
 # Install project programs.
 [script]

@@ -45,7 +45,7 @@ site_dir: build/site
 site_name: Templates
 site_url: https://scruffaluff.github.io/templates
 theme:
-  featues:
+  features:
     - navigation.tabs
   name: material
   palette:

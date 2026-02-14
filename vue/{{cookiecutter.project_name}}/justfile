@@ -32,8 +32,8 @@ dev host='127.0.0.1':
   pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
 
 # Fix code formatting.
-format:
-  pnpm exec prettier --write .
+format +paths=".":
+  pnpm exec prettier --write {{ "{{" }}paths{{ "}}" }}
 
 # Run code analyses.
 lint:

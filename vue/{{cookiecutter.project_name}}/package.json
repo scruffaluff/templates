@@ -8,6 +8,7 @@
     "vue": "^3.5.26",
     "vue-router": "^4.6.4"
   },
+  "description": "{{ cookiecutter.project_description }}",
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@iconify-json/ph": "^1.2.2",
@@ -44,7 +45,7 @@
     "vitest": "^4.0.16",
     "vue-tsc": "^3.2.2"
   },
-  "name": "template_vue",
+  "name": "{{ cookiecutter.__project_package }}",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
@@ -52,5 +53,6 @@
       "esbuild"
     ]
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.1.0"
 }

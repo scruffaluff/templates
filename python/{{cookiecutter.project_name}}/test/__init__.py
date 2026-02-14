@@ -11,7 +11,7 @@ REPO_PATH = Path(__file__).parents[1]
 def test_version() -> None:
     """Check that all the version tags are in sync."""
     path = REPO_PATH / "pyproject.toml"
-    with path.open("br") as file:
+    with path.open("rb") as file:
         expected = tomllib.load(file)["project"]["version"]
 
     actual = {{ cookiecutter.__project_package }}.__version__

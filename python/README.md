@@ -62,10 +62,8 @@ contents are only generated for that chosen context.
 │       ├── __init__.py
 │       ├── __main__.py  {project_cli: true}
 │       └── py.typed
-├── test
-│   ├── conftest.py
-│   └── __init__.py
-└── tox.ini
+└── test
+    └── __init__.py
 ```
 
 ## Continuous Integration

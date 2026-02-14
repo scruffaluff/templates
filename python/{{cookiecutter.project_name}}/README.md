@@ -6,7 +6,7 @@
 
 ### Installation
 
-{{ cookiecutter.project_name }} can be installed for Python 3.9+ with
+{{ cookiecutter.project_name }} can be installed for Python 3.11+ with
 
 ```bash
 pip install --user {{ cookiecutter.__project_package }}

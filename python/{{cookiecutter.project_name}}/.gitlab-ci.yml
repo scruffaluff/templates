@@ -173,7 +173,7 @@ release:
       links:
         - link_type: package
           name: >-
-            {{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py-none-any.whl
+            {{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py3-none-any.whl
           url: >-
             ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/{{ cookiecutter.__project_package }}-${CI_COMMIT_TAG}-py3-none-any.whl
         - link_type: package
