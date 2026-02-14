@@ -36,10 +36,10 @@ format +paths=".":
   pnpm exec prettier --write {{ "{{" }}paths{{ "}}" }}
 
 # Run code analyses.
-lint:
-  pnpm exec prettier --check .
-  pnpm exec eslint .
-  pnpm exec vue-tsc --build
+lint +paths=".":
+  pnpm exec prettier --check {{ "{{" }}paths{{ "}}" }}
+  pnpm exec eslint {{ "{{" }}paths{{ "}}" }}
+  pnpm exec vue-tsc --build {{ "{{" }}paths{{ "}}" }}
 
 # Wrapper to Nushell.
 [no-exit-message]
@@ -56,6 +56,7 @@ lint:
 setup: _setup
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
   if not ($"($env.PNPM_HOME)/pnpm($ext)" | path exists) {
+    print "Installing Pnpm."
     let version = http get https://formulae.brew.sh/api/formula/pnpm.json
     | get versions.stable
     let arch = match $nu.os-info.arch { aarch64 => "arm64", x86_64 => "x64" }
@@ -71,13 +72,15 @@ setup: _setup
       chmod 755 $"($env.PNPM_HOME)/pnpm"
     }
   }
-  print $"pnpm version (pnpm --version)"
+  print $"Using Pnpm version (pnpm --version)."
   pnpm env use --global lts
+  print "Installing packages with Pnpm."
   if ($env.JUST_INIT? | is-empty) {
     pnpm install --frozen-lockfile
   } else {
     pnpm install
   }
+  print "Installing browsers with Playwright."
   try {
     pnpm exec playwright install --with-deps chromium
   } catch {
@@ -93,7 +96,7 @@ _setup:
       https://scruffaluff.github.io/picoware/install/nushell.sh | sh -s -- \
       --preserve-env --dest .vendor/bin
   fi
-  echo "Nushell $(nu --version)"
+  echo "Using Nushell $(nu --version)."
 
 [windows]
 _setup:
@@ -106,7 +109,7 @@ _setup:
       https://scruffaluff.github.io/picoware/install/nushell.ps1
     Invoke-Expression "& { $NushellScript } --preserve-env --dest .vendor/bin"
   }
-  Write-Output "Nushell $(nu --version)"
+  Write-Output "Using Nushell $(nu --version)."
 
 # Run test suites.
 test: test-unit test-e2e

@@ -44,13 +44,13 @@ install: build
   python3 -m pip install (ls build/dist/*.whl | get name | first)
 
 # Run code analyses.
-lint:
+lint +paths=".":
   {% if cookiecutter.project_prettier -%}
-  deno run --allow-all npm:prettier --check .
+  deno run --allow-all npm:prettier --check {{ "{{" }}paths{{ "}}" }}
   {% endif -%}
-  uv run ruff format --check .
-  uv run ruff check .
-  uv run ty check .
+  uv run ruff format --check {{ "{{" }}paths{{ "}}" }}
+  uv run ruff check {{ "{{" }}paths{{ "}}" }}
+  uv run ty check {{ "{{" }}paths{{ "}}" }}
 
 # Wrapper to Nushell.
 [no-exit-message]
@@ -62,16 +62,19 @@ lint:
 setup: _setup
   {% if cookiecutter.project_prettier -%}
   if (which deno | is-empty) {
+    print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
-  deno --version
+  print $"Using (deno --version)."
   {% endif -%}
   if (which uv | is-empty) {
+    print "Installing Uv."
     http get https://scruffaluff.github.io/picoware/install/uv.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
-  uv --version
+  print $"Using (uv --version)."
+  print "Installing Python packages with Uv."
   if ($env.JUST_INIT? | is-empty) {
     uv sync --locked
   } else {
@@ -87,7 +90,7 @@ _setup:
       https://scruffaluff.github.io/picoware/install/nushell.sh | sh -s -- \
       --preserve-env --dest .vendor/bin
   fi
-  echo "Nushell $(nu --version)"
+  echo "Using Nushell $(nu --version)."
 
 [windows]
 _setup:
@@ -100,7 +103,7 @@ _setup:
       https://scruffaluff.github.io/picoware/install/nushell.ps1
     Invoke-Expression "& { $NushellScript } --preserve-env --dest .vendor/bin"
   }
-  Write-Output "Nushell $(nu --version)"
+  Write-Output "Using Nushell $(nu --version)."
 
 # Run test suites.
 test *args:
