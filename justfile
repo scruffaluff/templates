@@ -10,10 +10,6 @@ export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin:" + env("PATH")
 }
 
-# List all commands available in justfile.
-list:
-  @just --list
-
 # Execute CI workflow commands.
 ci: setup lint doc test
 
@@ -40,6 +36,11 @@ lint +paths=".":
   uv run ruff check {{paths}}
   uv run ty check {{paths}}
 
+# List all commands available in justfile.
+[default]
+list:
+  @just --list
+
 # Wrapper to Nushell.
 [no-exit-message]
 @nu *args:
@@ -53,7 +54,7 @@ setup: _setup
     http get https://scruffaluff.github.io/picoware/install/deno.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
-  print $"Using (deno --version)."
+  print $"Using (deno -V)."
   if (which uv | is-empty) {
     print "Installing Uv."
     http get https://scruffaluff.github.io/picoware/install/uv.nu
@@ -66,7 +67,6 @@ setup: _setup
   } else {
     uv sync
   }
-
 
 [unix]
 _setup:
