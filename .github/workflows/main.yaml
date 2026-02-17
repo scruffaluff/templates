@@ -57,9 +57,9 @@ jobs:
           fromJson('["macos","ubuntu","windows"]') }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Cache packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-${{ hashFiles('uv.lock') }}
           path: |
@@ -96,9 +96,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Cache packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-${{ hashFiles('uv.lock') }}
           path: |
@@ -111,7 +111,7 @@ jobs:
       - name: Build documentation
         run: just setup doc
       - name: Upload documentation
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           name: pages
           path: build/site
