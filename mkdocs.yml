@@ -10,29 +10,22 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/scruffaluff
     - icon: fontawesome/solid/envelope
-      link: mailto://macklan.weinstein@gmail.com
+      link: mailto:macklan.weinstein@gmail.com
 markdown_extensions:
   - admonition
-  - codehilite:
-      guess_lang: false
-      linenums: true
   - footnotes
-  - meta
   - pymdownx.arithmatex
-  - pymdownx.betterem:
-      smart_enable: all
+  - pymdownx.betterem
   - pymdownx.caret
   - pymdownx.critic
   - pymdownx.details
+  - pymdownx.highlight:
+      linenums: true
   - pymdownx.inlinehilite
-  - pymdownx.magiclink
-  - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.superfences
+  - pymdownx.tabbed
   - pymdownx.tasklist:
       custom_checkbox: true
-  - pymdownx.tilde
-  - tables
   - toc:
       permalink: true
 plugins:
@@ -46,6 +39,7 @@ site_name: Templates
 site_url: https://scruffaluff.github.io/templates
 theme:
   features:
+    - content.code.copy
     - navigation.tabs
   name: material
   palette:

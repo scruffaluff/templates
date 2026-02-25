@@ -6,7 +6,7 @@ set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
-  ".vendor/lib/pnpm;" + env("Path")
+  ".vendor/lib/pnpm;" + env("PATH")
 } else {
   justfile_directory() / ".vendor/bin:" + justfile_directory() /
   ".vendor/lib/pnpm:" + env("PATH")
@@ -91,7 +91,7 @@ _setup:
   #!/usr/bin/env sh
   set -eu
   if [ ! -x "$(command -v nu)" ]; then
-    echo 'Installing Nushell'.
+    echo 'Installing Nushell.'
     curl --fail --location --show-error \
       https://scruffaluff.github.io/picoware/install/nushell.sh | sh -s -- \
       --preserve-env --dest .vendor/bin
