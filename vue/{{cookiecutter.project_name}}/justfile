@@ -71,7 +71,7 @@ setup: _setup
       chmod 755 $"($env.PNPM_HOME)/pnpm"
     }
   }
-  print $"Using Pnpm version (pnpm --version)."
+  print $"Using Pnpm (pnpm --version)."
   pnpm env use --global lts
   print "Installing packages with Pnpm."
   if ($env.JUST_INIT? | is-empty) {
