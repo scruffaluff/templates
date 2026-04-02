@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": false,
-    "baseUrl": ".",
     "erasableSyntaxOnly": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
