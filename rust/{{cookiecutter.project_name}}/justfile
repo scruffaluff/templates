@@ -5,46 +5,45 @@
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
 export PATH := if os() == "windows" {
-  justfile_directory() / ".vendor/bin;" + env("PATH")
+  justfile_directory() / ".vendor/bin;" + justfile_directory() /
+  ".vendor/cargo/bin;" + env("PATH")
 } else {
-  justfile_directory() / ".vendor/bin:" + env("PATH")
+  justfile_directory() / ".vendor/bin:" + justfile_directory() /
+  ".vendor/cargo/bin:" + env("PATH")
 }
-
-# Build distribution package.
-build:
-  uv build --out-dir build/dist
 
 # Execute CI workflow commands.
 ci: setup lint doc build test
 
+# Build distribution package.
+build:
+  cargo build --release
+
+# Wrapper to Cargo.
+[no-exit-message]
+@cargo *args:
+  cargo {{ "{{" }}args{{ "}}" }}
+
 # Build documentation.
 [script]
 doc:
-  mkdir build/site
-  cp README.md doc/index.md
-  cp CONTRIBUTING.md doc/
-  uv run mkdocs build --strict
+  cargo doc --no-deps
+  '<meta content="0; url={{ cookiecutter.__project_package }}/index.html" http-equiv="refresh" />'
+  | save --force target/doc/index.html
 
 # Fix code formatting.
-format +paths=".":
+format:
   {% if cookiecutter.project_prettier -%}
-  deno run --allow-all npm:prettier --write {{ "{{" }}paths{{ "}}" }}
+  deno run --allow-all npm:prettier --write .
   {% endif -%}
-  uv run ruff format {{ "{{" }}paths{{ "}}" }}
-
-# Install project programs.
-[script]
-install: build
-  python3 -m pip install (ls build/dist/*.whl | get name | first)
+  cargo fmt --
 
 # Run code analyses.
-lint +paths=".":
+lint:
   {% if cookiecutter.project_prettier -%}
-  deno run --allow-all npm:prettier --check {{ "{{" }}paths{{ "}}" }}
+  deno run --allow-all npm:prettier --check .
   {% endif -%}
-  uv run ruff format --check {{ "{{" }}paths{{ "}}" }}
-  uv run ruff check {{ "{{" }}paths{{ "}}" }}
-  uv run ty check {{ "{{" }}paths{{ "}}" }}
+  cargo fmt -- --check
 
 # List all commands available in justfile.
 [default]
@@ -60,7 +59,7 @@ lint +paths=".":
 # Run project command line interface.
 [no-exit-message]
 @run *args:
-  uv run {{ cookiecutter.__project_package }} {{ "{{" }}args{{ "}}" }}
+  cargo run -- {{ "{{" }}args{{ "}}" }}
 
 {% endif -%}
 # Install development dependencies.
@@ -74,17 +73,23 @@ setup: _setup
   }
   print $"Using (deno -V)."
   {% endif -%}
-  if (which uv | is-empty) {
-    print "Installing Uv."
-    http get https://scruffaluff.github.io/picoware/install/uv.nu
+  if (which cargo | is-empty) {
+    print "Installing Cargo."
+    http get https://scruffaluff.github.io/picoware/install/cargo.nu
+    | nu -c $"($in | decode); main --preserve-env --dest .vendor/cargo"
+  }
+  print $"Using (cargo --version)."
+  if (which rust-script | is-empty) {
+    print "Installing Rust Script."
+    http get https://scruffaluff.github.io/picoware/install/rust-script.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
-  print $"Using (uv --version)."
-  print "Installing Python packages with Uv."
+  print $"Using (rust-script --version)."
+  print "Installing Rust packages with Cargo."
   if ($env.JUST_INIT? | is-empty) {
-    uv sync --locked
+    cargo fetch --locked
   } else {
-    uv sync
+    cargo fetch
   }
 
 [unix]
@@ -115,9 +120,4 @@ _setup:
 
 # Run test suites.
 test *args:
-  uv run pytest --cov {{ "{{" }}args{{ "}}" }}
-
-# Wrapper to Uv.
-[no-exit-message]
-@uv *args:
-  uv {{ "{{" }}args{{ "}}" }}
+  cargo test {{ "{{" }}args{{ "}}" }}

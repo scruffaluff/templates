@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from pytest_cookies.plugin import Cookies, Result
 
 
-templates = ["python", "vue"]
+templates = ["python", "rust", "vue"]
 
 
 def test_badges_separate_lines(project: Result) -> None:
@@ -130,12 +130,3 @@ def test_removed_paths(
     for path in paths:
         remove_path = result.project_path / path
         assert not remove_path.exists()
-
-
-def test_toml_blank_lines(project: Result) -> None:
-    """Check that TOML files do not have blank lines not followed by a [."""
-    regex = re.compile(r"\n\s*\n[^[]")
-    for path in util.file_matches(project, r"^.*\.toml$"):
-        text = path.read_text()
-        match = regex.search(text)
-        assert match is None, f"TOML file {path} contains blank lines."

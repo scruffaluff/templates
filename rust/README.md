@@ -1,12 +1,12 @@
-# Template Vue
+# Template Rust
 
-Template Vue is a repository generator for Vue projects. To create a new Vue
+Template Rust is a repository generator for Rust projects. To create a new Rust
 project with the template install
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter), execute the
 following command, and follow its interactive prompts.
 
 ```console
-cookiecutter --directory vue gh:scruffaluff/templates
+cookiecutter --directory rust gh:scruffaluff/templates
 ```
 
 ## Setup

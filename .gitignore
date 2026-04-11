@@ -18,6 +18,8 @@ __pycache__/
 .tox/
 .ty_cache/
 .venv/
+.vscode/
+.zed/
 *.bak
 *.egg-info/
 *.ipynb

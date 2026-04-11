@@ -1,7 +1,7 @@
 # Docker configuration file for ignoring paths while collecting context.
 #
 # For more information, visit
-# https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2.
+# https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2/.
 
 .benchmarks/
 .cache/
@@ -11,38 +11,19 @@
 .git/
 .github/
 .gitignore
-.hypothesis/
-.mypy_cache/
 .pre-commit-config.yaml
-.pytest_cache/
-.ruff_cache/
-.tox/
-.ty_cache/
 .vendor/
-.venv/
 .vscode/
 .zed/
-*.ipynb
-*.pyc
 *.swp
 *.tar.gz
 *.whl
-**/__pycache__/
-**/.ipynb_checkpoints/
-**/*.egg-info/
 dist/
 environment.yml
 f1
-flit.ini
 node_modules/
 nohup.out
 package-lock.json
-Pipfile
-Pipfile.lock
-poetry.lock
-public/
-requirements.lock
-requirements.txt
-setup.py
 site/
+target/
 tmp/

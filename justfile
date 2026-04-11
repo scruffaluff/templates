@@ -13,11 +13,6 @@ export PATH := if os() == "windows" {
 # Execute CI workflow commands.
 ci: setup lint doc test
 
-# Wrapper to Deno.
-[no-exit-message]
-@deno *args:
-  deno {{args}}
-
 # Build documentation.
 doc:
   cp python/README.md doc/python.md
