@@ -17,7 +17,7 @@ ci: setup lint doc build test
 
 # Build distribution package.
 build:
-  cargo build
+  cargo build --release
 
 # Wrapper to Cargo.
 [no-exit-message]
@@ -25,8 +25,11 @@ build:
   cargo {{ "{{" }}args{{ "}}" }}
 
 # Build documentation.
+[script]
 doc:
-  cargo doc
+  cargo doc --no-deps
+  '<meta content="0; url={{ cookiecutter.__project_package }}/index.html" http-equiv="refresh" />'
+  | save --force target/doc/index.html
 
 # Fix code formatting.
 format:
@@ -52,6 +55,13 @@ lint:
 @nu *args:
   nu {{ "{{" }}args{{ "}}" }}
 
+{% if cookiecutter.project_cli -%}
+# Run project command line interface.
+[no-exit-message]
+@run *args:
+  cargo run -- {{ "{{" }}args{{ "}}" }}
+
+{% endif -%}
 # Install development dependencies.
 [script]
 setup: _setup
@@ -75,6 +85,12 @@ setup: _setup
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (rust-script --version)."
+  print "Installing Rust packages with Cargo."
+  if ($env.JUST_INIT? | is-empty) {
+    cargo fetch --locked
+  } else {
+    cargo fetch
+  }
 
 [unix]
 _setup:

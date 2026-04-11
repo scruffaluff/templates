@@ -56,6 +56,13 @@ lint +paths=".":
 @nu *args:
   nu {{ "{{" }}args{{ "}}" }}
 
+{% if cookiecutter.project_cli -%}
+# Run project command line interface.
+[no-exit-message]
+@run *args:
+  uv run {{ cookiecutter.__project_package }} {{ "{{" }}args{{ "}}" }}
+
+{% endif -%}
 # Install development dependencies.
 [script]
 setup: _setup

@@ -15,6 +15,7 @@ PATHS: dict[str, Paths | dict[str, Paths]] = {
     },
     "project_cli": [
         Path("src/main.rs"),
+        Path("tests/cli.rs"),
     ],
     "project_prettier": [
         Path(".prettierignore"),

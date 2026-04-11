@@ -20,7 +20,8 @@
 .ty_cache/
 .vendor/
 .venv/
-.vscode/settings.json
+.vscode/
+.zed/
 *.ipynb
 *.pyc
 *.swp

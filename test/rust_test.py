@@ -36,7 +36,7 @@ def test_ci(project_rust: Result) -> None:
     [
         (
             {"__project_package": "mock", "project_cli": True},
-            ["src/mock/__main__.py"],
+            ["src/main.rs", "tests/cli.rs"],
         ),
         ({"project_prettier": True}, [".prettierignore", ".prettierrc.yaml"]),
     ],
@@ -57,7 +57,7 @@ def test_existing_paths(
     [
         (
             {"__project_package": "mock", "project_cli": False},
-            ["src/mock/__main__.py"],
+            ["src/main.rs", "tests/cli.rs"],
         ),
         ({"project_prettier": False}, [".prettierignore", ".prettierrc.yaml"]),
     ],

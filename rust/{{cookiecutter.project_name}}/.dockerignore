@@ -1,6 +1,6 @@
 # Docker configuration file for ignoring paths while collecting context.
 #
-# For more information, visit 
+# For more information, visit
 # https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2/.
 
 .benchmarks/
@@ -13,7 +13,8 @@
 .gitignore
 .pre-commit-config.yaml
 .vendor/
-.vscode/settings.json
+.vscode/
+.zed/
 *.swp
 *.tar.gz
 *.whl
