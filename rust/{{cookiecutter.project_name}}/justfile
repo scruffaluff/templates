@@ -53,7 +53,7 @@ lint:
 # Wrapper to Nushell.
 [no-exit-message]
 @nu *args:
-  nu {{ "{{" }}args{{ "}}" }}
+  nu --commands "{{ "{{" }}args{{ "}}" }}"
 
 {% if cookiecutter.project_cli -%}
 # Run project command line interface.
