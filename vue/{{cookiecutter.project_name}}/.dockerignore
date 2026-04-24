@@ -3,24 +3,26 @@
 # For more information, visit
 # https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2.
 
+*.bak
+*.dockerfile
+*.swp
+*.timestamp-*
+*.tmp
+*.tsbuildinfo
 .benchmarks/
 .cache/
-.coverage
+.coverage*
 .DS_Store
-.env
+.env*
 .git/
 .github/
 .gitignore
+.gitlab-ci.yml
+.localized
 .unlighthouse/
 .vendor/
 .vscode/
 .zed/
-*.dockerfile
-*.swp
-*.tar.gz
-*.tsbuildinfo
-coverage/
-dist/
 Dockerfile
 node_modules/
 nohup.out

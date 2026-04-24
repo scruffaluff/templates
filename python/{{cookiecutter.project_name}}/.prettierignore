@@ -2,13 +2,20 @@
 #
 # For more information, visit https://prettier.io/docs/en/ignore.html.
 
-__pycache__/
+*.bak
+*.egg-info/
+*.ipynb
+*.log
+*.swp
+*.tmp
 .benchmarks/
 .cache/
 .coverage*
+.env*
 .git/
 .hypothesis/
 .ipynb_checkpoints/
+.localized
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
@@ -16,14 +23,8 @@ __pycache__/
 .ty_cache/
 .vendor/
 .venv/
-*.egg-info/
-*.ipynb
-*.min.js
-*.py
-*.pyc
-/.vendor/
-/build/
-dist/
+__pycache__/
+build/
 node_modules/
 package-lock.json
 site/

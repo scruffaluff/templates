@@ -2,16 +2,18 @@
 #
 # For more information, visit https://prettier.io/docs/en/ignore.html.
 
+*.bak
+*.pdb
+*.tmp
 .benchmarks/
 .cache/
 .coverage*
+.env*
 .git/
+.localized
 .vendor/
-/.vendor/
-/build/
-dist/
+build/
 node_modules/
 package-lock.json
 target/
-site/
 tmp/

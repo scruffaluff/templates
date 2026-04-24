@@ -2,23 +2,20 @@
 #
 # For more information, visit https://prettier.io/docs/en/ignore.html.
 
+*.bak
+*.min.js
+*.timestamp-*
+*.tmp
 .benchmarks/
 .cache/
+.env*
 .git/
+.localized
 .unlighthouse/
 .vendor/
-*.min.js
-*report.html
 build/
-coverage/
-data/
-dist/
 node_modules/
 package-lock.json
 pnpm-lock.yaml
-site/
 stats.html
-templates/
 tmp/
-vite.config.ts.timestamp-*
-web/

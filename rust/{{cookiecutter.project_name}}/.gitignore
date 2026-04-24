@@ -2,25 +2,24 @@
 #
 # For more information, visit https://git-scm.com/docs/gitignore.
 
+*.bak
+*.log
+*.pdb
+*.swp
+*.tmp
 .benchmarks/
 .cache/
 .coverage*
 .DS_Store
 .env*
+.localized
+.vendor/
 .vscode/
 .zed/
-*.bak
-*.log
-*.swp
-*.tar.gz
-/.vendor/
-/build/
-dist/
-environment.yml
+build/
 f1
 node_modules/
 nohup.out
 package-lock.json
-site/
 target/
 tmp/

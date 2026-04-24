@@ -3,15 +3,27 @@
 # For more information, visit
 # https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2.
 
+*.bak
+*.egg-info/
+*.ipynb
+*.log
+*.py[oc]
+*.so
+*.swp
+*.tmp
+*.whl
 .benchmarks/
 .cache/
-.coverage
+.coverage*
 .DS_Store
-.env
+.env*
 .git/
 .github/
 .gitignore
+.gitlab-ci.yml
 .hypothesis/
+.ipynb_checkpoints/
+.localized
 .mypy_cache/
 .pre-commit-config.yaml
 .pytest_cache/
@@ -22,15 +34,9 @@
 .venv/
 .vscode/
 .zed/
-*.ipynb
-*.pyc
-*.swp
-*.tar.gz
-*.whl
-**/__pycache__/
-**/.ipynb_checkpoints/
-**/*.egg-info/
+__pycache__/
 dist/
+Dockerfile
 environment.yml
 f1
 flit.ini
@@ -39,10 +45,10 @@ nohup.out
 package-lock.json
 Pipfile
 Pipfile.lock
+pixi.lock
 poetry.lock
-public/
 requirements.lock
 requirements.txt
 setup.py
-site/
+test/
 tmp/
