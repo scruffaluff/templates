@@ -2,16 +2,19 @@
 #
 # For more information, visit https://docs.docker.com/engine/reference/builder.
 
-FROM node:24 AS build
+FROM debian:13 AS build
 
 WORKDIR /repo
 
-RUN apt-get update && apt-get install --yes zip && npm install --global pnpm
+RUN apt-get update && apt-get install --yes curl
+
+RUN curl -LSfs https://scruffaluff.github.io/picoware/install/just.sh | sh -s \
+  -- --global
 
 COPY . .
 
-RUN pnpm install --frozen-lockfile && pnpm exec vite build
+RUN just setup build
 
-FROM nginx:1.29
+FROM nginx:1.30
 
 COPY --from=build /repo/build/dist /usr/share/nginx/html

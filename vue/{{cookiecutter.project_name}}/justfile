@@ -32,7 +32,7 @@ format +paths=".":
 # Run code analyses.
 lint +paths=".":
   pnpm exec prettier --check {{ "{{" }}paths{{ "}}" }}
-  pnpm exec eslint {{ "{{" }}paths{{ "}}" }}
+  pnpm exec eslint --no-fix --ext ts,vue --max-warnings 0 {{ "{{" }}paths{{ "}}" }}
   pnpm exec vue-tsc --build {{ "{{" }}paths{{ "}}" }}
 
 # List all commands available in justfile.

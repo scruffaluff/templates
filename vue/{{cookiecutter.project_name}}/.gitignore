@@ -23,4 +23,6 @@ f1
 node_modules/
 nohup.out
 stats.html
+test/report/
+test/result/
 tmp/
