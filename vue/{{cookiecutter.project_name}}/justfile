@@ -6,10 +6,12 @@ set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
-  ".vendor/lib/pnpm;" + env("PATH")
+  ".vendor/lib/pnpm;" + justfile_directory() / ".vendor/lib/pnpm/bin;" + \
+  env("PATH")
 } else {
   justfile_directory() / ".vendor/bin:" + justfile_directory() /
-  ".vendor/lib/pnpm:" + env("PATH")
+  ".vendor/lib/pnpm:" + justfile_directory() / ".vendor/lib/pnpm/bin:" + \
+  env("PATH")
 }
 export PNPM_HOME := justfile_directory() / ".vendor/lib/pnpm"
 
@@ -55,24 +57,29 @@ lint +paths=".":
 setup: _setup
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
   if not ($"($env.PNPM_HOME)/pnpm($ext)" | path exists) {
-    print "Installing Pnpm."
     let version = http get https://formulae.brew.sh/api/formula/pnpm.json
     | get versions.stable
     let arch = match $nu.os-info.arch { aarch64 => "arm64", x86_64 => "x64" }
+    let arxt = if $nu.os-info.name == "windows" { ".zip" } else { ".tar.gz" }
     let os = match $nu.os-info.name {
-      "linux" => "linuxstatic"
-      "windows" => "win"
+      "macos" => "darwin"
+      "windows" => "win32"
       _ => $nu.os-info.name
     }
+    print "Installing Pnpm."
     mkdir $env.PNPM_HOME
-    http get $"https://github.com/pnpm/pnpm/releases/download/v($version)/pnpm-($os)-($arch)($ext)"
-    | save --force $"($env.PNPM_HOME)/pnpm($ext)"
-    if $os != "win" {
-      chmod 755 $"($env.PNPM_HOME)/pnpm"
+    let temp = mktemp --directory --tmpdir
+    http get $"https://github.com/pnpm/pnpm/releases/download/v($version)/pnpm-($os)-($arch)($arxt)"
+    | save $"($temp)/pnpm($arxt)"
+    if $nu.os-info.name == "windows" {
+      unzip -d $temp $"($temp)/pnpm($arxt)"
+    } else {
+      tar fx $"($temp)/pnpm($arxt)" -C $temp
     }
+    mv $"($temp)/dist" $"($temp)/pnpm($ext)" $"($env.PNPM_HOME)/"
   }
   print $"Using Pnpm (pnpm --version)."
-  pnpm env use --global lts
+  pnpm runtime set node --global lts
   print "Installing packages with Pnpm."
   if ($env.JUST_INIT? | is-empty) {
     pnpm install --frozen-lockfile

@@ -46,13 +46,6 @@
     "vue-tsc": "^3.2.6"
   },
   "name": "{{ cookiecutter.__project_package }}",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "@tailwindcss/oxide",
-      "esbuild"
-    ]
-  },
   "type": "module",
   "version": "0.1.0"
 }

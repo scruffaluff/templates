@@ -14,8 +14,12 @@ export PATH := if os() == "windows" {
 ci: setup lint doc test
 
 # Build documentation.
+[script]
 doc:
+  mkdir doc
+  cp README.md doc/index.md
   cp python/README.md doc/python.md
+  cp rust/README.md doc/rust.md
   cp vue/README.md doc/vue.md
   uv run mkdocs build --strict
 

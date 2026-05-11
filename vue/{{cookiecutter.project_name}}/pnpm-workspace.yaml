@@ -1,0 +1,8 @@
+# Pnpm configuration file for managing Node packages.
+#
+# For more information, visit https://pnpm.io/settings.
+
+allowBuilds:
+  "@parcel/watcher": true
+  "@tailwindcss/oxide": true
+  esbuild: true
