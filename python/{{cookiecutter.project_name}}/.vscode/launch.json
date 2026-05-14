@@ -2,23 +2,19 @@
   "configurations": [
 {%- if cookiecutter.project_cli %}
     {
-      "cargo": {
-        "args": ["run"]
-      },
       "cwd": "${workspaceFolder}",
+      "module": "{{ cookiecutter.__project_package }}",
       "name": "Debug program",
       "request": "launch",
-      "type": "lldb"
+      "type": "debugpy"
     },
 {%- endif %}
     {
-      "cargo": {
-        "args": ["test"]
-      },
       "cwd": "${workspaceFolder}",
+      "module": "pytest",
       "name": "Debug tests",
       "request": "launch",
-      "type": "lldb"
+      "type": "debugpy"
     }
   ],
   "version": "0.2.0"

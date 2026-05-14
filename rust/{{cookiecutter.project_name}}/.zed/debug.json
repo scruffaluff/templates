@@ -1,11 +1,24 @@
 [
+{%- if cookiecutter.project_cli %}
   {
     "adapter": "CodeLLDB",
     "build": {
-      "args": ["build"],
+      "args": ["run"],
       "command": "cargo"
     },
-    "label": "Debug program interface",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "label": "Debug program",
+    "sourceLanguages": ["rust"]
+  },
+{%- endif %}
+  {
+    "adapter": "CodeLLDB",
+    "build": {
+      "args": ["test"],
+      "command": "cargo"
+    },
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "label": "Debug tests",
     "sourceLanguages": ["rust"]
   }
 ]
