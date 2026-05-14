@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "cargo": {
+        "args": ["run"]
+      },
+      "name": "Debug program interface",
+      "request": "launch",
+      "type": "lldb"
+    },
+    {
+      "cargo": {
+        "args": ["test"]
+      },
+      "name": "Debug unit tests",
+      "request": "launch",
+      "type": "lldb"
+    }
+  ],
+  "version": "0.2.0"
+}

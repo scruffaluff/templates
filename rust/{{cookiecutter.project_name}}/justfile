@@ -44,6 +44,8 @@ lint:
   deno run --allow-all npm:prettier --check .
   {% endif -%}
   cargo fmt -- --check
+  cargo clippy --all -- -D clippy::all -D clippy::cargo -D clippy::nursery -D \
+    clippy::pedantic -D warnings
 
 # List all commands available in justfile.
 [default]

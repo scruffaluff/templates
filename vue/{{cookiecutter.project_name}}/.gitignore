@@ -16,8 +16,10 @@
 .localized
 .unlighthouse/
 .vendor/
-.vscode/
-.zed/
+.vscode/*
+!.vscode/launch.json
+.zed/*
+!.zed/debug.json
 build/
 f1
 node_modules/

@@ -6,7 +6,6 @@ use clap::Parser;
 #[command(about, version)]
 struct Cli {}
 
-fn main() -> eyre::Result<()> {
+fn main() {
     Cli::parse();
-    Ok(())
 }

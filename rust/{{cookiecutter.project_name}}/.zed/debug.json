@@ -1,0 +1,11 @@
+[
+  {
+    "adapter": "CodeLLDB",
+    "build": {
+      "args": ["build"],
+      "command": "cargo"
+    },
+    "label": "Debug program interface",
+    "sourceLanguages": ["rust"]
+  }
+]

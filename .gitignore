@@ -27,8 +27,10 @@
 .ty_cache/
 .vendor/
 .venv/
-.vscode/
-.zed/
+.vscode/*
+!.vscode/launch.json
+.zed/*
+!.zed/debug.json
 __marimo__/
 __pycache__/
 build/

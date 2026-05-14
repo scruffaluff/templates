@@ -4,12 +4,14 @@
 # https://doc.rust-lang.org/cargo/reference/manifest.html.
 
 [package]
-categories = []
+categories = ["replaceme"]
 description = "{{ cookiecutter.project_description }}"
 edition = "2024"
-keywords = []
+keywords = ["replaceme"]
+license = "MIT"
 name = "{{ cookiecutter.project_name }}"
 readme = "README.md"
+repository = "{{ cookiecutter.project_repository }}"
 version = "0.1.0"
 
 [dependencies]
