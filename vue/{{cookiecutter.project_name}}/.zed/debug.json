@@ -1,0 +1,20 @@
+[
+  {
+    "adapter": "JavaScript",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "label": "Debug program",
+    "request": "launch",
+    "type": "chrome",
+    "url": "http://localhost:5173/",
+    "webRoot": "$ZED_WORKTREE_ROOT/src"
+  },
+  {
+    "adapter": "JavaScript",
+    "args": ["test-unit"],
+    "command": "just",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "label": "Debug tests",
+    "request": "launch",
+    "type": "node-terminal"
+  }
+]
