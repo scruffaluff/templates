@@ -23,10 +23,6 @@ ci: setup lint build test
 build:
   pnpm exec vite build
 
-# Launch application in developer mode.
-dev host='127.0.0.1':
-  pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
-
 # Fix code formatting.
 format +paths=".":
   pnpm exec prettier --write {{ "{{" }}paths{{ "}}" }}
@@ -51,6 +47,10 @@ lint +paths=".":
 [no-exit-message]
 @pnpm *args:
   pnpm {{ "{{" }}args{{ "}}" }}
+
+# Execute project program.
+run host='127.0.0.1':
+  pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
 
 # Install development dependencies.
 [script]
@@ -81,10 +81,10 @@ setup: _setup
   print $"Using Pnpm (pnpm --version)."
   pnpm runtime set node --global lts
   print "Installing packages with Pnpm."
-  if ($env.JUST_INIT? | is-empty) {
-    pnpm install --frozen-lockfile
-  } else {
+  if ($env.INIT? | into bool --relaxed) {
     pnpm install
+  } else {
+    pnpm install --frozen-lockfile
   }
   print "Installing browsers with Playwright."
   try {

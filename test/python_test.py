@@ -27,7 +27,7 @@ def test_ci(project_python: Result) -> None:
     util.process(
         ["just", "ci"],
         cwd=project_python.project_path,
-        env={"CI": "true", "JUST_INIT": "true", **os.environ},
+        env={"CI": "true", "INIT": "true", **os.environ},
     )
 
 

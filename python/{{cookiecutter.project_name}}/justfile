@@ -57,10 +57,14 @@ lint +paths=".":
   nu --commands "{{ "{{" }}args{{ "}}" }}"
 
 {% if cookiecutter.project_cli -%}
-# Run project command line interface.
-[no-exit-message]
-@run *args:
-  uv run {{ cookiecutter.__project_package }} {{ "{{" }}args{{ "}}" }}
+# Execute project program.
+[no-exit-message, script]
+run *args:
+  if ($env.DEBUG? | into bool --relaxed) {
+    uv run python -m pdb -m {{ cookiecutter.__project_package }} {{ "{{" }}args{{ "}}" }}
+  } else {
+    uv run {{ cookiecutter.__project_package }} {{ "{{" }}args{{ "}}" }}
+  }
 
 {% endif -%}
 # Install development dependencies.
@@ -81,10 +85,10 @@ setup: _setup
   }
   print $"Using (uv --version)."
   print "Installing Python packages with Uv."
-  if ($env.JUST_INIT? | is-empty) {
-    uv sync --locked
-  } else {
+  if ($env.INIT? | into bool --relaxed) {
     uv sync
+  } else {
+    uv sync --locked
   }
 
 [unix]
@@ -114,8 +118,13 @@ _setup:
   Write-Output "Using Nushell $(nu --version)."
 
 # Run test suites.
+[script]
 test *args:
-  uv run pytest --cov {{ "{{" }}args{{ "}}" }}
+  if ($env.DEBUG? | into bool --relaxed) {
+    uv run pytest --cov --pdb {{ "{{" }}args{{ "}}" }}
+  } else {
+    uv run pytest --cov {{ "{{" }}args{{ "}}" }}
+  }
 
 # Wrapper to Uv.
 [no-exit-message]

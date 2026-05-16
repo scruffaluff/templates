@@ -29,3 +29,8 @@ proptest = "^1.11.0"
 rstest = "^0.26.0"
 tempfile = "^3.27.0"
 test-case = "^3.3.0"
+
+[profile.release]
+lto = true
+panic = "abort"
+strip = "symbols"

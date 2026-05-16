@@ -61,10 +61,10 @@ setup: _setup
   }
   print $"Using (uv --version)."
   print "Installing packages with Uv."
-  if ($env.JUST_INIT? | is-empty) {
-    uv sync --locked
-  } else {
+  if ($env.INIT? | into bool --relaxed) {
     uv sync
+  } else {
+    uv sync --locked
   }
 
 [unix]
@@ -94,8 +94,13 @@ _setup:
   Write-Output "Using Nushell $(nu --version)."
 
 # Run test suites.
+[script]
 test *args:
-  uv run pytest {{args}}
+  if ($env.DEBUG? | into bool --relaxed) {
+    uv run pytest --pdb {{args}}
+  } else {
+    uv run pytest {{args}}
+  }
 
 # Wrapper to Uv.
 [no-exit-message]

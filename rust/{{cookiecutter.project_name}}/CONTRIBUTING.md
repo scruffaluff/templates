@@ -8,4 +8,4 @@ tooling, and learning the coding guidelines.
 
 To develop with the generated project, install [Just](https://just.systems) and
 a C compiler. Then step into the project folder and execute
-`JUST_INIT=true just setup format` and you are ready to code.
+`INIT=1 just setup format` and you are ready to code.

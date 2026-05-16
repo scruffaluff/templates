@@ -27,7 +27,7 @@ def test_ci(project_vue: Result) -> None:
     util.process(
         ["just", "ci"],
         cwd=project_vue.project_path,
-        env={"CI": "true", "JUST_INIT": "true", **os.environ},
+        env={"CI": "true", "INIT": "true", **os.environ},
     )
 
 
