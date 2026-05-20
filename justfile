@@ -47,7 +47,7 @@ lint +paths=".":
 
 # Install development dependencies.
 [script]
-setup: _setup
+setup: _setup && format
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu

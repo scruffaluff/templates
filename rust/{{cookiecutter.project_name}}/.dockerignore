@@ -7,7 +7,6 @@
 *.pdb
 *.swp
 *.tmp
-*.whl
 .benchmarks/
 .cache/
 .coverage*
@@ -22,12 +21,11 @@
 .vendor/
 .vscode/
 .zed/
-dist/
 Dockerfile
 f1
 node_modules/
 nohup.out
 package-lock.json
 target/
-test/
+tests/
 tmp/

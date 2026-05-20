@@ -69,7 +69,7 @@ run *args:
 {% endif -%}
 # Install development dependencies.
 [script]
-setup: _setup
+setup: _setup && format
   {% if cookiecutter.project_prettier -%}
   if (which deno | is-empty) {
     print "Installing Deno."

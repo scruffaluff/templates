@@ -1,0 +1,7 @@
+# LLDB startup commands for debug sessions.
+#
+# For more information, visit https://lldb.llvm.org/use/tutorial.html.
+
+breakpoint set --func-regex ::rust_panic
+breakpoint set --func-regex core::panicking::assert_failed
+run

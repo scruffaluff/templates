@@ -71,7 +71,7 @@ run *args:
 {% endif -%}
 # Install development dependencies.
 [script]
-setup: _setup
+setup: _setup && format
   if (which cargo | is-empty) {
     print "Installing Cargo."
     http get https://scruffaluff.github.io/picoware/install/cargo.nu
@@ -129,10 +129,17 @@ _setup:
 [script]
 test *args:
   if ($env.DEBUG? | into bool --relaxed) {
-    let program = cargo test --no-run --message-format json -- {{ "{{" }}args{{ "}}" }}
+    let programs = cargo test --no-run --message-format json -- {{ "{{" }}args{{ "}}" }}
     | lines | each { $in | from json | get --optional executable }
-    | where ($in | path basename) != "{{ cookiecutter.__project_package }}" | first
-    rust-lldb --one-line "rbreak rust_panic" $program
+    | where ($in | path basename) != "{{ cookiecutter.__project_package }}"
+    for program in $programs {
+      let result = ^$program | complete
+      if $result.exit_code == 0 {
+        print $"($result.stderr)\n($result.stdout)"
+      } else {
+        rust-lldb --source data/debug.lldb $program
+      }
+    }
   } else {
     cargo test -- {{ "{{" }}args{{ "}}" }}
   }
