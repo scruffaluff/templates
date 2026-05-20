@@ -47,7 +47,7 @@ lint +paths=".":
 
 # Install development dependencies.
 [script]
-setup: _setup && format
+setup: _setup
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu
@@ -63,6 +63,7 @@ setup: _setup && format
   print "Installing packages with Uv."
   if ($env.INIT? | into bool --relaxed) {
     uv sync
+    just format
   } else {
     uv sync --locked
   }

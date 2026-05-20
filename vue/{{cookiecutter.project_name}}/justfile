@@ -54,7 +54,7 @@ run host='127.0.0.1':
 
 # Install development dependencies.
 [script]
-setup: _setup && format
+setup: _setup
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
   if not ($"($env.PNPM_HOME)/pnpm($ext)" | path exists) {
     let version = http get https://formulae.brew.sh/api/formula/pnpm.json
@@ -83,6 +83,7 @@ setup: _setup && format
   print "Installing packages with Pnpm."
   if ($env.INIT? | into bool --relaxed) {
     pnpm install
+    just format
   } else {
     pnpm install --frozen-lockfile
   }

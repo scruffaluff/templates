@@ -71,7 +71,7 @@ run *args:
 {% endif -%}
 # Install development dependencies.
 [script]
-setup: _setup && format
+setup: _setup
   if (which cargo | is-empty) {
     print "Installing Cargo."
     http get https://scruffaluff.github.io/picoware/install/cargo.nu
@@ -95,6 +95,7 @@ setup: _setup && format
   print "Installing Rust packages with Cargo."
   if ($env.INIT? | into bool --relaxed) {
     cargo fetch
+    just format
   } else {
     cargo fetch --locked
   }
