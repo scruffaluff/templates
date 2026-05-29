@@ -4,10 +4,13 @@
 
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
+export DENO_INSTALL_ROOT := ".vendor/lib/deno"
 export PATH := if os() == "windows" {
-  justfile_directory() / ".vendor/bin;" + env("PATH")
+  justfile_directory() / ".vendor/bin;" + justfile_directory() /
+  ".vendor/lib/deno/bin;" + env("PATH")
 } else {
-  justfile_directory() / ".vendor/bin:" + env("PATH")
+  justfile_directory() / ".vendor/bin:" + justfile_directory() /
+  ".vendor/lib/deno/bin:" + env("PATH")
 }
 
 # Execute CI workflow commands.
@@ -25,12 +28,12 @@ doc:
 
 # Fix code formatting.
 format +paths=".":
-  deno run --allow-all npm:prettier --write {{paths}}
+  prettier --write {{paths}}
   uv run ruff format {{paths}}
 
 # Run code analyses.
 lint +paths=".":
-  deno run --allow-all npm:prettier --check {{paths}}
+  prettier --check {{paths}}
   uv run ruff format --check {{paths}}
   uv run ruff check {{paths}}
   uv run ty check {{paths}}
@@ -54,6 +57,11 @@ setup: _setup
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (deno -V)."
+  if (which prettier | is-empty) {
+    print "Installing Prettier."
+    deno install --allow-all --global npm:prettier
+  }
+  print $"Using Prettier (prettier --version)."
   if (which uv | is-empty) {
     print "Installing Uv."
     http get https://scruffaluff.github.io/picoware/install/uv.nu

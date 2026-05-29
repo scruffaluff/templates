@@ -40,9 +40,7 @@ on:
 
 env:
   CARGO_HOME: {% raw -%} "${{ github.workspace }}/.vendor/cache/cargo" {%- endraw %}
-  {% if cookiecutter.project_prettier -%}
   DENO_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/deno" {%- endraw %}
-  {% endif -%}
 
 jobs:
   build:

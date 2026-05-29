@@ -28,12 +28,8 @@ usage:
 - [Tox](https://tox.readthedocs.io): Test automator.
 - [Ty](https://docs.astral.sh/ty): Static type checker.
 - [Uv](https://docs.astral.sh/uv): Dependency manager and packager.
-
-The following tools are configured if you select optional features:
-
-- `project_prettier`:
-  - [Prettier](https://prettier.io): Opinionated code formatter for JSON,
-    Markdown, and YAML files.
+- [Prettier](https://prettier.io): Opinionated code formatter for JSON,
+  Markdown, and YAML files.
 
 ## Layout
 
@@ -49,8 +45,8 @@ contents are only generated for that chosen context.
 ├── .dockerignore
 ├── .gitignore
 ├── .gitlab-ci.yaml  {project_repository: contains 'gitlab.com'}
-├── .prettierignore  {project_prettier: true}
-├── .prettierrc.yaml  {project_prettier: true}
+├── .prettierignore
+├── .prettierrc.yaml
 ├── CONTRIBUTING.md
 ├── doc
 │   └── index.md

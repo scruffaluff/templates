@@ -4,12 +4,15 @@
 
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
+export DENO_INSTALL_ROOT := ".vendor/lib/deno"
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
-  ".vendor/cargo/bin;" + env("PATH")
+  ".vendor/lib/cargo/bin;" + justfile_directory() / ".vendor/lib/deno/bin;"
+  + env("PATH")
 } else {
   justfile_directory() / ".vendor/bin:" + justfile_directory() /
-  ".vendor/cargo/bin:" + env("PATH")
+  ".vendor/lib/cargo/bin:" + justfile_directory() / ".vendor/lib/deno/bin:"
+  + env("PATH")
 }
 
 # Execute CI workflow commands.
@@ -33,16 +36,12 @@ doc:
 
 # Fix code formatting.
 format:
-  {% if cookiecutter.project_prettier -%}
-  deno run --allow-all npm:prettier --write .
-  {% endif -%}
+  prettier --write .
   cargo fmt --
 
 # Run code analyses.
 lint:
-  {% if cookiecutter.project_prettier -%}
-  deno run --allow-all npm:prettier --check .
-  {% endif -%}
+  prettier --check .
   cargo fmt -- --check
   cargo clippy --all -- -D clippy::all -D clippy::cargo -D clippy::nursery -D \
     clippy::pedantic -D warnings
@@ -75,17 +74,20 @@ setup: _setup
   if (which cargo | is-empty) {
     print "Installing Cargo."
     http get https://scruffaluff.github.io/picoware/install/cargo.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/cargo"
+    | nu -c $"($in | decode); main --preserve-env --dest .vendor/lib/cargo"
   }
   print $"Using (cargo --version)."
-  {% if cookiecutter.project_prettier -%}
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (deno -V)."
-  {% endif -%}
+  if (which prettier | is-empty) {
+    print "Installing Prettier."
+    deno install --allow-all --global npm:prettier
+  }
+  print $"Using Prettier (prettier --version)."
   if (which rust-script | is-empty) {
     print "Installing Rust Script."
     http get https://scruffaluff.github.io/picoware/install/rust-script.nu
@@ -136,11 +138,11 @@ test *args:
     for program in $programs {
       let result = ^$program | complete
       if $result.exit_code == 0 {
-        print $"($result.stderr)\n($result.stdout)"
+        print $"($result.stdout)\n($result.stderr)"
       } else {
         rust-lldb --source data/debug.lldb $program
       }
     }
   } else {
-    cargo test -- {{ "{{" }}args{{ "}}" }}
+    cargo test --no-fail-fast -- {{ "{{" }}args{{ "}}" }}
   }

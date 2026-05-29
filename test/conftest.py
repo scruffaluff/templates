@@ -7,33 +7,28 @@ from _pytest.fixtures import FixtureRequest
 from pytest_cookies.plugin import Cookies, Result
 
 contexts_python = [
-    {"project_cli": True},
-    {"project_cli": False},
-    {"project_repository": "https://github.com/scruffaluff/templates"},
     {
-        "project_repository": "https://gitlab.com/scruffaluff/templates",
-        "project_prettier": True,
+        "project_cli": True,
+        "project_repository": "https://github.com/scruffaluff/templates",
     },
-    {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
-    {"project_prettier": True},
-    {"project_prettier": False},
+    {
+        "project_cli": False,
+        "project_repository": "https://gitlab.org/scruffaluff/templates",
+    },
 ]
 contexts_rust = [
-    {"project_cli": True},
-    {"project_cli": False},
-    {"project_repository": "https://github.com/scruffaluff/templates"},
     {
-        "project_repository": "https://gitlab.com/scruffaluff/templates",
-        "project_prettier": True,
+        "project_cli": True,
+        "project_repository": "https://github.com/scruffaluff/templates",
     },
-    {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
-    {"project_prettier": True},
-    {"project_prettier": False},
+    {
+        "project_cli": False,
+        "project_repository": "https://gitlab.org/scruffaluff/templates",
+    },
 ]
 contexts_vue = [
     {"project_repository": "https://github.com/scruffaluff/templates"},
     {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-    {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
 ]
 repo_path = Path(__file__).parents[1]
 

@@ -17,10 +17,6 @@ PATHS: dict[str, Paths | dict[str, Paths]] = {
         Path("src/main.rs"),
         Path("tests/cli.rs"),
     ],
-    "project_prettier": [
-        Path(".prettierignore"),
-        Path(".prettierrc.yaml"),
-    ],
 }
 
 
@@ -70,7 +66,6 @@ def main() -> None:
     context = {
         "project_githost": "{{ cookiecutter.__project_githost }}",
         "project_cli": "{{ cookiecutter.project_cli }}",
-        "project_prettier": "{{ cookiecutter.project_prettier }}",
     }
     clean_paths(context)
 
