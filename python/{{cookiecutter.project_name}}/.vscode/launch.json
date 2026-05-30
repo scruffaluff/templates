@@ -6,7 +6,7 @@
       "module": "{{ cookiecutter.__project_package }}",
       "name": "Debug program",
       "request": "launch",
-      "type": "debugpy"
+      "type": "debugpy",
     },
 {%- endif %}
     {
@@ -14,8 +14,8 @@
       "module": "pytest",
       "name": "Debug tests",
       "request": "launch",
-      "type": "debugpy"
+      "type": "debugpy",
     }
   ],
-  "version": "0.2.0"
+  "version": "0.2.0",
 }

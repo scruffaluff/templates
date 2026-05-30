@@ -3,23 +3,23 @@
 {%- if cookiecutter.project_cli %}
     {
       "cargo": {
-        "args": ["run"]
+        "args": ["run"],
       },
       "cwd": "${workspaceFolder}",
       "name": "Debug program",
       "request": "launch",
-      "type": "lldb"
+      "type": "lldb",
     },
 {%- endif %}
     {
       "cargo": {
-        "args": ["test"]
+        "args": ["test"],
       },
       "cwd": "${workspaceFolder}",
       "name": "Debug tests",
       "request": "launch",
-      "type": "lldb"
+      "type": "lldb",
     }
   ],
-  "version": "0.2.0"
+  "version": "0.2.0",
 }

@@ -4,21 +4,21 @@
     "adapter": "CodeLLDB",
     "build": {
       "args": ["build"],
-      "command": "cargo"
+      "command": "cargo",
     },
     "cwd": "$ZED_WORKTREE_ROOT",
     "label": "Debug program",
-    "sourceLanguages": ["rust"]
+    "sourceLanguages": ["rust"],
   },
 {%- endif %}
   {
     "adapter": "CodeLLDB",
     "build": {
       "args": ["test", "--lib", "--no-run"],
-      "command": "cargo"
+      "command": "cargo",
     },
     "cwd": "$ZED_WORKTREE_ROOT",
     "label": "Debug library tests",
-    "sourceLanguages": ["rust"]
+    "sourceLanguages": ["rust"],
   }
 ]

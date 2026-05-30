@@ -16,6 +16,7 @@
 .vendor/
 .vscode/*
 !.vscode/launch.json
+!.vscode/tasks.json
 .zed/*
 !.zed/debug.json
 build/

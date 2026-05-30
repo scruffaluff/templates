@@ -18,7 +18,7 @@ export PATH := if os() == "windows" {
 # Execute CI workflow commands.
 ci: setup lint doc build test
 
-# Build distribution package.
+# Build project.
 build:
   cargo build --release
 
@@ -140,7 +140,7 @@ test *args:
       if $result.exit_code == 0 {
         print $"($result.stdout)\n($result.stderr)"
       } else {
-        rust-lldb --source data/debug.lldb $program
+        rust-lldb --source data/test.lldb $program
       }
     }
   } else {

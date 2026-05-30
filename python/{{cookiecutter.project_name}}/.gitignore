@@ -29,6 +29,7 @@
 .venv/
 .vscode/*
 !.vscode/launch.json
+!.vscode/tasks.json
 .zed/*
 !.zed/debug.json
 /docs/index.md

@@ -5,6 +5,13 @@
 arrowParens: always
 endOfLine: auto
 organizeImportsSkipDestructiveCodeActions: true
+overrides:
+  - files:
+      - .devcontainer/*.json
+      - .vscode/*.json
+      - .zed/*.json
+    options:
+      parser: jsonc
 plugins:
   - prettier-plugin-organize-attributes
   - prettier-plugin-organize-imports

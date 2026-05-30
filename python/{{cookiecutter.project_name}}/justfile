@@ -13,7 +13,7 @@ export PATH := if os() == "windows" {
   ".vendor/lib/deno/bin:" + env("PATH")
 }
 
-# Build distribution package.
+# Build project.
 build:
   uv build --out-dir build/dist
 
