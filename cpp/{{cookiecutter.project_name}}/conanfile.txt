@@ -1,0 +1,16 @@
+# Conan configuration file for managing C++ dependencies.
+#
+# For more information, visit https://docs.conan.io/2/reference/conanfile_txt.html.
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
+
+[requires]
+argparse/3.2
+
+[test_requires]
+catch2/3.14.0

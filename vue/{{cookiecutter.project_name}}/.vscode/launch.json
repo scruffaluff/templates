@@ -6,15 +6,15 @@
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:5173/",
-      "webRoot": "$ZED_WORKTREE_ROOT/src",
+      "webRoot": "$ZED_WORKTREE_ROOT/src"
     },
     {
       "cwd": "${workspaceFolder}",
       "name": "Debug tests",
       "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
       "request": "launch",
-      "type": "node",
+      "type": "node"
     }
   ],
-  "version": "0.2.0",
+  "version": "0.2.0"
 }

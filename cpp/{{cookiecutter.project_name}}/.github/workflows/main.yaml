@@ -39,8 +39,9 @@ on:
         type: choice
 
 env:
-  CARGO_HOME: {% raw -%} "${{ github.workspace }}/.vendor/cache/cargo" {%- endraw %}
+  CONAN_HOME: {% raw -%} "${{ github.workspace }}/.vendor/cache/conan" {%- endraw %}
   DENO_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/deno" {%- endraw %}
+  UV_CACHE_DIR: {% raw -%} "${{ github.workspace }}/.vendor/cache/uv" {%- endraw %}
 
 jobs:
   build:
@@ -61,10 +62,10 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v5
         with:
-          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('Cargo.lock') }} {%- endraw %}
+          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('conan.lock') }} {%- endraw %}
           path: |
             .vendor
-            target
+            build
       - if: {% raw -%} ${{ runner.os == 'Windows' }} {%- endraw %}
         name: Install Just for Windows
         run: >-
@@ -100,10 +101,10 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v5
         with:
-          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('Cargo.lock') }} {%- endraw %}
+          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('conan.lock') {%- endraw %}
           path: |
             .vendor
-            target
+            build
       - name: Install Just
         run: >-
           curl -LSfs https://scruffaluff.github.io/picoware/install/just.sh | sh
@@ -114,7 +115,7 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           name: pages
-          path: target/doc
+          path: build/site
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
@@ -139,7 +140,7 @@ jobs:
         run: >-
           curl -LSfs https://scruffaluff.github.io/picoware/install/just.sh | sh
           -s -- --global
-      - name: Build Rust packages
+      - name: Build C++ packages
         run: just setup build
       - name: Create GitHub release
         uses: softprops/action-gh-release@v3

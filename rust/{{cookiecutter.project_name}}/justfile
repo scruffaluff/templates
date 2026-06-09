@@ -16,7 +16,7 @@ export PATH := if os() == "windows" {
 }
 
 # Execute CI workflow commands.
-ci: setup lint doc build test
+ci: setup lint test doc build
 
 # Build project.
 build:

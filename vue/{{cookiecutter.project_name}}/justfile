@@ -16,7 +16,7 @@ export PATH := if os() == "windows" {
 export PNPM_HOME := justfile_directory() / ".vendor/lib/pnpm"
 
 # Execute CI workflow commands.
-ci: setup lint build test
+ci: setup lint test build
 
 # Build project.
 [script]

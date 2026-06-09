@@ -3,18 +3,20 @@
 {%- if cookiecutter.project_cli %}
     {
       "cwd": "${workspaceFolder}",
-      "module": "{{ cookiecutter.__project_package }}",
       "name": "Debug program",
+      "program": "${workspaceFolder}/build/Debug/{{ cookiecutter.__project_package }}",
+      "preLaunchTask": "build_debug",
       "request": "launch",
-      "type": "debugpy"
+      "type": "lldb"
     },
 {%- endif %}
     {
       "cwd": "${workspaceFolder}",
-      "module": "pytest",
       "name": "Debug tests",
+      "program": "${workspaceFolder}/build/Test/test",
+      "preLaunchTask": "build_test",
       "request": "launch",
-      "type": "debugpy"
+      "type": "lldb"
     }
   ],
   "version": "0.2.0"

@@ -18,7 +18,7 @@ build:
   uv build --out-dir build/dist
 
 # Execute CI workflow commands.
-ci: setup lint doc build test
+ci: setup lint test doc build
 
 # Build documentation.
 [script]

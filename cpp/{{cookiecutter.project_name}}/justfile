@@ -1,0 +1,172 @@
+# Just configuration file for running commands.
+#
+# For more information, visit https://just.systems.
+
+set script-interpreter := ["nu"]
+set shell := ["nu", "--commands"]
+export DENO_INSTALL_ROOT := ".vendor/lib/deno"
+export PATH := if os() == "windows" {
+  justfile_directory() / ".vendor/bin;" + justfile_directory() /
+  ".vendor/lib/cmake/bin;" + justfile_directory() / ".vendor/lib/deno/bin;"
+  + env("PATH")
+} else {
+  justfile_directory() / ".vendor/bin:" + justfile_directory() /
+  ".vendor/lib/cmake/bin:" + justfile_directory() / ".vendor/lib/deno/bin:"
+  + env("PATH")
+}
+export UV_TOOL_BIN_DIR := ".vendor/bin"
+export UV_TOOL_DIR := ".vendor/lib/uv"
+
+# Execute CI workflow commands.
+ci: setup lint test build
+
+# Build project.
+[script]
+build target="release":
+  let target = "{{ "{{" }}target{{ "}}" }}" | str capitalize
+  let type = $target | str replace "Test" "Debug"
+  let toolchain = $"build/($type)/generators/conan_toolchain.cmake"
+  let build_args = if $target == "Test" { ["-DBUILD_TEST=ON"] } else { [] }
+  let change = if ($toolchain | path exists) {
+    let modified = ls $toolchain | get 0.modified
+    ["conan.lock" "conanfile.txt"]
+    | each { (ls $in | get 0.modified) > $modified } | any {}
+  } else {
+    true
+  }
+  if $change {
+    (
+      conan install --build missing --conf
+      tools.cmake.cmaketoolchain:user_presets="" --settings
+      $"build_type=($type)" .
+    )
+  }
+  (
+    cmake -B $"build/($target)" $"-DCMAKE_BUILD_TYPE=($type)"
+    $"-DCMAKE_TOOLCHAIN_FILE=($toolchain)" ...$build_args
+  )
+  cmake --build $"build/($target)" --config $type
+
+# Fix code formatting.
+format +paths=".":
+  prettier --write {{ "{{" }}paths{{ "}}" }}
+  clang-format -i --verbose --style file ...(glob src/**/*.{c,cpp,h,hpp})
+
+# Run code analyses.
+lint +paths=".":
+  prettier --check {{ "{{" }}paths{{ "}}" }}
+  clang-format --dry-run --verbose --style file ...(glob src/**/*.{c,cpp,h,hpp})
+
+# List all commands available in justfile.
+[default]
+@list:
+  just --list
+
+# Wrapper to Nushell.
+[no-exit-message]
+@nu *args:
+  nu --commands "{{ "{{" }}args{{ "}}" }}"
+
+{% if cookiecutter.project_cli -%}
+# Execute project program.
+[no-exit-message, script]
+run *args: (build "debug")
+  if ($env.DEBUG? | into bool --relaxed) {
+    lldb build/Debug/{{ cookiecutter.__project_package }} -- {{ "{{" }}args{{ "}}" }}
+  } else {
+    build/Debug/{{ cookiecutter.__project_package }} {{ "{{" }}args{{ "}}" }}
+  }
+
+{% endif -%}
+# Install development dependencies.
+[script]
+setup: _setup
+  let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
+  let archive = if $nu.os-info.name == "windows" { ".zip" } else { ".tar.gz" }
+  if (which cmake | is-empty) {
+    let version = http get https://formulae.brew.sh/api/formula/cmake.json
+    | get versions.stable
+    let target = $"cmake-($version)-($nu.os-info.name)-($nu.os-info.arch)"
+    print "Installing CMake."
+    mkdir .vendor/lib
+    let temp = mktemp --directory --tmpdir
+    http get $"https://github.com/Kitware/CMake/releases/download/v($version)/($target)($archive)"
+    | save --force $"($temp)/cmake($archive)"
+    if $nu.os-info.name == "windows" {
+      unzip -d $temp $"($temp)/cmake.zip"
+    } else {
+      tar fx $"($temp)/cmake.tar.gz" -C $temp
+    }
+    mv $"($temp)/($target)" .vendor/lib/cmake
+  }
+  print $"Using (cmake --version | lines | first | to text)."
+  if (which deno | is-empty) {
+    print "Installing Deno."
+    http get https://scruffaluff.github.io/picoware/install/deno.nu
+    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+  }
+  print $"Using (deno -V)."
+  if (which clang-format | is-empty) {
+    print "Installing Clang Format."
+    deno install --allow-all --global npm:clang-format
+  }
+  print $"Using Clang Format (clang-format --version
+  | parse --regex 'clang-format version.*(\d+\.\d+\.\d+)' | get 0.capture0)."
+  if (which prettier | is-empty) {
+    print "Installing Prettier."
+    deno install --allow-all --global npm:prettier
+  }
+  print $"Using Prettier (prettier --version)."
+  if (which uv | is-empty) {
+    print "Installing Uv."
+    http get https://scruffaluff.github.io/picoware/install/uv.nu
+    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+  }
+  print $"Using (uv --version)."
+  if (which conan | is-empty) {
+    print "Installing Conan."
+    uv tool install conan
+  }
+  print $"Using (conan --version)."
+  if (conan profile path default | complete | get exit_code) != 0 {
+    conan profile detect
+  }
+  if ($env.INIT? | into bool --relaxed) {
+    conan lock create
+    just format
+  }
+
+[unix]
+_setup:
+  #!/usr/bin/env sh
+  set -eu
+  if [ ! -x "$(command -v nu)" ]; then
+    echo 'Installing Nushell.'
+    curl --fail --location --show-error \
+      https://scruffaluff.github.io/picoware/install/nushell.sh | sh -s -- \
+      --preserve-env --dest .vendor/bin
+  fi
+  echo "Using Nushell $(nu --version)."
+
+[windows]
+_setup:
+  #!powershell.exe
+  $ErrorActionPreference = 'Stop'
+  $ProgressPreference = 'SilentlyContinue'
+  $PSNativeCommandUseErrorActionPreference = $True
+  if (-not (Get-Command -ErrorAction SilentlyContinue nu)) {
+    Write-Output 'Installing Nushell.'
+    $NushellScript = Invoke-WebRequest -UseBasicParsing -Uri `
+      https://scruffaluff.github.io/picoware/install/nushell.ps1
+    Invoke-Expression "& { $NushellScript } --preserve-env --dest .vendor/bin"
+  }
+  Write-Output "Using Nushell $(nu --version)."
+
+# Run test suites.
+[script]
+test *args: (build "test")
+  if ($env.DEBUG? | into bool --relaxed) {
+    lldb --source data/test.lldb build/Test/test -- {{ "{{" }}args{{ "}}" }}
+  } else {
+    build/Test/test {{ "{{" }}args{{ "}}" }}
+  }
