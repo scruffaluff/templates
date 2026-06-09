@@ -1,0 +1,17 @@
+{
+  "tasks": [
+    {
+      "args": ["build", "debug"],
+      "command": "just",
+      "label": "build_debug",
+      "type": "process"
+    },
+    {
+      "args": ["build", "test"],
+      "command": "just",
+      "label": "build_test",
+      "type": "process"
+    }
+  ],
+  "version": "2.0.0"
+}

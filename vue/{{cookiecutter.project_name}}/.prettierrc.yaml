@@ -2,16 +2,20 @@
 #
 # For more information, visit https://prettier.io/docs/en/configuration.html.
 
+---
 arrowParens: always
 endOfLine: auto
 organizeImportsSkipDestructiveCodeActions: true
 overrides:
   - files:
+      - "*.jsonc"
+      - "{j,t}sconfig.json"
       - .devcontainer/*.json
       - .vscode/*.json
       - .zed/*.json
     options:
       parser: jsonc
+      trailingComma: none
 plugins:
   - prettier-plugin-organize-attributes
   - prettier-plugin-organize-imports

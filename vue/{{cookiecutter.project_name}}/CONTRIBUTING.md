@@ -6,6 +6,5 @@ tooling, and learning the coding guidelines.
 
 ## Setup
 
-To develop with the generated project, install [Just](https://just.systems) and
-step into the project folder. Then execute `INIT=1 just setup` and you are
-ready to code.
+To setup the development environment, install [Just](https://just.systems).
+From the project folder execute `just setup` and you are ready to code.

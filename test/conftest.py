@@ -6,6 +6,12 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from pytest_cookies.plugin import Cookies, Result
 
+contexts_cpp = [
+    {
+        "project_cli": True,
+        "project_repository": "https://github.com/scruffaluff/templates",
+    },
+]
 contexts_python = [
     {
         "project_cli": True,
@@ -36,6 +42,10 @@ repo_path = Path(__file__).parents[1]
 @pytest.fixture(
     params=[
         *(
+            {"context": context, "template": repo_path / "cpp"}
+            for context in contexts_cpp
+        ),
+        *(
             {"context": context, "template": repo_path / "python"}
             for context in contexts_python
         ),
@@ -55,6 +65,12 @@ def project(cookies: Cookies, request: FixtureRequest) -> Result:
         extra_context=request.param["context"],
         template=str(request.param["template"]),
     )
+
+
+@pytest.fixture(params=contexts_cpp)
+def project_cpp(cookies: Cookies, request: FixtureRequest) -> Result:
+    """Cookiecutter projects baked from the cpp template."""
+    return cookies.bake(extra_context=request.param, template=str(repo_path / "cpp"))
 
 
 @pytest.fixture(params=contexts_python)

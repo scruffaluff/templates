@@ -1,0 +1,9 @@
+# Clang-format configuration file for formatting C++ code.
+#
+# For more information, visit https://clang.llvm.org/docs/ClangFormatStyleOptions.html.
+
+---
+BasedOnStyle: Google
+IndentWidth: 4
+SortIncludes: true
+Standard: c++17

@@ -1,0 +1,32 @@
+# Docker configuration file for ignoring paths while collecting context.
+#
+# For more information, visit
+# https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2.
+
+*.bak
+*.o
+*.pdb
+*.swp
+*.tmp
+.benchmarks/
+.cache/
+.coverage*
+.DS_Store
+.env*
+.git/
+.github/
+.gitignore
+.gitlab-ci.yml
+.localized
+.pre-commit-config.yaml
+.vendor/
+.vscode/
+.zed/
+build/
+Dockerfile
+f1
+node_modules/
+nohup.out
+package-lock.json
+test/
+tmp/

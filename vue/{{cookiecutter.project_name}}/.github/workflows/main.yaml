@@ -112,7 +112,7 @@ jobs:
       - name: Build website
         run: just setup build
       - name: Upload website
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           name: pages
           path: build/dist
@@ -137,7 +137,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body: >-
             See the

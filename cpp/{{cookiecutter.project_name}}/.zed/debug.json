@@ -1,0 +1,28 @@
+[
+{%- if cookiecutter.project_cli %}
+  {
+    "adapter": "CodeLLDB",
+    "build": {
+      "args": ["build", "debug"],
+      "command": "just"
+    },
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "label": "Debug program",
+    "program": "build/Debug/{{ cookiecutter.__project_package }}",
+    "request": "launch",
+    "sourceLanguages": ["cpp"]
+  },
+{%- endif %}
+  {
+    "adapter": "CodeLLDB",
+    "build": {
+      "args": ["build", "test"],
+      "command": "just"
+    },
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "label": "Debug tests",
+    "program": "build/Test/test",
+    "request": "launch",
+    "sourceLanguages": ["cpp"]
+  }
+]
