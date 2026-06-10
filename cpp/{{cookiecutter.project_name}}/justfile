@@ -50,12 +50,14 @@ build target="release":
 # Fix code formatting.
 format +paths=".":
   prettier --write {{ "{{" }}paths{{ "}}" }}
-  clang-format -i --verbose --style file ...(glob src/**/*.{c,cpp,h,hpp})
+  clang-format -i --verbose --style file \
+    ...(glob "{src,test}/**/*.{c,cpp,h,hpp}")
 
 # Run code analyses.
 lint +paths=".":
   prettier --check {{ "{{" }}paths{{ "}}" }}
-  clang-format --dry-run --verbose --style file ...(glob src/**/*.{c,cpp,h,hpp})
+  clang-format --dry-run --verbose --style file \
+    ...(glob "{src,test}/**/*.{c,cpp,h,hpp}")
 
 # List all commands available in justfile.
 [default]
@@ -166,7 +168,10 @@ _setup:
 [script]
 test *args: (build "test")
   if ($env.DEBUG? | into bool --relaxed) {
-    lldb --source data/test.lldb build/Test/test -- {{ "{{" }}args{{ "}}" }}
+    (
+      lldb --one-line run build/Test/test -- --break --colour-mode none
+      --durations true --order decl {{ "{{" }}args{{ "}}" }}
+    )
   } else {
-    build/Test/test {{ "{{" }}args{{ "}}" }}
+    build/Test/test --colour-mode none --durations true --order decl {{ "{{" }}args{{ "}}" }}
   }
