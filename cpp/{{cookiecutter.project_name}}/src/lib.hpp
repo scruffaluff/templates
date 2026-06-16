@@ -1,2 +1,1 @@
 // Template for C++ projects.
-

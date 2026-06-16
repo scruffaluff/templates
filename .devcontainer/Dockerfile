@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Curl, Tar, and Zip.
 RUN apt-get update --ignore-missing && apt-get install --quiet --yes \
-  build-essential curl git tar zip
+  build-essential curl git sudo tar zip
 
 # Install Playwright dependencies based on
 # https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/registry/nativeDeps.ts#L1251.

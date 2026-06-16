@@ -27,6 +27,7 @@ list(REMOVE_ITEM lib_sources src/main.cpp)
 
 if(BUILD_TEST)
   find_package(Catch2 REQUIRED)
+  find_package(reproc++ REQUIRED)
 
   file(
     GLOB_RECURSE
@@ -36,7 +37,11 @@ if(BUILD_TEST)
   )
   add_executable(test ${lib_sources} ${test_sources})
   target_compile_definitions(test PRIVATE TEST)
-  target_link_libraries(test Catch2::Catch2WithMain)
+  target_link_libraries(
+    test
+    Catch2::Catch2WithMain
+    reproc::reproc
+  )
 else()
   find_package(argparse REQUIRED)
 

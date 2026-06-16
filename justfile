@@ -4,7 +4,8 @@
 
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
-export DENO_INSTALL_ROOT := ".vendor/lib/deno"
+export DENO_INSTALL_ROOT := justfile_directory() / ".vendor/lib/deno"
+export NO_MKDOCS_2_WARNING := "1"
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
   ".vendor/lib/deno/bin;" + env("PATH")
@@ -45,7 +46,7 @@ lint +paths=".":
 
 # Wrapper to Nushell.
 [no-exit-message]
-@nu *args:
+@nu *args="nu --login":
   nu --commands "{{args}}"
 
 # Install development dependencies.

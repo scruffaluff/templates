@@ -40,7 +40,7 @@ lint +paths=".":
 
 # Wrapper to Nushell.
 [no-exit-message]
-@nu *args:
+@nu *args="nu --login":
   nu --commands "{{ "{{" }}args{{ "}}" }}"
 
 # Wrapper to Pnpm.

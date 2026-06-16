@@ -25,7 +25,6 @@ on:
         description: CI job to run
         options:
           - build
-          - pages
           - release
         required: true
         type: choice
@@ -79,47 +78,6 @@ jobs:
           -s -- --global
       - name: Run CI workflow commands
         run: just ci
-      - if: {% raw -%} ${{ always() && inputs.debug }} {%- endraw %}
-        name: Launch Tmate session if debug enabled
-        timeout-minutes: 60
-        uses: mxschmitt/action-tmate@v3
-
-  pages:
-    environment:
-      name: github-pages
-    if: >-
-      {% raw -%} ${{ github.ref == 'refs/heads/main' && github.event_name !=
-      'workflow_dispatch' || inputs.job == 'pages' }} {%- endraw %}
-    name: Build and publish documentation
-    permissions:
-      id-token: write
-      pages: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-      - name: Cache dependencies
-        uses: actions/cache@v5
-        with:
-          key: {% raw -%} ${{ runner.os }}-${{ hashFiles('conan.lock') {%- endraw %}
-          path: |
-            .vendor
-            build
-      - name: Install Just
-        run: >-
-          curl -LSfs https://scruffaluff.github.io/picoware/install/just.sh | sh
-          -s -- --global
-      - name: Build documentation
-        run: just setup doc
-      - name: Upload documentation
-        uses: actions/upload-pages-artifact@v5
-        with:
-          name: pages
-          path: build/site
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: pages
       - if: {% raw -%} ${{ always() && inputs.debug }} {%- endraw %}
         name: Launch Tmate session if debug enabled
         timeout-minutes: 60

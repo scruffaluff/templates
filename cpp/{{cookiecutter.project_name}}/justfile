@@ -4,7 +4,7 @@
 
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
-export DENO_INSTALL_ROOT := ".vendor/lib/deno"
+export DENO_INSTALL_ROOT := justfile_directory() / ".vendor/lib/deno"
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
   ".vendor/lib/cmake/bin;" + justfile_directory() / ".vendor/lib/deno/bin;"
@@ -14,8 +14,8 @@ export PATH := if os() == "windows" {
   ".vendor/lib/cmake/bin:" + justfile_directory() / ".vendor/lib/deno/bin:"
   + env("PATH")
 }
-export UV_TOOL_BIN_DIR := ".vendor/bin"
-export UV_TOOL_DIR := ".vendor/lib/uv"
+export UV_TOOL_BIN_DIR := justfile_directory() / ".vendor/bin"
+export UV_TOOL_DIR := justfile_directory() / ".vendor/lib/uv"
 
 # Execute CI workflow commands.
 ci: setup lint test build
@@ -54,10 +54,13 @@ format +paths=".":
     ...(glob "{src,test}/**/*.{c,cpp,h,hpp}")
 
 # Run code analyses.
-lint +paths=".":
+[script]
+lint +paths=".": (build "debug") (build "test")
+  let code = glob "{src,test}/**/*.{c,cpp,h,hpp}"
   prettier --check {{ "{{" }}paths{{ "}}" }}
-  clang-format --dry-run --verbose --style file \
-    ...(glob "{src,test}/**/*.{c,cpp,h,hpp}")
+  clang-format --dry-run --verbose --style file ...$code
+  clang-tidy -p build/Debug src/main.cpp
+  clang-tidy -p build/Test ...($code  | where { $in != $"(pwd)/src/main.cpp" })
 
 # List all commands available in justfile.
 [default]
@@ -66,7 +69,7 @@ lint +paths=".":
 
 # Wrapper to Nushell.
 [no-exit-message]
-@nu *args:
+@nu *args="nu --login":
   nu --commands "{{ "{{" }}args{{ "}}" }}"
 
 {% if cookiecutter.project_cli -%}
@@ -108,12 +111,6 @@ setup: _setup
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (deno -V)."
-  if (which clang-format | is-empty) {
-    print "Installing Clang Format."
-    deno install --allow-all --global npm:clang-format
-  }
-  print $"Using Clang Format (clang-format --version
-  | parse --regex 'clang-format version.*(\d+\.\d+\.\d+)' | get 0.capture0)."
   if (which prettier | is-empty) {
     print "Installing Prettier."
     deno install --allow-all --global npm:prettier
@@ -125,6 +122,18 @@ setup: _setup
     | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (uv --version)."
+  if (which clang-format | is-empty) {
+    print "Installing Clang Format."
+    uv tool install clang-format
+  }
+  print $"Using Clang Format (clang-format --version
+  | parse --regex 'version.*(\d+\.\d+\.\d+)' | get 0.capture0)."
+  if (which clang-tidy | is-empty) {
+    print "Installing Clang Tidy."
+    uv tool install clang-tidy
+  }
+  print $"Using Clang Tidy (clang-tidy --version
+  | parse --regex 'version.*(\d+\.\d+\.\d+)' | get 0.capture0)."
   if (which conan | is-empty) {
     print "Installing Conan."
     uv tool install conan

@@ -1,0 +1,17 @@
+# Clang Tidy configuration file for linting C++ code.
+#
+# Form more information, visit https://clang.llvm.org/extra/clang-tidy.
+
+---
+Checks:
+  - "*"
+  - -altera-*
+  - -boost-*
+  - -bugprone-exception-escape
+  - -fuchsia-*
+  - -llvm-*
+  - -llvmlibc-*
+  - -modernize-*
+  - -misc-use-internal-linkage
+HeaderFilterRegex: "(src|test)/.*"
+WarningsAsErrors: "*"

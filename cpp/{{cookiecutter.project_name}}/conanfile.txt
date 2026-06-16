@@ -14,3 +14,4 @@ argparse/3.2
 
 [test_requires]
 catch2/3.14.0
+reproc/14.2.7
