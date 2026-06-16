@@ -57,8 +57,8 @@ Every generated project configures the following tools for development usage.
 - [Tox](https://tox.readthedocs.io): Test automator.
 - [Ty](https://docs.astral.sh/ty): Static type checker.
 - [Uv](https://docs.astral.sh/uv): Dependency manager and packager.
-- [Prettier](https://prettier.io): Opinionated code formatter for JSON,
-  Markdown, and YAML files.
+- [Prettier](https://prettier.io): Code formatter for JSON, Markdown, and YAML
+  files.
 
 IDE debugger configurations for VS Code (`.vscode/launch.json`) and Zed
 (`.zed/debug.json`) are included.

@@ -4,13 +4,8 @@
 
 ## Installation
 
-{{ cookiecutter.project_name }} can be installed for Python 3.11+ with
-
-```bash
-pip install --user {{ cookiecutter.__project_package }}
-```
-
-Alternatively, clone the repository and install from source:
+{{ cookiecutter.project_name }} can be installed from source by running the
+following commands.
 
 ```bash
 git clone {{ cookiecutter.project_repository }}

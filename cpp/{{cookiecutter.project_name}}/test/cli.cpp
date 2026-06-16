@@ -1,9 +1,7 @@
 // End to end tests.
 
-#include <algorithm>
 #include <array>
 #include <catch2/catch_test_macros.hpp>
-#include <cctype>
 #include <reproc++/arguments.hpp>
 #include <reproc++/drain.hpp>
 #include <reproc++/reproc.hpp>

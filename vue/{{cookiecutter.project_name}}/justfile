@@ -48,7 +48,7 @@ lint +paths=".":
 @pnpm *args:
   pnpm {{ "{{" }}args{{ "}}" }}
 
-# Run project (use DEBUG=1 for debugger).
+# Run project.
 run host='127.0.0.1':
   pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
 
