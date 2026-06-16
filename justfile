@@ -14,7 +14,7 @@ export PATH := if os() == "windows" {
   ".vendor/lib/deno/bin:" + env("PATH")
 }
 
-# Execute CI workflow commands.
+# Run continuous integration pipeline.
 ci: setup lint test doc
 
 # Build documentation.
@@ -22,34 +22,35 @@ ci: setup lint test doc
 doc:
   mkdir doc
   cp README.md doc/index.md
+  cp cpp/README.md doc/cpp.md
   cp python/README.md doc/python.md
   cp rust/README.md doc/rust.md
   cp vue/README.md doc/vue.md
   uv run mkdocs build --strict
 
-# Fix code formatting.
+# Format project files.
 format +paths=".":
   prettier --write {{paths}}
   uv run ruff format {{paths}}
 
-# Run code analyses.
+# Analyze files for issues.
 lint +paths=".":
   prettier --check {{paths}}
   uv run ruff format --check {{paths}}
   uv run ruff check {{paths}}
   uv run ty check {{paths}}
 
-# List all commands available in justfile.
+# List available commands.
 [default]
 @list:
   just --list
 
-# Wrapper to Nushell.
+# Run Nushell in project environment.
 [no-exit-message]
 @nu *args="nu --login":
   nu --commands "{{args}}"
 
-# Install development dependencies.
+# Install development tools and dependencies.
 [script]
 setup: _setup
   if (which deno | is-empty) {
@@ -103,7 +104,7 @@ _setup:
   }
   Write-Output "Using Nushell $(nu --version)."
 
-# Run test suites.
+# Run tests (use DEBUG=1 for debugger).
 [script]
 test *args:
   if ($env.DEBUG? | into bool --relaxed) {
@@ -112,7 +113,7 @@ test *args:
     uv run pytest {{args}}
   }
 
-# Wrapper to Uv.
+# Run Uv in project environment.
 [no-exit-message]
 @uv *args:
   uv {{args}}

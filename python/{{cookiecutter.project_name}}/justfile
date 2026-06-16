@@ -14,11 +14,11 @@ export PATH := if os() == "windows" {
   ".vendor/lib/deno/bin:" + env("PATH")
 }
 
-# Build project.
+# Build project for release.
 build:
   uv build --out-dir build/dist
 
-# Execute CI workflow commands.
+# Run continuous integration pipeline.
 ci: setup lint test doc build
 
 # Build documentation.
@@ -29,7 +29,7 @@ doc:
   cp CONTRIBUTING.md doc/
   uv run mkdocs build --strict
 
-# Fix code formatting.
+# Format project files.
 format +paths=".":
   prettier --write {{ "{{" }}paths{{ "}}" }}
   uv run ruff format {{ "{{" }}paths{{ "}}" }}
@@ -39,25 +39,25 @@ format +paths=".":
 install: build
   python3 -m pip install (ls build/dist/*.whl | get name | first)
 
-# Run code analyses.
+# Analyze files for issues.
 lint +paths=".":
   prettier --check {{ "{{" }}paths{{ "}}" }}
   uv run ruff format --check {{ "{{" }}paths{{ "}}" }}
   uv run ruff check {{ "{{" }}paths{{ "}}" }}
   uv run ty check {{ "{{" }}paths{{ "}}" }}
 
-# List all commands available in justfile.
+# List available commands.
 [default]
 @list:
   just --list
 
-# Wrapper to Nushell.
+# Run Nushell in project environment.
 [no-exit-message]
 @nu *args="nu --login":
   nu --commands "{{ "{{" }}args{{ "}}" }}"
 
 {% if cookiecutter.project_cli -%}
-# Execute project program.
+# Run project (use DEBUG=1 for debugger).
 [no-exit-message, script]
 run *args:
   if ($env.DEBUG? | into bool --relaxed) {
@@ -67,7 +67,7 @@ run *args:
   }
 
 {% endif -%}
-# Install development dependencies.
+# Install development tools and dependencies.
 [script]
 setup: _setup
   if (which deno | is-empty) {
@@ -121,7 +121,7 @@ _setup:
   }
   Write-Output "Using Nushell $(nu --version)."
 
-# Run test suites.
+# Run tests (use DEBUG=1 for debugger).
 [script]
 test *args:
   if ($env.DEBUG? | into bool --relaxed) {
@@ -130,7 +130,7 @@ test *args:
     uv run pytest --cov {{ "{{" }}args{{ "}}" }}
   }
 
-# Wrapper to Uv.
+# Run Uv in project environment.
 [no-exit-message]
 @uv *args:
   uv {{ "{{" }}args{{ "}}" }}

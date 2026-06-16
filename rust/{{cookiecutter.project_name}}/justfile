@@ -15,14 +15,14 @@ export PATH := if os() == "windows" {
   + env("PATH")
 }
 
-# Execute CI workflow commands.
+# Run continuous integration pipeline.
 ci: setup lint test doc build
 
-# Build project.
+# Build project for release.
 build:
   cargo build --release
 
-# Wrapper to Cargo.
+# Run Cargo in project environment.
 [no-exit-message]
 @cargo *args:
   cargo {{ "{{" }}args{{ "}}" }}
@@ -34,30 +34,30 @@ doc:
   '<meta content="0; url={{ cookiecutter.__project_package }}/index.html" http-equiv="refresh" />'
   | save --force target/doc/index.html
 
-# Fix code formatting.
+# Format project files.
 format:
   prettier --write .
   cargo fmt --
 
-# Run code analyses.
+# Analyze files for issues.
 lint:
   prettier --check .
   cargo fmt -- --check
   cargo clippy --all -- -D clippy::all -D clippy::cargo -D clippy::nursery -D \
     clippy::pedantic -D warnings
 
-# List all commands available in justfile.
+# List available commands.
 [default]
 @list:
   just --list
 
-# Wrapper to Nushell.
+# Run Nushell in project environment.
 [no-exit-message]
 @nu *args="nu --login":
   nu --commands "{{ "{{" }}args{{ "}}" }}"
 
 {% if cookiecutter.project_cli -%}
-# Execute project interface.
+# Run project (use DEBUG=1 for debugger).
 [no-exit-message, script]
 run *args:
   if ($env.DEBUG? | into bool --relaxed) {
@@ -68,7 +68,7 @@ run *args:
   }
 
 {% endif -%}
-# Install development dependencies.
+# Install development tools and dependencies.
 [script]
 setup: _setup
   if (which cargo | is-empty) {
@@ -128,7 +128,7 @@ _setup:
   }
   Write-Output "Using Nushell $(nu --version)."
 
-# Run test suites.
+# Run tests (use DEBUG=1 for debugger).
 [script]
 test *args:
   if ($env.DEBUG? | into bool --relaxed) {

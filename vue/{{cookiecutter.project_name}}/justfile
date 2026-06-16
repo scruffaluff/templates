@@ -15,44 +15,44 @@ export PATH := if os() == "windows" {
 }
 export PNPM_HOME := justfile_directory() / ".vendor/lib/pnpm"
 
-# Execute CI workflow commands.
+# Run continuous integration pipeline.
 ci: setup lint test build
 
-# Build project.
+# Build project for release.
 [script]
 build:
   pnpm exec vite build
 
-# Fix code formatting.
+# Format project files.
 format +paths=".":
   pnpm exec prettier --write {{ "{{" }}paths{{ "}}" }}
 
-# Run code analyses.
+# Analyze files for issues.
 lint +paths=".":
   pnpm exec prettier --check {{ "{{" }}paths{{ "}}" }}
   pnpm exec eslint --no-fix --ext ts,vue --max-warnings 0 {{ "{{" }}paths{{ "}}" }}
   pnpm exec vue-tsc --build {{ "{{" }}paths{{ "}}" }}
 
-# List all commands available in justfile.
+# List available commands.
 [default]
 @list:
   just --list
 
-# Wrapper to Nushell.
+# Run Nushell in project environment.
 [no-exit-message]
 @nu *args="nu --login":
   nu --commands "{{ "{{" }}args{{ "}}" }}"
 
-# Wrapper to Pnpm.
+# Run Pnpm in project environment.
 [no-exit-message]
 @pnpm *args:
   pnpm {{ "{{" }}args{{ "}}" }}
 
-# Execute project program.
+# Run project (use DEBUG=1 for debugger).
 run host='127.0.0.1':
   pnpm exec vite dev --host {{ "{{" }}host{{ "}}" }}
 
-# Install development dependencies.
+# Install development tools and dependencies.
 [script]
 setup: _setup
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
@@ -116,13 +116,13 @@ _setup:
   }
   Write-Output "Using Nushell $(nu --version)."
 
-# Run test suites.
+# Run tests.
 test: test-unit test-e2e
 
-# Run end to end test suite.
+# Run end to end tests.
 test-e2e *args:
   pnpm exec playwright test {{ "{{" }}args{{ "}}" }}
 
-# Run unit test suite.
+# Run unit tests.
 test-unit +args='run':
   pnpm exec vitest {{ "{{" }}args{{ "}}" }}
