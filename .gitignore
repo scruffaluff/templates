@@ -45,4 +45,3 @@ poetry.lock
 pixi.lock
 site/
 tmp/
-!/doc/index.md
