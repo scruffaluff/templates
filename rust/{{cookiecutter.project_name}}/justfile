@@ -39,6 +39,18 @@ format:
   prettier --write .
   cargo fmt --
 
+# Install project program.
+[script]
+install: setup build
+  let dest = "{{ "{{" }}home_directory(){{ "}}" }}/.local/bin"
+  let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
+  mkdir $dest
+  cp $"target/release/{{ cookiecutter.__project_package }}($ext)" $"($dest)/"
+  if not ($dest in $env.PATH) {
+    print --stderr $"Installation folder '$(dest)' is not in the system path."
+    print --stderr "Update system path manually to complete installation."
+  }
+
 # Analyze files for issues.
 lint:
   prettier --check .

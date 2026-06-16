@@ -34,10 +34,10 @@ format +paths=".":
   prettier --write {{ "{{" }}paths{{ "}}" }}
   uv run ruff format {{ "{{" }}paths{{ "}}" }}
 
-# Install project programs.
+# Install project program.
 [script]
-install: build
-  python3 -m pip install (ls build/dist/*.whl | get name | first)
+install: setup build
+  python3 -m pip install (glob build/dist/*.whl | first)
 
 # Analyze files for issues.
 lint +paths=".":

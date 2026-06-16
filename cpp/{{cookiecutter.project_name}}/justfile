@@ -58,6 +58,18 @@ format +paths=".":
   clang-format -i --verbose --style file \
     ...(glob "{src,test}/**/*.{c,cpp,h,hpp}")
 
+# Install project program.
+[script]
+install: setup build
+  let dest = "{{ "{{" }}home_directory(){{ "}}" }}/.local/bin"
+  let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
+  mkdir $dest
+  cp $"build/Release/{{ cookiecutter.__project_package }}($ext)" $"($dest)/"
+  if not ($dest in $env.PATH) {
+    print --stderr $"Installation folder '$(dest)' is not in the system path."
+    print --stderr "Update system path manually to complete installation."
+  }
+
 # Analyze files for issues.
 [script]
 lint +paths=".": (build "debug") (build "test")
