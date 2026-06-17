@@ -24,8 +24,8 @@ Cookiecutter will ask the following questions during project generation.
 ## Setup
 
 To develop with the generated project, install [Just](https://just.systems) and
-a C compiler. Then step into the project folder and execute `INIT=1 just setup`
-and you are ready to code.
+a C++ compiler. Then step into the project folder and execute
+`INIT=1 just setup` and you are ready to code.
 
 ## Commands
 
@@ -40,9 +40,6 @@ The generated `justfile` provides the following recipes for development.
 | `just run`    | Run project binary (add `DEBUG=1` for LLDB)    |
 | `just setup`  | Install dev tools and dependencies             |
 | `just test`   | Run test suite (add `DEBUG=1` for LLDB)        |
-
-Most recipes accept additional arguments. For example, `just format test`
-formats only that folder.
 
 ## Tooling
 

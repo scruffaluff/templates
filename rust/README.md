@@ -42,8 +42,6 @@ The generated `justfile` provides the following recipes for development.
 | `just setup`  | Install dev tools and dependencies                  |
 | `just test`   | Run test suite (add `DEBUG=1` for LLDB)             |
 
-Most recipes accept additional arguments.
-
 ## Tooling
 
 Every generated project configures the following tools for development usage.

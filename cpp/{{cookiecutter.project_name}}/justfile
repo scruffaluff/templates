@@ -108,7 +108,10 @@ setup: _setup
   if (which cmake | is-empty) {
     let version = http get https://formulae.brew.sh/api/formula/cmake.json
     | get versions.stable
-    let target = $"cmake-($version)-($nu.os-info.name)-($nu.os-info.arch)"
+    let target = match $nu.os-info.name {
+      macos => $"cmake-($version)-macos-universal"
+      _ => $"cmake-($version)-($nu.os-info.name)-($nu.os-info.arch)"
+    }
     print "Installing CMake."
     mkdir .vendor/lib
     let temp = mktemp --directory --tmpdir
@@ -119,9 +122,13 @@ setup: _setup
     } else {
       tar fx $"($temp)/cmake.tar.gz" -C $temp
     }
-    mv $"($temp)/($target)" .vendor/lib/cmake
+    if $nu.os-info.name == "macos" {
+      mv $"($temp)/($target)/CMake.app/Contents" .vendor/lib/cmake
+    } else {
+      mv $"($temp)/($target)" .vendor/lib/cmake
+    }
   }
-  print $"Using (cmake --version | lines | first | to text)."
+  print $"Using (cmake --version | lines | first)."
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu

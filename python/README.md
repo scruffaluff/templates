@@ -31,19 +31,15 @@ to code.
 
 The generated `justfile` provides the following recipes for development.
 
-| Recipe         | Description                                         |
-| -------------- | --------------------------------------------------- |
-| `just ci`      | Run full CI pipeline: setup, lint, test, doc, build |
-| `just doc`     | Build MkDocs static site to `build/site`            |
-| `just format`  | Format code with Ruff and Prettier                  |
-| `just install` | Build and install the package via pip               |
-| `just lint`    | Run Prettier, Ruff format, Ruff check, and Ty check |
-| `just run`     | Run the CLI entry point (add `DEBUG=1` for pdb)     |
-| `just setup`   | Install dev tools and sync dependencies             |
-| `just test`    | Run Pytest with coverage (add `DEBUG=1` for pdb)    |
-
-Most recipes accept additional arguments. For example, `just test test/foo.py`
-runs only that test file, and `just lint src/` lints only the `src` folder.
+| Recipe        | Description                                         |
+| ------------- | --------------------------------------------------- |
+| `just ci`     | Run full CI pipeline: setup, lint, test, doc, build |
+| `just doc`    | Build MkDocs static site to `build/site`            |
+| `just format` | Format code with Ruff and Prettier                  |
+| `just lint`   | Run Prettier, Ruff format, Ruff check, and Ty check |
+| `just run`    | Run the CLI entry point (add `DEBUG=1` for pdb)     |
+| `just setup`  | Install dev tools and sync dependencies             |
+| `just test`   | Run Pytest with coverage (add `DEBUG=1` for pdb)    |
 
 ## Tooling
 

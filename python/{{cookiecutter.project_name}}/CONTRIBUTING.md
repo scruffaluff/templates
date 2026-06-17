@@ -6,28 +6,24 @@ tooling, and learning the coding guidelines.
 
 ## Setup
 
-To setup the development environment, install [Just](https://just.systems).
-From the project folder execute `just setup` and you are ready to code.
+To setup the development environment, install [Just](https://just.systems). From
+the project folder execute `just setup` and you are ready to code.
 
 ## Commands
 
 The `justfile` provides the following recipes for development.
 
-| Recipe            | Description                                           |
-| ----------------- | ----------------------------------------------------- |
-| `just ci`         | Run full CI pipeline: setup, lint, test, doc, build   |
-| `just doc`        | Build MkDocs static site to `build/site`              |
-| `just format`     | Format code with Ruff and Prettier                    |
-| `just install`    | Build and install the package via pip                 |
-| `just lint`       | Run Prettier, Ruff format, Ruff check, and Ty check   |
+| Recipe        | Description                                         |
+| ------------- | --------------------------------------------------- |
+| `just ci`     | Run full CI pipeline: setup, lint, test, doc, build |
+| `just doc`    | Build MkDocs static site to `build/site`            |
+| `just format` | Format code with Ruff and Prettier                  |
+| `just lint`   | Run Prettier, Ruff format, Ruff check, and Ty check |
 {%- if cookiecutter.project_cli %}
-| `just run`        | Run the CLI entry point (add `DEBUG=1` for pdb)       |
+| `just run`    | Run the CLI entry point (add `DEBUG=1` for pdb)     |
 {%- endif %}
-| `just setup`      | Install dev tools and sync dependencies               |
-| `just test`       | Run Pytest with coverage (add `DEBUG=1` for pdb)      |
-
-Most recipes accept additional arguments. For example, `just test test/foo.py`
-runs only that test file, and `just lint src/` lints only the `src` folder.
+| `just setup`  | Install dev tools and sync dependencies             |
+| `just test`   | Run Pytest with coverage (add `DEBUG=1` for pdb)    |
 
 ## Tooling
 
@@ -43,8 +39,8 @@ This project configures the following tools for development usage.
 - [Prettier](https://prettier.io): Code formatter for JSON, Markdown, and YAML
   files.
 
-IDE debugger configurations for VS Code (`.vscode/launch.json`)
-and Zed (`.zed/debug.json`) are included.
+IDE debugger configurations for VS Code (`.vscode/launch.json`) and Zed
+(`.zed/debug.json`) are included.
 
 ## Continuous Integration
 

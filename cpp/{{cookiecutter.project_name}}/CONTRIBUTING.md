@@ -6,28 +6,25 @@ tooling, and learning the coding guidelines.
 
 ## Setup
 
-To setup the development environment, install [Just](https://just.systems) and
-a C compiler. From the project folder execute `just setup` and you are ready to
+To setup the development environment, install [Just](https://just.systems) and a
+C++ compiler. From the project folder execute `just setup` and you are ready to
 code.
 
 ## Commands
 
 The `justfile` provides the following recipes for development.
 
-| Recipe         | Description                                      |
-| -------------- | ------------------------------------------------ |
-| `just build`   | Build project for release or test                |
-| `just ci`      | Run full CI pipeline: setup, lint, test, build   |
-| `just format`  | Format code with Clang Format and Prettier       |
-| `just lint`    | Run Prettier, Clang Format, and Clang Tidy       |
+| Recipe        | Description                                    |
+| ------------- | ---------------------------------------------- |
+| `just build`  | Build project for release or test              |
+| `just ci`     | Run full CI pipeline: setup, lint, test, build |
+| `just format` | Format code with Clang Format and Prettier     |
+| `just lint`   | Run Prettier, Clang Format, and Clang Tidy     |
 {%- if cookiecutter.project_cli %}
-| `just run`     | Run project binary (add `DEBUG=1` for LLDB)      |
+| `just run`    | Run project binary (add `DEBUG=1` for LLDB)    |
 {%- endif %}
-| `just setup`   | Install dev tools and dependencies               |
-| `just test`    | Run test suite (add `DEBUG=1` for LLDB)          |
-
-Most recipes accept additional arguments. For example, `just format .` formats
-only the current folder.
+| `just setup`  | Install dev tools and dependencies             |
+| `just test`   | Run test suite (add `DEBUG=1` for LLDB)        |
 
 ## Tooling
 
@@ -40,8 +37,8 @@ This project configures the following tools for development usage.
 - [Prettier](https://prettier.io): Code formatter for JSON, Markdown, and YAML
   files.
 
-IDE debugger configurations for VS Code (`.vscode/launch.json`)
-and Zed (`.zed/debug.json`) are included.
+IDE debugger configurations for VS Code (`.vscode/launch.json`) and Zed
+(`.zed/debug.json`) are included.
 
 ## Continuous Integration
 

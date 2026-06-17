@@ -6,28 +6,26 @@ tooling, and learning the coding guidelines.
 
 ## Setup
 
-To setup the development environment, install [Just](https://just.systems) and
-a C compiler. From the project folder execute `just setup` and you are ready to
+To setup the development environment, install [Just](https://just.systems) and a
+C compiler. From the project folder execute `just setup` and you are ready to
 code.
 
 ## Commands
 
 The `justfile` provides the following recipes for development.
 
-| Recipe         | Description                                         |
-| -------------- | --------------------------------------------------- |
-| `just build`   | Build project for release                           |
-| `just ci`      | Run full CI pipeline: setup, lint, test, doc, build |
-| `just doc`     | Build documentation to `target/doc`                 |
-| `just format`  | Format code with Rustfmt and Prettier               |
-| `just lint`    | Run Prettier, Rustfmt, and Clippy                   |
+| Recipe        | Description                                         |
+| ------------- | --------------------------------------------------- |
+| `just build`  | Build project for release                           |
+| `just ci`     | Run full CI pipeline: setup, lint, test, doc, build |
+| `just doc`    | Build documentation to `target/doc`                 |
+| `just format` | Format code with Rustfmt and Prettier               |
+| `just lint`   | Run Prettier, Rustfmt, and Clippy                   |
 {%- if cookiecutter.project_cli %}
-| `just run`     | Run project binary (add `DEBUG=1` for LLDB)         |
+| `just run`    | Run project binary (add `DEBUG=1` for LLDB)         |
 {%- endif %}
-| `just setup`   | Install dev tools and dependencies                  |
-| `just test`    | Run test suite (add `DEBUG=1` for LLDB)             |
-
-Most recipes accept additional arguments.
+| `just setup`  | Install dev tools and dependencies                  |
+| `just test`   | Run test suite (add `DEBUG=1` for LLDB)             |
 
 ## Tooling
 
@@ -40,8 +38,8 @@ This project configures the following tools for development usage.
 - [Rustfmt](https://github.com/rust-lang/rustfmt): Rust code formatter.
 - [Rust Script](https://github.com/fornwall/rust-script): Rust script runner.
 
-IDE debugger configurations for VS Code (`.vscode/launch.json`)
-and Zed (`.zed/debug.json`) are included.
+IDE debugger configurations for VS Code (`.vscode/launch.json`) and Zed
+(`.zed/debug.json`) are included.
 
 ## Continuous Integration
 

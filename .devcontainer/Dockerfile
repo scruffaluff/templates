@@ -3,11 +3,17 @@ FROM docker.io/debian:13-slim
 ARG TARGETARCH
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Curl, Tar, and Zip.
+# Install essential packages.
 RUN apt-get update --ignore-missing && apt-get install --quiet --yes \
   build-essential curl git sudo tar zip
 
-# Install Playwright dependencies based on
+# Install C compiler for Rust template.
+RUN apt-get install --quiet --yes gcc
+
+# Install C++ compiler for C++ template.
+RUN apt-get install --quiet --yes g++
+
+# Install Playwright dependencies for Vue template based on
 # https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/registry/nativeDeps.ts#L1251.
 RUN apt-get install --quiet --yes libasound2t64 libatk-bridge2.0-0t64 \
   libatk1.0-0t64 libatspi2.0-0t64 libcairo2 libcups2t64 libdbus-1-3 libdrm2 \

@@ -4,8 +4,7 @@
 
 ## Installation
 
-{{ cookiecutter.project_name }} can be installed from source by running the
-following commands.
+{{ cookiecutter.project_name }} can be installed from source by running the following commands.
 
 ```bash
 git clone {{ cookiecutter.project_repository }}

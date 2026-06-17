@@ -39,10 +39,6 @@ The generated `justfile` provides the following recipes for development.
 | `just setup`  | Install dev tools and dependencies             |
 | `just test`   | Run unit and end-to-end tests                  |
 
-Most recipes accept additional arguments. For example, `just format src` formats
-only that folder, and `just test-unit run test/foo.test.ts` runs only that test
-file.
-
 ## Tooling
 
 Every generated project configures the following tools for development usage.

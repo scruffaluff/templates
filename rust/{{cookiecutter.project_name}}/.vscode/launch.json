@@ -3,7 +3,7 @@
 {%- if cookiecutter.project_cli %}
     {
       "cargo": {
-        "args": ["run"],
+        "args": ["run"]
       },
       "cwd": "${workspaceFolder}",
       "name": "Debug program",
@@ -13,7 +13,7 @@
 {%- endif %}
     {
       "cargo": {
-        "args": ["test"],
+        "args": ["test"]
       },
       "cwd": "${workspaceFolder}",
       "name": "Debug tests",
