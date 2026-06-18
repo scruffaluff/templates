@@ -39,18 +39,22 @@ format:
   prettier --write .
   cargo fmt --
 
+{% if cookiecutter.project_cli -%}
 # Install project program.
 [script]
 install: setup build
+  let name = "{{ cookiecutter.__project_package }}"
   let dest = "{{ "{{" }}home_directory(){{ "}}" }}/.local/bin"
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
   mkdir $dest
-  cp $"target/release/{{ cookiecutter.__project_package }}($ext)" $"($dest)/"
+  cp $"target/release/($name)($ext)" $"($dest)/"
+  print $"Installed ($name) to ($dest)/($name)($ext)."
   if not ($dest in $env.PATH) {
-    print --stderr $"Installation folder '$(dest)' is not in the system path."
+    print --stderr $"Installation folder '($dest)' is not in the system path."
     print --stderr "Update system path manually to complete installation."
   }
 
+{% endif -%}
 # Analyze files for issues.
 lint:
   prettier --check .
@@ -74,7 +78,7 @@ lint:
 run *args:
   if ($env.DEBUG? | into bool --relaxed) {
     cargo build
-    rust-lldb target/debug/{{ cookiecutter.__project_package }} -- {{ "{{" }}args{{ "}}" }}
+    rust-lldb --source-quietly target/debug/{{ cookiecutter.__project_package }} -- {{ "{{" }}args{{ "}}" }}
   } else {
     cargo run -- {{ "{{" }}args{{ "}}" }}
   }
@@ -152,7 +156,7 @@ test *args:
       if $result.exit_code == 0 {
         print $"($result.stdout)\n($result.stderr)"
       } else {
-        rust-lldb --source data/test.lldb $program
+        rust-lldb --source-quietly --source data/test.lldb $program
       }
     }
   } else {

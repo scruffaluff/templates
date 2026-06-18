@@ -34,11 +34,29 @@ format +paths=".":
   prettier --write {{ "{{" }}paths{{ "}}" }}
   uv run ruff format {{ "{{" }}paths{{ "}}" }}
 
+{% if cookiecutter.project_cli -%}
 # Install project program.
 [script]
 install: setup build
-  python3 -m pip install (glob build/dist/*.whl | first)
+  let name = "{{ cookiecutter.project_name }}"
+  let repo = "{{ "{{" }}justfile_directory(){{ "}}" }}" | path expand
+  let package = glob build/dist/*.whl | first
+  let installer = ["uv" "pipx" "python3"]
+  | each { which --all $in | get path }
+  | flatten
+  | where { not ($in | path expand | str starts-with $repo) }
+  | first
+  if ($installer | is-empty) {
+    error make "Unable to find an external Python package installer."
+  }
+  match ($installer | path basename) {
+    uv => { ^$installer tool install $package }
+    pipx => { ^$installer install $package }
+    python3 => { ^$installer -m pip install $package }
+  }
+  print $"Installed ($name) to (which $name | get 0.path)"
 
+{% endif -%}
 # Analyze files for issues.
 lint +paths=".":
   prettier --check {{ "{{" }}paths{{ "}}" }}
