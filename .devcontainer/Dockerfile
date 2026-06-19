@@ -7,8 +7,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --ignore-missing && apt-get install --quiet --yes \
   build-essential curl git sudo tar zip
 
-# Install C compiler for Rust template.
-RUN apt-get install --quiet --yes gcc
+# Install C compiler and LLDB for Rust template.
+RUN apt-get install --quiet --yes gcc lldb
 
 # Install C++ compiler for C++ template.
 RUN apt-get install --quiet --yes g++

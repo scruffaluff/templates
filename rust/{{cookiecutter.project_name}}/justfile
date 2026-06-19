@@ -59,8 +59,7 @@ install: setup build
 lint:
   prettier --check .
   cargo fmt -- --check
-  cargo clippy --all -- -D clippy::all -D clippy::cargo -D clippy::nursery -D \
-    clippy::pedantic -D warnings
+  cargo clippy --workspace
 
 # List available commands.
 [default]

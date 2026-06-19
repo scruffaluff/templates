@@ -6,9 +6,9 @@ tooling, and learning the coding guidelines.
 
 ## Setup
 
-To setup the development environment, install [Just](https://just.systems) and a
-C compiler. From the project folder execute `just setup` and you are ready to
-code.
+To setup the development environment, install [Just](https://just.systems), a C
+compiler, and [LLDB](https://lldb.llvm.org) for debugging. From the project
+folder execute `just setup` and you are ready to code.
 
 ## Commands
 

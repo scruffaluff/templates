@@ -23,9 +23,9 @@ Cookiecutter will ask the following questions during project generation.
 
 ## Setup
 
-To develop with the generated project, install [Just](https://just.systems) and
-a C++ compiler. Then step into the project folder and execute
-`INIT=1 just setup` and you are ready to code.
+To develop with the generated project, install [Just](https://just.systems), a
+C++ compiler, and [LLDB](https://lldb.llvm.org) for debugging. Then step into
+the project folder and execute `INIT=1 just setup` and you are ready to code.
 
 ## Commands
 

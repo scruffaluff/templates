@@ -30,6 +30,15 @@ rstest = "^0.26.0"
 tempfile = "^3.27.0"
 test-case = "^3.3.0"
 
+[lints.clippy]
+all = "deny"
+cargo = "deny"
+nursery = "deny"
+pedantic = "deny"
+
+[lints.rust]
+warnings = "deny"
+
 [profile.release]
 lto = true
 panic = "abort"
