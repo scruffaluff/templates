@@ -17,9 +17,6 @@ export PATH := if os() == "windows" {
 export UV_TOOL_BIN_DIR := justfile_directory() / ".vendor/bin"
 export UV_TOOL_DIR := justfile_directory() / ".vendor/lib/uv"
 
-# Run continuous integration pipeline.
-ci: setup lint test build
-
 # Build project for release.
 [script]
 build target="release":
@@ -46,6 +43,9 @@ build target="release":
     $"-DCMAKE_TOOLCHAIN_FILE=($toolchain)" ...$build_args
   )
   cmake --build $"build/($target)" --config $type
+
+# Run continuous integration pipeline.
+ci: setup lint test build
 
 # Run CMake in project environment.
 [no-exit-message]

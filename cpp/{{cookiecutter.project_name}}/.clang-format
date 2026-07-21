@@ -1,6 +1,7 @@
 # Clang-format configuration file for formatting C++ code.
 #
-# For more information, visit https://clang.llvm.org/docs/ClangFormatStyleOptions.html.
+# For more information, visit
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 
 ---
 BasedOnStyle: Google

@@ -7,7 +7,7 @@
 *.egg-info/
 *.ipynb
 *.log
-*.py[oc]
+*.py[cdo]
 *.so
 *.swp
 *.tmp
