@@ -23,7 +23,7 @@ TEMPLATE = str(Path(__file__).parents[1] / "rust")
     reason="Cookiecutter does not generate files with Windows line endings.",
 )
 def test_ci(project_rust: Result) -> None:
-    """Generated project passed ci Just recipe."""
+    """Generated project passes Just ci recipe."""
     util.process(
         ["just", "ci"],
         cwd=project_rust.project_path,

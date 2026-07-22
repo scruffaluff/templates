@@ -23,7 +23,7 @@ dev = [
 
 [project]
 {%- if cookiecutter.project_cli %}
-dependencies = ["typer~=0.24.1"]
+dependencies = ["typer~=0.27.0"]
 {%- else %}
 dependencies = []
 {%- endif %}
@@ -37,8 +37,8 @@ version = "0.1.0"
 {% if cookiecutter.project_cli -%}
 [project.scripts]
 {{ cookiecutter.project_name }} = "{{ cookiecutter.__project_package }}.__main__:cli"
-{% endif -%}
 
+{% endif -%}
 [tool.coverage.report]
 exclude_lines = [
   "if sys.version_info.*",
@@ -51,7 +51,7 @@ show_missing = true
 [tool.coverage.run]
 branch = true
 command_line = "-m pytest"
-omit = []
+omit = ["*_test.py"]
 source = ["{{ cookiecutter.__project_package }}"]
 
 [tool.pytest]
