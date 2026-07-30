@@ -40,8 +40,7 @@ IDE debugger configurations for VS Code (`.vscode/launch.json`) and Zed
 
 ## Continuous Integration
 
-This project is configured for automated CI on
-{%- if cookiecutter.__project_githost == "github" %}GitHub Actions{%- else %}GitLab CI{%- endif %}.
+This project is configured for automated CI on {% if cookiecutter.__project_githost == "github" %}GitHub Actions{%- else %}GitLab CI{%- endif %}.
 
 The CI pipeline runs the full `just ci` recipe across Linux, macOS, and Windows
 platforms for all code pushes. On Git tag pushes, the pipeline builds artifacts

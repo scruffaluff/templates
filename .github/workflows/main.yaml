@@ -56,6 +56,11 @@ jobs:
           ${{ inputs.os && fromJson(format('["{0}"]',inputs.os)) ||
           fromJson('["macos","ubuntu","windows"]') }}
     steps:
+      - if: ${{ runner.os == 'Linux' }}
+        name: Remove conflicting system tools
+        run: |
+          sudo rm /usr/bin/clang-format
+          sudo rm /usr/bin/clang-tidy
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Cache packages

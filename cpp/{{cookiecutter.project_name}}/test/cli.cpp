@@ -8,7 +8,7 @@
 #include <reproc++/run.hpp>
 #include <string>
 
-TEST_CASE("Check project version") {
+TEST_CASE("project_version") {
     reproc::options options;
     options.redirect.out.type = reproc::redirect::pipe;
     options.redirect.err.type = reproc::redirect::parent;

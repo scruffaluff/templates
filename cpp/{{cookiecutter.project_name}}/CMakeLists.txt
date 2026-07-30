@@ -12,7 +12,7 @@ project(
 
 option(BUILD_TEST "Build test suite" OFF)
 
-# For editor integration.
+# Export build commands for editor LSP integration.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(
@@ -36,7 +36,7 @@ if(BUILD_TEST)
     test/*.cpp
   )
   add_executable(test ${lib_sources} ${test_sources})
-  target_compile_definitions(test PRIVATE TEST)
+  target_compile_definitions(test PRIVATE BUILD_TEST)
   target_link_libraries(
     test
     Catch2::Catch2WithMain
@@ -48,4 +48,5 @@ else()
   add_library(lib STATIC ${lib_sources})
   add_executable({{ cookiecutter.__project_package }} src/main.cpp)
   target_link_libraries({{ cookiecutter.__project_package }} argparse::argparse lib)
+  install(TARGETS {{ cookiecutter.__project_package }} DESTINATION build/dist)
 endif()
