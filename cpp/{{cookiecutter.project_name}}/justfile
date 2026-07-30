@@ -43,6 +43,9 @@ build target="release":
     $"-DCMAKE_TOOLCHAIN_FILE=($toolchain)" ...$build_args
   )
   cmake --build $"build/($target)" --config $type
+  if $target == "Release" {
+    cmake --install build/Release --config Release --prefix .
+  }
 
 # Run continuous integration pipeline.
 ci: setup lint test build
@@ -64,7 +67,7 @@ format +paths=".":
 install: setup build
   let name = "{{ cookiecutter.__project_package }}"
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
-  let home = '{{ "{{" }}home_directory(){{ "}}" }}' | path expand
+  let home = '{{ "{{" }}home_directory(){{ "}}" }}'
   let dest = match $nu.os-info.name {
     windows => $"($home)/AppData/Local/Programs/Bin"
     _ => $"($home)/.local/bin"
@@ -75,7 +78,7 @@ install: setup build
     print --stderr "Update system path manually to complete installation."
     exit 1
   }
-  cp $"build/Release/($name)($ext)" $"($dest)/"
+  cp $"build/dist/($name)($ext)" $"($dest)/"
   print $"Installed ($name) to ($dest)/($name)($ext)."
 
 {% endif -%}
@@ -84,7 +87,7 @@ install: setup build
 lint +paths=".": (build "debug") (build "test")
   let code = glob "{src,test}/**/*.{c,cpp,h,hpp}"
   prettier --check {{ "{{" }}paths{{ "}}" }}
-  clang-format --dry-run --verbose --style file ...$code
+  clang-format --dry-run --verbose -Werror --style file ...$code
   clang-tidy -p build/Debug src/main.cpp
   clang-tidy -p build/Test ...($code  | where { $in != $"(pwd)/src/main.cpp" })
 

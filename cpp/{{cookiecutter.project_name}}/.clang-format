@@ -4,7 +4,13 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html.
 
 ---
-BasedOnStyle: Google
+AlignAfterOpenBracket: BlockIndent
+AlignOperands: DontAlign
+BasedOnStyle: Chromium
+BreakBinaryOperations: Never
+ContinuationIndentWidth: 4
 IndentWidth: 4
+NumericLiteralCase:
+  Suffix: Upper
 SortIncludes: true
 Standard: c++17

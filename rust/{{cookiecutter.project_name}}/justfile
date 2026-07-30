@@ -45,7 +45,7 @@ format:
 install: setup build
   let name = "{{ cookiecutter.__project_package }}"
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
-  let home = '{{ "{{" }}home_directory(){{ "}}" }}' | path expand
+  let home = '{{ "{{" }}home_directory(){{ "}}" }}'
   let dest = match $nu.os-info.name {
     windows => $"($home)/AppData/Local/Programs/Bin"
     _ => $"($home)/.local/bin"

@@ -15,8 +15,8 @@ dev = [
   "pytest~=9.1",
   "pytest-cookies~=0.7.0",
   "pytest-mock~=3.15",
-  "ruff~=0.15.0",
-  "ty~=0.0.50",
+  "ruff~=0.16.0",
+  "ty~=0.0.65",
 ]
 
 [project]
@@ -49,14 +49,15 @@ docstring-code-format = true
 flake8-annotations = { allow-star-arg-any = true }
 pydocstyle = { convention = "google" }
 ignore = [
-  "COM",     # Rule conflicts with formatter.
+  "COM",     # Flake8 comma lints conflict with formatter.
+  "CPY001",  # Copyright notices are not required.
   "EXE003",  # Uv should be shebang executor.
   "FBT",     # Boolean function arguments are acceptable.
   "FIX",     # Todo comments are acceptable.
   "ICN",     # Import abbreviations reduce readability.
   "PLR2004", # Constant numerical comparisons are often readable.
   "S101",    # Assert statements are standard for test functions.
-  "S603",    # Rule warns about using subprocess commands without a solution.
+  "S603",    # Subprocess commands are acceptable.
   "S607",    # Partial paths for process executables is more cross platform.
   "T201",    # Print statements are acceptable for CLI applications.
   "T203",    # Print statements are acceptable for CLI applications.
