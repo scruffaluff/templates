@@ -10,6 +10,7 @@ BasedOnStyle: Chromium
 BreakBinaryOperations: Never
 ContinuationIndentWidth: 4
 IndentWidth: 4
+InsertBraces: true
 NumericLiteralCase:
   Suffix: Upper
 SortIncludes: true

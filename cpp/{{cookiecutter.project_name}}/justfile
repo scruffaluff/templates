@@ -14,8 +14,9 @@ export PATH := if os() == "windows" {
   ".vendor/lib/cmake/bin:" + justfile_directory() / ".vendor/lib/deno/bin:"
   + env("PATH")
 }
+export UV_PYTHON_INSTALL_DIR :=  justfile_directory() / ".vendor/lib/uv/python"
 export UV_TOOL_BIN_DIR := justfile_directory() / ".vendor/bin"
-export UV_TOOL_DIR := justfile_directory() / ".vendor/lib/uv"
+export UV_TOOL_DIR := justfile_directory() / ".vendor/lib/uv/tool"
 
 # Build project for release.
 [script]
@@ -23,7 +24,7 @@ build target="release":
   let target = "{{ "{{" }}target{{ "}}" }}" | str capitalize
   let type = $target | str replace "Test" "Debug"
   let toolchain = $"build/($type)/generators/conan_toolchain.cmake"
-  let build_args = if $target == "Test" { ["-DBUILD_TEST=ON"] } else { [] }
+  let build_args = if $target == "Test" { ["-D" "BUILD_TEST=ON"] } else { [] }
   let change = if ($toolchain | path exists) {
     let modified = ls $toolchain | get 0.modified
     ["conan.lock" "conanfile.txt"]
@@ -39,8 +40,8 @@ build target="release":
     )
   }
   (
-    cmake -B $"build/($target)" $"-DCMAKE_BUILD_TYPE=($type)"
-    $"-DCMAKE_TOOLCHAIN_FILE=($toolchain)" ...$build_args
+    cmake -B $"build/($target)" -D $"CMAKE_BUILD_TYPE=($type)"
+    -D $"CMAKE_TOOLCHAIN_FILE=($toolchain)" ...$build_args
   )
   cmake --build $"build/($target)" --config $type
   if $target == "Release" {
@@ -67,10 +68,9 @@ format +paths=".":
 install: setup build
   let name = "{{ cookiecutter.__project_package }}"
   let ext = if $nu.os-info.name == "windows" { ".exe" } else { "" }
-  let home = '{{ "{{" }}home_directory(){{ "}}" }}'
   let dest = match $nu.os-info.name {
-    windows => $"($home)/AppData/Local/Programs/Bin"
-    _ => $"($home)/.local/bin"
+    windows => $"($nu.home-dir)/AppData/Local/Programs/Bin"
+    _ => $"($nu.home-dir)/.local/bin"
   } | path expand
   mkdir $dest
   if not ($dest in ($env.PATH | each { $in | path expand })) {

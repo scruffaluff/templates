@@ -143,9 +143,9 @@ _setup:
 [script]
 test *args:
   if ($env.DEBUG? | into bool --relaxed) {
-    uv run pytest --cov --pdb {{ "{{" }}args{{ "}}" }}
+    uv run pytest --pdb {{ "{{" }}args{{ "}}" }}
   } else {
-    uv run pytest --cov {{ "{{" }}args{{ "}}" }}
+    uv run pytest --cov= {{ "{{" }}args{{ "}}" }}
   }
 
 # Run Uv in project environment.
