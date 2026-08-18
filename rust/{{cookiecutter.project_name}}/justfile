@@ -93,13 +93,13 @@ setup: _setup
   if (which cargo | is-empty) {
     print "Installing Cargo."
     http get https://scruffaluff.github.io/picoware/install/cargo.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/lib/cargo"
+    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/lib/cargo"
   }
   print $"Using (cargo --version)."
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (deno -V)."
   if (which prettier | is-empty) {
@@ -110,7 +110,7 @@ setup: _setup
   if (which rust-script | is-empty) {
     print "Installing Rust Script."
     http get https://scruffaluff.github.io/picoware/install/rust-script.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (rust-script --version)."
   print "Installing Rust packages with Cargo."

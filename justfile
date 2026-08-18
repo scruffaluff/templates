@@ -13,6 +13,9 @@ export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin:" + justfile_directory() /
   ".vendor/lib/deno/bin:" + env("PATH")
 }
+export UV_PYTHON_INSTALL_DIR :=  justfile_directory() / ".vendor/lib/uv/python"
+export UV_TOOL_BIN_DIR := justfile_directory() / ".vendor/bin"
+export UV_TOOL_DIR := justfile_directory() / ".vendor/lib/uv/tool"
 
 # Run continuous integration pipeline.
 ci: setup lint test doc
@@ -56,7 +59,7 @@ setup: _setup
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (deno -V)."
   if (which prettier | is-empty) {
@@ -67,7 +70,7 @@ setup: _setup
   if (which uv | is-empty) {
     print "Installing Uv."
     http get https://scruffaluff.github.io/picoware/install/uv.nu
-    | nu -c $"($in | decode); main --preserve-env --dest .vendor/bin"
+    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/bin"
   }
   print $"Using (uv --version)."
   print "Installing packages with Uv."
