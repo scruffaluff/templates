@@ -1,0 +1,51 @@
+# Bitbucket continuous integration file to build and deploy repository.
+#
+# For a reference of the CI file syntax, visit
+# https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-pipelines-configuration-reference/.
+
+---
+definitions:
+  caches:
+    target:
+      key:
+        files:
+          - Cargo.lock
+      path: target
+    vendor:
+      key:
+        files:
+          - Cargo.lock
+      path: .vendor
+  steps:
+    - step: &build
+        caches:
+          - target
+          - vendor
+        name: build
+        script:
+          - export CARGO_HOME="${BITBUCKET_CLONE_DIR}/.vendor/cache/cargo"
+          - export DENO_DIR="${BITBUCKET_CLONE_DIR}/.vendor/cache/deno"
+          - apt-get update
+          - apt-get install --yes build-essential curl zip
+          - curl --fail --location --show-error
+            https://scruffaluff.github.io/picoware/install/just.sh | sh -s --
+            --global
+          - just ci
+
+image: debian:13
+
+pipelines:
+  branches:
+    main:
+      - step: *build
+  custom:
+    debug:
+      - step:
+          <<: *build
+          after-script:
+            - curl --fail --location --show-error
+              https://scruffaluff.github.io/picoware/action/tmate-session.sh |
+              sh
+  pull-requests:
+    main:
+      - step: *build

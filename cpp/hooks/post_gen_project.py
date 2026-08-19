@@ -7,6 +7,7 @@ Paths = list[Path]
 
 PATHS: dict[str, Paths | dict[str, Paths]] = {
     "project_githost": {
+        "bitbucket": [Path("bitbucket-pipelines.yml")],
         "github": [Path(".github")],
         "gitlab": [Path(".gitlab-ci.yml")],
     },

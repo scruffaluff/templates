@@ -33,6 +33,7 @@ contexts_rust = [
     },
 ]
 contexts_vue = [
+    {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
     {"project_repository": "https://github.com/scruffaluff/templates"},
     {"project_repository": "https://gitlab.com/scruffaluff/templates"},
 ]

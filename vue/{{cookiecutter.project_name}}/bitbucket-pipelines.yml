@@ -1,0 +1,52 @@
+# Bitbucket continuous integration file to build and deploy repository.
+#
+# For a reference of the CI file syntax, visit
+# https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-pipelines-configuration-reference/.
+
+---
+definitions:
+  caches:
+    modules:
+      key:
+        files:
+          - pnpm-lock.yaml
+      path: node_modules
+    vendor:
+      key:
+        files:
+          - pnpm-lock.yaml
+      path: .vendor
+  steps:
+    - step: &build
+        caches:
+          - modules
+          - vendor
+        name: build
+        script:
+          - export NPM_CONFIG_CACHE="${BITBUCKET_CLONE_DIR}/.vendor/cache/npm"
+          - export NPM_CONFIG_STORE_DIR="${BITBUCKET_CLONE_DIR}/.vendor/cache/pnpm"
+          - export PLAYWRIGHT_BROWSERS_PATH="${BITBUCKET_CLONE_DIR}/.vendor/cache/playwright"
+          - apt-get update
+          - apt-get install --yes curl zip
+          - curl --fail --location --show-error
+            https://scruffaluff.github.io/picoware/install/just.sh | sh -s --
+            --global
+          - just ci
+
+image: debian:13
+
+pipelines:
+  branches:
+    main:
+      - step: *build
+  custom:
+    debug:
+      - step:
+          <<: *build
+          after-script:
+            - curl --fail --location --show-error
+              https://scruffaluff.github.io/picoware/action/tmate-session.sh |
+              sh
+  pull-requests:
+    main:
+      - step: *build

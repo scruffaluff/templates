@@ -101,19 +101,19 @@ def test_no_trailing_blank_line(project: Result) -> None:
     chain.from_iterable(
         (
             (
+                {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
+                template,
+                [".github", ".gitlab-ci.yml"],
+            ),
+            (
                 {"project_repository": "https://github.com/scruffaluff/templates"},
                 template,
-                [".gitlab-ci.yml"],
+                [".gitlab-ci.yml", "bitbucket-pipelines.yml"],
             ),
             (
                 {"project_repository": "https://gitlab.com/scruffaluff/templates"},
                 template,
-                [".github"],
-            ),
-            (
-                {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
-                template,
-                [".github", ".gitlab-ci.yml"],
+                [".github", "bitbucket-pipelines.yml"],
             ),
         )
         for template in templates

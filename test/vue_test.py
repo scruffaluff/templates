@@ -34,6 +34,7 @@ def test_ci(project_vue: Result) -> None:
 @pytest.mark.parametrize(
     "context",
     [
+        {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
         {"project_repository": "https://github.com/scruffaluff/templates"},
         {"project_repository": "https://gitlab.com/scruffaluff/templates"},
     ],

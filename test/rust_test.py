@@ -74,6 +74,7 @@ def test_removed_paths(
 @pytest.mark.parametrize(
     "context",
     [
+        {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
         {"project_repository": "https://github.com/scruffaluff/templates"},
         {"project_repository": "https://gitlab.com/scruffaluff/templates"},
         {"project_cli": True},

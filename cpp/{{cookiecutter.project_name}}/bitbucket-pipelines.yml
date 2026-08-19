@@ -1,0 +1,52 @@
+# Bitbucket continuous integration file to build and deploy repository.
+#
+# For a reference of the CI file syntax, visit
+# https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-pipelines-configuration-reference/.
+
+---
+definitions:
+  caches:
+    build:
+      key:
+        files:
+          - conan.lock
+      path: .venv
+    vendor:
+      key:
+        files:
+          - conan.lock
+      path: .vendor
+  steps:
+    - step: &build
+        caches:
+          - build
+          - vendor
+        name: build
+        script:
+          - export CONAN_HOME="${BITBUCKET_CLONE_DIR}/.vendor/cache/conan"
+          - export DENO_DIR="${BITBUCKET_CLONE_DIR}/.vendor/cache/deno"
+          - export UV_CACHE_DIR="${BITBUCKET_CLONE_DIR}/.vendor/cache/uv"
+          - apt-get update
+          - apt-get install --yes build-essential curl zip
+          - curl --fail --location --show-error
+            https://scruffaluff.github.io/picoware/install/just.sh | sh -s --
+            --global
+          - just ci
+
+image: debian:13
+
+pipelines:
+  branches:
+    main:
+      - step: *build
+  custom:
+    debug:
+      - step:
+          <<: *build
+          after-script:
+            - curl --fail --location --show-error
+              https://scruffaluff.github.io/picoware/action/tmate-session.sh |
+              sh
+  pull-requests:
+    main:
+      - step: *build
