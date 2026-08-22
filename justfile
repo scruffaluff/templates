@@ -59,7 +59,7 @@ setup: _setup
   if (which deno | is-empty) {
     print "Installing Deno."
     http get https://scruffaluff.github.io/picoware/install/deno.nu
-    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/bin"
+    | nu --commands $in --preserve-env --dest .vendor/bin
   }
   print $"Using (deno -V)."
   if (which prettier | is-empty) {
@@ -70,7 +70,7 @@ setup: _setup
   if (which uv | is-empty) {
     print "Installing Uv."
     http get https://scruffaluff.github.io/picoware/install/uv.nu
-    | nu --commands $"($in | decode); main --preserve-env --dest .vendor/bin"
+    | nu --commands $in --preserve-env --dest .vendor/bin
   }
   print $"Using (uv --version)."
   print "Installing packages with Uv."

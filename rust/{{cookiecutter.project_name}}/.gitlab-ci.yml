@@ -62,7 +62,7 @@ default:
       fi
   before_script:
     - apt-get update
-    - apt-get install --yes curl zip
+    - apt-get install --yes build-essential curl zip
     - curl --fail --location --show-error
       https://scruffaluff.github.io/picoware/install/just.sh | sh -s -- --global
   # Creates a dependencies cache for each unique container image and lock file
