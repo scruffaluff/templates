@@ -11,6 +11,7 @@
 .env*
 .git/
 .localized
+.pnpm-store/
 .unlighthouse/
 .vendor/
 build/

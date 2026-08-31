@@ -19,6 +19,7 @@
 .gitignore
 .gitlab-ci.yml
 .localized
+.pnpm-store/
 .unlighthouse/
 .vendor/
 .vscode/
