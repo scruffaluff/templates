@@ -28,20 +28,22 @@ def test_badges_separate_lines(project: Result) -> None:
 
 @pytest.mark.parametrize(
     ("context", "template", "paths"),
-    chain.from_iterable(
-        (
+    list(
+        chain.from_iterable(
             (
-                {"project_repository": "https://github.com/scruffaluff/templates"},
-                template,
-                [".github"],
-            ),
-            (
-                {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-                template,
-                [".gitlab-ci.yml"],
-            ),
+                (
+                    {"project_repository": "https://github.com/scruffaluff/templates"},
+                    template,
+                    [".github"],
+                ),
+                (
+                    {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+                    template,
+                    [".gitlab-ci.yml"],
+                ),
+            )
+            for template in templates
         )
-        for template in templates
     ),
 )
 def test_existing_paths(
@@ -98,25 +100,29 @@ def test_no_trailing_blank_line(project: Result) -> None:
 
 @pytest.mark.parametrize(
     ("context", "template", "paths"),
-    chain.from_iterable(
-        (
+    list(
+        chain.from_iterable(
             (
-                {"project_repository": "https://github.com/scruffaluff/templates"},
-                template,
-                [".gitlab-ci.yml"],
-            ),
-            (
-                {"project_repository": "https://gitlab.com/scruffaluff/templates"},
-                template,
-                [".github"],
-            ),
-            (
-                {"project_repository": "https://bitbucket.org/scruffaluff/templates"},
-                template,
-                [".github", ".gitlab-ci.yml"],
-            ),
+                (
+                    {"project_repository": "https://github.com/scruffaluff/templates"},
+                    template,
+                    [".gitlab-ci.yml"],
+                ),
+                (
+                    {"project_repository": "https://gitlab.com/scruffaluff/templates"},
+                    template,
+                    [".github"],
+                ),
+                (
+                    {
+                        "project_repository": "https://bitbucket.org/scruffaluff/templates"
+                    },
+                    template,
+                    [".github", ".gitlab-ci.yml"],
+                ),
+            )
+            for template in templates
         )
-        for template in templates
     ),
 )
 def test_removed_paths(

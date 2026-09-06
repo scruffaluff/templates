@@ -4,14 +4,14 @@
 
 ---
 Checks:
-  - "*"
-  - -altera-*
-  - -boost-*
+  - bugprone-*
+  - concurrency-*
+  - cppcoreguidelines-*
+  - misc-*
+  - performance-*
+  - portability-*
+  - readability-*
   - -bugprone-exception-escape
-  - -fuchsia-*
-  - -llvm-*
-  - -llvmlibc-*
-  - -modernize-*
   - -misc-use-internal-linkage
 HeaderFilterRegex: "(src|test)/.*"
 WarningsAsErrors: "*"

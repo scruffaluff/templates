@@ -4,6 +4,7 @@
 
 set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
+
 export DENO_INSTALL_ROOT := justfile_directory() / ".vendor/lib/deno"
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
