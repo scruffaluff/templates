@@ -16,7 +16,7 @@ dev = [
   "pytest-cookies~=0.7.0",
   "pytest-mock~=3.15",
   "ruff~=0.16.0",
-  "ty~=0.0.78",
+  "ty~=0.0.82",
 ]
 
 [project]

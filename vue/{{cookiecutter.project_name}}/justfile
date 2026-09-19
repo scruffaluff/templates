@@ -78,6 +78,7 @@ setup: _setup
       tar fx $"($temp)/pnpm($arxt)" -C $temp
     }
     mv $"($temp)/dist" $"($temp)/pnpm($ext)" $"($env.PNPM_HOME)/"
+    rm --force --recursive $temp
   }
   print $"Using Pnpm (pnpm --version)."
   pnpm runtime set node --global lts

@@ -140,6 +140,7 @@ setup: _setup
     } else {
       mv $"($temp)/($target)" .vendor/lib/cmake
     }
+    rm --force --recursive $temp
   }
   print $"Using (cmake --version | lines | first)."
   if (which deno | is-empty) {
