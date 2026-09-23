@@ -6,7 +6,6 @@ set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
 
 export DENO_INSTALL_ROOT := justfile_directory() / ".vendor/lib/deno"
-export NO_MKDOCS_2_WARNING := "1"
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
   ".vendor/lib/deno/bin;" + env("PATH")
@@ -30,7 +29,7 @@ doc:
   cp python/README.md doc/python.md
   cp rust/README.md doc/rust.md
   cp vue/README.md doc/vue.md
-  uv run mkdocs build --strict
+  uv run zensical build --strict
 
 # Format project files.
 format +paths=".":

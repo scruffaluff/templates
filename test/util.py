@@ -69,7 +69,7 @@ def process(command: Sequence[str], **kwargs: Any) -> CompletedProcess:
     Returns:
         Completed shell process information.
     """
-    process = subprocess.run(  # noqa: PLW1510
+    process = subprocess.run(  # ruff: ignore[PLW1510]
         command,
         capture_output=True,
         text=True,

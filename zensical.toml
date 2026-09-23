@@ -1,0 +1,99 @@
+# Zensical static site generator configuration file.
+#
+# For more information, visit https://zensical.org/docs/customization/.
+
+[project]
+copyright = "Copyright &copy; 2020-Present Macklan Weinstein"
+docs_dir = "doc"
+nav = [
+  { "Home" = "index.md" },
+  { "C++" = "cpp.md" },
+  { "Python" = "python.md" },
+  { "Rust" = "rust.md" },
+  { "Vue" = "vue.md" },
+]
+repo_name = "Templates"
+repo_url = "https://github.com/scruffaluff/templates"
+site_author = "Macklan Weinstein"
+site_description = "Cookiecutter programming templates."
+site_dir = "build/site"
+site_name = "Templates"
+site_url = "https://scruffaluff.github.io/templates"
+
+[project.theme]
+features = [
+  "announce.dismiss",
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "header.autohide",
+  "navigation.expand",
+  "navigation.footer",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.prune",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+language = "en"
+variant = "modern"
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/scruffaluff"
+
+[[project.extra.social]]
+icon = "fontawesome/solid/envelope"
+link = "mailto:macklan.weinstein@gmail.com"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.arithmatex.generic = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}
