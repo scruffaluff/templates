@@ -3,19 +3,16 @@
 # For more information, visit https://zensical.org/docs/setup/basics/.
 
 [project]
-copyright = "&copy; 2020-Present Macklan Weinstein"
 docs_dir = "doc"
 extra.generator = false
-repo_url = "https://github.com/scruffaluff/templates"
-site_author = "Macklan Weinstein"
-site_description = "Cookiecutter programming templates."
+repo_url = "{{ cookiecutter.project_repository }}"
+site_description = "{{ cookiecutter.project_description }}"
 site_dir = "build/site"
-site_name = "Templates"
-site_url = "https://scruffaluff.github.io/templates"
+site_name = "{{ cookiecutter.project_name }}"
+site_url = "{{ cookiecutter.project_repository }}"
 strict = true
 
 [project.theme]
-favicon = "favicon.svg"
 features = [
   "content.action.edit",
   "content.action.view",
@@ -38,9 +35,6 @@ features = [
   "search.highlight",
   "toc.follow",
 ]
-font.text = "Fira Sans"
-font.code = "Fira Code"
-icon.logo = "lucide/layout-template"
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
@@ -53,16 +47,6 @@ media = "(prefers-color-scheme: dark)"
 scheme = "slate"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to light mode"
-
-[[project.extra.social]]
-icon = "fontawesome/brands/github"
-link = "https://github.com/scruffaluff"
-name = "GitHub"
-
-[[project.extra.social]]
-icon = "lucide/mail"
-link = "mailto:macklan.weinstein@gmail.com"
-name = "Email"
 
 [project.markdown_extensions]
 abbr = {}

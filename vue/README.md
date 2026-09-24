@@ -1,6 +1,6 @@
-# Template Vue
+# Vue
 
-Template Vue is a repository generator for Vue projects. To create a new Vue
+This template generates [Vue](https://vuejs.org) projects. To create a new Vue
 project with the template install
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter), execute the
 following command, and follow its interactive prompts.

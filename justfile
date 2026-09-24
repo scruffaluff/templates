@@ -22,14 +22,18 @@ ci: setup lint test doc
 
 # Build documentation.
 [script]
-doc:
+doc +args="build":
   mkdir doc
+  if not ("doc/favicon.svg" | path exists) {
+    http get https://unpkg.com/lucide-static@latest/icons/layout-template.svg
+    | save doc/favicon.svg
+  }
   cp README.md doc/index.md
   cp cpp/README.md doc/cpp.md
   cp python/README.md doc/python.md
   cp rust/README.md doc/rust.md
   cp vue/README.md doc/vue.md
-  uv run zensical build --strict
+  uv run zensical {{args}}
 
 # Format project files.
 format +paths=".":

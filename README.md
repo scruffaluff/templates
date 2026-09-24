@@ -1,3 +1,7 @@
+---
+title: Home
+---
+
 # Templates
 
 Templates is a collection of programming project templates built with

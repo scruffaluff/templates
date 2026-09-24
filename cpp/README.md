@@ -1,6 +1,6 @@
-# Template C++
+# C++
 
-Template C++ is a repository generator for C++ projects. To create a new C++
+This template generates [C++](https://isocpp.org) projects. To create a new C++
 project with the template install
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter), execute the
 following command, and follow its interactive prompts.

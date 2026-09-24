@@ -9,7 +9,6 @@ requires = ["uv-build~=0.12"]
 
 [dependency-groups]
 dev = [
-  "pymdown-extensions~=11.0",
   "zensical~=0.0.64",
   "pytest~=9.1",
   "pytest-cookies~=0.7.0",
@@ -22,7 +21,7 @@ dev = [
 authors = [
   { email = "macklan.weinstein@gmail.com", name = "Macklan Weinstein" },
 ]
-description = "Cookiecutter project templates. "
+description = "Cookiecutter project templates."
 keywords = []
 license = "MIT"
 name = "templates"

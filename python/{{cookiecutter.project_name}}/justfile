@@ -6,7 +6,6 @@ set script-interpreter := ["nu"]
 set shell := ["nu", "--commands"]
 
 export DENO_INSTALL_ROOT := justfile_directory() / ".vendor/lib/deno"
-export NO_MKDOCS_2_WARNING := "1"
 export PATH := if os() == "windows" {
   justfile_directory() / ".vendor/bin;" + justfile_directory() /
   ".vendor/lib/deno/bin;" + env("PATH")
@@ -27,11 +26,11 @@ ci: setup lint test doc build
 
 # Build documentation.
 [script]
-doc:
+doc +args="build":
   mkdir build/site
   cp README.md doc/index.md
   cp CONTRIBUTING.md doc/
-  uv run mkdocs build --strict
+  uv run zensical {{ "{{" }}args{{ "}}" }}
 
 # Format project files.
 format +paths=".":

@@ -1,7 +1,7 @@
-# Template Python
+# Python
 
-Template Python is a repository generator for Python projects. To create a new
-Python project with the template install
+This template generates [Python](https://www.python.org) projects. To create a
+new Python project with the template install
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter), execute the
 following command, and follow its interactive prompts.
 
@@ -34,7 +34,7 @@ The generated `justfile` provides the following recipes for development.
 | Recipe        | Description                                         |
 | ------------- | --------------------------------------------------- |
 | `just ci`     | Run full CI pipeline: setup, lint, test, doc, build |
-| `just doc`    | Build MkDocs static site to `build/site`            |
+| `just doc`    | Build Zensical static site to `build/site`          |
 | `just format` | Format code with Ruff and Prettier                  |
 | `just lint`   | Run Prettier, Ruff format, Ruff check, and Ty check |
 | `just run`    | Run the CLI entry point (add `DEBUG=1` for pdb)     |
@@ -47,7 +47,7 @@ Every generated project configures the following tools for development usage.
 
 - [Coverage](https://coverage.readthedocs.io/en/coverage-5.0.3): Test coverage
   measurer.
-- [MkDocs](https://mkdocs.org): Documentation static site generator.
+- [Zensical](https://zensical.org): Documentation static site generator.
 - [Ruff](https://docs.astral.sh/ruff): Code linter.
 - [Pytest](https://docs.pytest.org): Testing framework.
 - [Tox](https://tox.readthedocs.io): Test automator.
@@ -83,7 +83,6 @@ that context.
 ├── doc
 │   └── index.md
 ├── justfile
-├── mkdocs.yml
 ├── pyproject.toml
 ├── README.md
 ├── src
@@ -91,8 +90,9 @@ that context.
 │       ├── __init__.py
 │       ├── __main__.py  {project_cli: true}
 │       └── py.typed
-└── test
-    └── __init__.py
+├── test
+│   └── __init__.py
+└── zensical.toml
 ```
 
 ## Continuous Integration
@@ -104,5 +104,5 @@ during generation.
 The CI pipeline runs the full `just ci` recipe across Linux, MacOS, and Windows
 platforms for all code pushes. On Git tag pushes, the pipeline builds artifacts
 and publishes a release with package assets. Automated documentation deployment
-is also configured to serve the MkDocs documentation site from the default
+is also configured to serve the Zensical documentation site from the default
 branch. The CI pipeline supports debugger for all jobs with Tmate.
