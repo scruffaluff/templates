@@ -20,11 +20,11 @@
 .ruff_cache/
 .tox/
 .ty_cache/
-/.vendor/
 .venv/
-__pycache__/
+/.vendor/
 /build/
 /doc/
+__pycache__/
 node_modules/
 package-lock.json
 tmp/
