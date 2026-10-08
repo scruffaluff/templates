@@ -16,7 +16,7 @@ The `justfile` provides the following recipes for development.
 | Recipe        | Description                                         |
 | ------------- | --------------------------------------------------- |
 | `just ci`     | Run full CI pipeline: setup, lint, test, doc, build |
-| `just doc`    | Build MkDocs static site to `build/site`            |
+| `just doc`    | Build Zensical static site to `build/site`          |
 | `just format` | Format code with Ruff and Prettier                  |
 | `just lint`   | Run Prettier, Ruff format, Ruff check, and Ty check |
 {%- if cookiecutter.project_cli %}
@@ -31,7 +31,7 @@ This project configures the following tools for development usage.
 
 - [Coverage](https://coverage.readthedocs.io/en/coverage-5.0.3): Test coverage
   measurer.
-- [MkDocs](https://mkdocs.org): Documentation static site generator.
+- [Zensical](https://zensical.org): Documentation static site generator.
 - [Ruff](https://docs.astral.sh/ruff): Code linter.
 - [Pytest](https://docs.pytest.org): Testing framework.
 - [Ty](https://docs.astral.sh/ty): Static type checker.
@@ -49,5 +49,5 @@ This project is configured for automated CI on {% if cookiecutter.__project_gith
 The CI pipeline runs the full `just ci` recipe across Linux, macOS, and Windows
 platforms for all code pushes. On Git tag pushes, the pipeline builds artifacts
 and publishes a release with package assets. Automated documentation deployment
-is also configured to serve the MkDocs documentation site from the default
+is also configured to serve the Zensical documentation site from the default
 branch. The CI pipeline supports debugging for all jobs with Tmate.

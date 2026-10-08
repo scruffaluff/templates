@@ -1,0 +1,100 @@
+# Zensical static site generator configuration file.
+#
+# For more information, visit https://zensical.org/docs/setup/basics/.
+
+[project]
+copyright = "&copy; 2020-Present Macklan Weinstein"
+docs_dir = "doc"
+extra.generator = false
+repo_url = "https://github.com/scruffaluff/templates"
+site_author = "Macklan Weinstein"
+site_description = "Cookiecutter programming templates."
+site_dir = "build/site"
+site_name = "Templates"
+site_url = "https://scruffaluff.github.io/templates"
+strict = true
+
+[project.theme]
+favicon = "favicon.svg"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "header.autohide",
+  "navigation.expand",
+  "navigation.footer",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.prune",
+  "navigation.sections",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+font.text = "Fira Sans"
+font.code = "Fira Code"
+icon.logo = "lucide/layout-template"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/scruffaluff"
+name = "GitHub"
+
+[[project.extra.social]]
+icon = "lucide/mail"
+link = "mailto:macklan.weinstein@gmail.com"
+name = "Email"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+pymdownx.blocks.caption = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji = {
+  emoji_generator = "zensical.extensions.emoji.to_svg",
+  emoji_index = "zensical.extensions.emoji.twemoji",
+}
+pymdownx.highlight = {
+  anchor_linenums = true,
+  line_spans = "__span",
+  pygments_lang_class = true,
+}
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.mark = {}
+pymdownx.snippets = {}
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.slugify.object = "pymdownx.slugs.slugify"
+pymdownx.tabbed.slugify.kwds.case = "lower"
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}
+tables = {}
+
+[[project.markdown_extensions.pymdownx.superfences.custom_fences]]
+class = "mermaid"
+format = "pymdownx.superfences.fence_code_format"
+name = "mermaid"

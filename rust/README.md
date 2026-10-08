@@ -1,7 +1,7 @@
-# Template Rust
+# Rust
 
-Template Rust is a repository generator for Rust projects. To create a new Rust
-project with the template install
+This template generates [Rust](https://rust-lang.org) projects. To create a new
+Rust project with the template install
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter), execute the
 following command, and follow its interactive prompts.
 

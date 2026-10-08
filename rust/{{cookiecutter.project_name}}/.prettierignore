@@ -11,8 +11,8 @@
 .env*
 .git/
 .localized
-.vendor/
-build/
+/.vendor/
+/build/
 node_modules/
 package-lock.json
 target/

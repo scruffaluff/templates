@@ -27,7 +27,7 @@ def print_version(value: bool) -> None:
 
 @cli.command()
 def main(
-    version: Annotated[  # noqa: ARG001
+    version: Annotated[  # ruff: ignore[ARG001]
         bool,
         Option(
             "-v",
