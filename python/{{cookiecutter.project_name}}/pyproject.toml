@@ -10,12 +10,13 @@ requires = ["uv-build~=0.12"]
 [dependency-groups]
 dev = [
   "coverage~=7.16",
-  "zensical~=0.0",
+  "mkdocstrings-python~=2.0",
   "pytest~=9.1",
   "pytest-cov~=7.1",
   "pytest-mock~=3.15",
   "ruff~=0.16.0",
   "ty~=0.0",
+  "zensical~=0.0",
 ]
 
 [project]

@@ -28,8 +28,10 @@ ci: setup lint test doc build
 [script]
 doc +args="build":
   mkdir build/site
-  cp README.md doc/index.md
-  cp CONTRIBUTING.md doc/
+  open --raw README.md
+  | str replace "(CONTRIBUTING.md)" "(contribute.md)"
+  | save --force doc/index.md
+  cp CONTRIBUTING.md doc/contribute.md
   uv run zensical {{ "{{" }}args{{ "}}" }}
 
 # Format project files.
