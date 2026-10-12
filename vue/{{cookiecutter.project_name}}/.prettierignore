@@ -11,6 +11,7 @@
 .env*
 .git/
 .localized
+.playwright-cli/
 .pnpm-store/
 .unlighthouse/
 /.vendor/

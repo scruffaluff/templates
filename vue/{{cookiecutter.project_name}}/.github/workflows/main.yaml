@@ -117,7 +117,7 @@ jobs:
           name: pages
           path: build/dist
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         with:
           artifact_name: pages
       - if: {% raw -%} ${{ always() && inputs.debug }} {%- endraw %}
