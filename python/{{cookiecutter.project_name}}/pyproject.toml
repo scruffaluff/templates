@@ -94,5 +94,5 @@ select = ["ALL"]
 terminal = { error-on-warning = true }
 
 [tool.uv.build-backend]
-source-exclude = [".vendor/cache/**", "*_test.py"]
-wheel-exclude = [".vendor/cache/**", "*_test.py"]
+source-exclude = ["/.vendor/cache/**", "*_test.py"]
+wheel-exclude = ["/.vendor/cache/**", "*_test.py"]
